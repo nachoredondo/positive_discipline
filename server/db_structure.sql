@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-01-2021 a las 03:25:36
+-- Tiempo de generación: 23-01-2021 a las 20:03:07
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -21,18 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `positive_discipline`
 --
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `learners`
---
-
-CREATE TABLE `learners` (
-  `id` int(11) NOT NULL,
-  `parent` int(11) NOT NULL,
-  `learners` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -147,6 +135,18 @@ CREATE TABLE `task_children` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tutors`
+--
+
+CREATE TABLE `tutors` (
+  `id` int(11) NOT NULL,
+  `parent` int(11) NOT NULL,
+  `child` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -179,13 +179,6 @@ CREATE TABLE `wheel_options` (
 --
 -- Índices para tablas volcadas
 --
-
---
--- Indices de la tabla `learners`
---
-ALTER TABLE `learners`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `learner` (`learners`);
 
 --
 -- Indices de la tabla `meeting`
@@ -238,12 +231,19 @@ ALTER TABLE `task_children`
   ADD KEY `learner_task` (`id_user`);
 
 --
+-- Indices de la tabla `tutors`
+--
+ALTER TABLE `tutors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `child` (`child`),
+  ADD KEY `tutor` (`parent`);
+
+--
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user` (`user`),
-  ADD UNIQUE KEY `mail` (`email`);
+  ADD UNIQUE KEY `user` (`user`);
 
 --
 -- Indices de la tabla `wheel_options`
@@ -255,12 +255,6 @@ ALTER TABLE `wheel_options`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
-
---
--- AUTO_INCREMENT de la tabla `learners`
---
-ALTER TABLE `learners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `meeting`
@@ -305,6 +299,12 @@ ALTER TABLE `task_children`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `tutors`
+--
+ALTER TABLE `tutors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
@@ -319,13 +319,6 @@ ALTER TABLE `wheel_options`
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `learners`
---
-ALTER TABLE `learners`
-  ADD CONSTRAINT `learner` FOREIGN KEY (`learners`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `parent` FOREIGN KEY (`learners`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `meeting_list`
@@ -364,6 +357,13 @@ ALTER TABLE `task`
 ALTER TABLE `task_children`
   ADD CONSTRAINT `learner_task` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `task` FOREIGN KEY (`id_task`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tutors`
+--
+ALTER TABLE `tutors`
+  ADD CONSTRAINT `child` FOREIGN KEY (`child`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tutor` FOREIGN KEY (`parent`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `wheel_options`

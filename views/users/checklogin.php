@@ -1,8 +1,10 @@
 <?php
 require("../../classes/user.php");
 
-function login_failed() {
-	header('Location: ./login.php?type=child');
+$type = $_POST["type"];
+
+function login_failed($type) {
+	header('Location: ./login.php?type='.$type);
 	exit();
 }
 
@@ -20,30 +22,41 @@ function login_succeded() {
 
 session_start();
 
-$email = $_POST['email'];
-$password = $_POST['password'];
-
-try {
-	$user = User::get_user_from_email($email);
-} catch (InvalidArgumentException $err) {
-	$_SESSION['login-error'] = true;
-	login_failed();
-} catch (Exception $err) {
-	login_failed();
+if ($type == "adult") {
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	$educator = true;
+} else {
+	$tutor = $_POST['tutor'];
+	$img = $_POST['img'];
+	$password = "";
+	$educator = false;
 }
 
-// Passwords have to be encrypted with password_hash($pwd, PASSWORD_BCRYPT);
-// To keep compatibility with a future Node implementation (which lacks Argon support)
-if ($user->password_verify($password)) {
+try {
+	if ($type == "adult") {
+		$user = User::get_user_from_email($email);
+	} else {
+		$user = User::get_user_from_tutor_img($tutor, $img);
+	}
+} catch (InvalidArgumentException $err) {
+	$_SESSION['login-error'] = true;
+	login_failed($type);
+} catch (Exception $err) {
+	login_failed($type);
+}
+
+if ($type == "child" || $user->password_verify($password)) {
 	session_regenerate_id(true); // Regenerate to avoid session fixation
 	$_SESSION['loggedin'] = true;
 	$_SESSION['user'] = $user->user();
-	$_SESSION['type'] = $user->type();
+	$_SESSION['type'] = $user->type($educator);
 	$_SESSION['fullname'] = $user->fullname();
+	$_SESSION['name'] = $user->name();
 	$_SESSION['lastcheck'] = time();
 
 	login_succeded();
 } else {
 	$_SESSION['login-error'] = true;
-	login_failed();
+	login_failed($type);
 }

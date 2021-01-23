@@ -10208,7 +10208,8 @@ h3 {
   display: block;
   margin: 0;
   transition: top 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
+  opacity: 1;
+  margin-bottom: 2em
 }
 .floating-label-form-group:not(:first-child) {
   padding-left: 14px;
@@ -10216,7 +10217,6 @@ h3 {
 }
 
 .floating-label-form-group-with-value label {
-  top: 0;
   opacity: 1;
 }
 

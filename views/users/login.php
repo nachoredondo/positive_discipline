@@ -54,17 +54,54 @@ session_start();
                     </div>
                     <div class="flex-group">
                         <form class="form" method="post" action="checklogin.php" role="form" id="the-form">
-                            <input type="hidden" value="<?php echo $type;?>">
-                            <div class="input-group no-border form-control-lg">
-                                <input type="email" placeholder="Correo" class="form-control" name="email" required>
-                            </div>
-                            <div class="input-group no-border form-control-lg">
-                                <input type="password" placeholder="Contraseña" class="form-control" name="password" maxLength="128" required>
-                            </div>
+                            <input type="hidden" name="type" value="<?php echo $type;?>">
+                            <?php
+                                if ($type == "adult"):
+                            ?>
+                                <div class="row">
+                                    <div class="input-group no-border">
+                                        <div class="form-control-lg">
+                                            <input type="email" placeholder="Correo" class="form-control" name="email" required>
+                                        </div>
+                                        <div class="form-control-lg">
+                                            <input type="password" placeholder="Contraseña" class="form-control" name="password" maxLength="128" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                                else:
+                            ?>
+                                <div class="row">
+                                    <div class="input-group no-border">
+                                        <div class="form-control-lg">
+                                            <input type="text" placeholder="Usuario tutor" class="form-control" name="tutor" required>
+                                        </div>
+                                        <div class="mt-2 mr-3">
+                                            <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
+                                                <option value="">Elegir foto</option>
+                                                <option value="robot.png">Robot</option>
+                                                <option value="bear.png">Oso</option>
+                                                <option value="dog.jpeg">Perro</option>
+                                                <option value="ball.jpg">Pelota</option>
+                                                <option value="unicorn.png">Unicornio</option>
+                                                <option value="whale.png">Ballena</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                    <img id="img-user" src="../../assets/img/user_child/robot.png" height="130" width="125" style="display:none"/>
+                                </div>
+                            <?php
+                                endif;
+                            ?>
                             <div class="text-center mt-2">
                                 <button type="submit" class="btn btn-primary mr-2" name="login">Entrar</button>
                                 <a href="registrer.php?type=<?php echo $type;?>">
                                     <input type="button" class="btn btn-primary ml-2" value="Crear usuario"/>
+                                </a>
+                                <a href="../../">
+                                    <input type="button" class="btn btn-primary ml-2" value="Tipo usuario"/>
                                 </a>
                             </div>
                         </form>
@@ -81,5 +118,20 @@ session_start();
         <!-- Contact form JS-->
         <script src="../../assets/mail/jqBootstrapValidation.js"></script>
         <script src="../../assets/mail/contact_me.js"></script>
+        <script type="text/javascript">
+            $('#img-form').on('change', function () {
+                let option = this.options[this.selectedIndex].value;
+                if (option == "") {
+                    $('#img-user').hide({ duration: 500 });
+                    sleep(500);
+                    let img = document.getElementById('img-user');
+                    img.src = "../../assets/img/user_child/" + option;
+                } else {
+                    let img = document.getElementById('img-user');
+                    img.src = "../../assets/img/user_child/" + option;
+                    $('#img-user').show({ duration: 500 });
+                }
+            });
+        </script>
     </body>
 </html>

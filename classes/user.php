@@ -13,6 +13,7 @@ function get_db_connection($dbname = null) {
 
 class User {
 	private const TABLE = 'users';
+	private const TABLE_TUTORS = 'tutors';
 	private $id;
 	private $type;
 	private $user;
@@ -48,38 +49,72 @@ class User {
 
 	}
 
-	public static function insert_user($type, $user, $email, $name, $surnames, $password, $password_confirm, $age = null, $image = null) {
-		if (!self::validate_string_with_especial_characters($name)) {
-			throw new InvalidArgumentException('Nombre no válido');
-		}
-		if (!self::validate_string_with_especial_characters($surnames)) {
-			throw new InvalidArgumentException('Apellidos no válidos');
-		}
-		if (!self::validate_stringid($user)) {
+	public static function insert_user($type, $user=null, $email=null, $name, $surnames=null, $password=null, $password_confirm=null, $tutor=null, $age = null, $image = null) {
+
+		if (!self::validate_user_adult($user)) {
 			throw new InvalidArgumentException('Usuario no válido');
-		}
-		if (!self::validate_email($email)) {
-			throw new InvalidArgumentException('Correo no válido');
 		}
 
 		$educator = self::educator($type);
 
-		$result = self::get_user('user', $user);
-		if ($result) {
-			throw new InvalidArgumentException('El usuario '. $user .' ya existe');
-		}
+		if ($educator) {
+			if (!self::validate_string_with_especial_characters($name)) {
+				throw new InvalidArgumentException('Nombre no válido');
+			}
+			if (!self::validate_string_with_especial_characters($surnames)) {
+				throw new InvalidArgumentException('Apellidos no válidos');
+			}
+			if (!self::validate_email($email)) {
+				throw new InvalidArgumentException('Correo no válido');
+			}
 
-		$result = self::get_user('email', $email);
-		if ($result) {
-			throw new InvalidArgumentException('El usuario '. $user .' ya existe');
-		}
+			$result = self::get_user('user', $user);
+			if ($result) {
+				throw new InvalidArgumentException('El usuario '. $user .' ya existe');
+			}
+			$result = self::get_user('email', $email);
+			if ($result) {
+				throw new InvalidArgumentException('El correo '. $user .' ya está registrado');
+			}
 
-		$pwd = self::hash($password);
-		$sql = "INSERT INTO `".self::TABLE."`
+			$pwd = self::hash($password);
+
+			$sql = "INSERT INTO `".self::TABLE."`
 					(name, surnames, user, email, password, educator, image, age)
 					VALUES ('$name', '$surnames', '$user', '$email', '$pwd', '$educator', '$image', $age)";
+			$res = self::query($sql);
+		} else {
+			$user_child = $tutor . "_" . $image;
 
-		$res = self::query($sql);
+			$result = self::get_user('user', $tutor);
+			if (!$result) {
+				throw new InvalidArgumentException('El usuario tutor '. $user .' no existe');
+			} else {
+				$id_tutor = $result->id;
+			}
+
+			$result = self::get_user('user', $user_child);
+			if ($result) {
+				throw new InvalidArgumentException('La foto ya está escogida');
+			}
+			$user = $user_child;
+			$password = $image;
+
+			$sql = "INSERT INTO `".self::TABLE."`
+					(name, surnames, user, email, password, educator, image, age)
+					VALUES ('$name', '$surnames', '$user', '$email', '$password', '$educator', '$image', $age)";
+			$res = self::query($sql);
+
+			$result = self::get_user('user', $user_child);
+			if ($result) {
+				$id_child = $result->id();
+				$sql = "INSERT INTO `".self::TABLE_TUTORS."`
+						(parent, child)
+						VALUES ('$id_tutor', '$id_child')";
+				$res = self::query($sql);
+			}
+
+		}
 
 		return $res;
 	}
@@ -100,8 +135,8 @@ class User {
 	}
 
 	public static function get_user_from_email(string $email) {
-		if (!self::validate_email($email))
-			throw new InvalidArgumentException('Correo no válido');
+		// if (!self::validate_email($email) && $email != " ")
+		// 	throw new InvalidArgumentException('Correo no válido');
 		$sql = "SELECT * FROM `".self::TABLE."` WHERE email = '$email'";
 		$result = self::query($sql);
 		if (!$result){
@@ -109,8 +144,19 @@ class User {
 		} else if ($result->rowCount() !== 1) {
 			throw new InvalidArgumentException("Correo '$email' no existe");
 		}
-		$data = $result->fetch(PDO::FETCH_ASSOC);
 		return self::get_user('email', $email);
+	}
+
+	public static function get_user_from_tutor_img($tutor, $image){
+		if (!self::validate_user_adult($tutor))
+			throw new InvalidArgumentException('Tutor no válido');
+		$user_child = $tutor . "_" . $image;
+
+		$result = self::get_user('user', $user_child);
+		if (!$result) {
+			throw new InvalidArgumentException("El usuario con tutor '$tutor' e imagen '$img' no existe");
+		}
+		return $result;
 	}
 
 	public static function get_user_from_id(int $id) {
@@ -124,6 +170,7 @@ class User {
 		} else if ($result->rowCount() !== 1) {
 			return null;
 		}
+
 		$data = $result->fetch(PDO::FETCH_ASSOC);
 		$user = new User($data);
 		$user->id = intval($data['id']);
@@ -135,7 +182,7 @@ class User {
 		return $this->id;
 	}
 
-	public function type(?string $type = null) : bool {
+	public function type(?bool $type = null) : bool {
 		if (isset($type)) {
 			$this->type = $type;
 		}
@@ -144,19 +191,28 @@ class User {
 
 	public function user(?string $user = null) : string {
 		if (isset($user)) {
-			if (!self::validate_stringid($user))
+			if (!self::validate_user($user))
 				throw new InvalidArgumentException('Usuario no válido');
 			$this->user = $user;
 		}
 		return $this->user;
 	}
 
-	public function email(?string $email = null) : string {
-		if (isset($email)) {
-			if (!self::validate_email($email))
-				throw new InvalidArgumentException('Correo no válido');
-			$this->email = $email;
-		}
+	public function email(?string $email = null) : ?string {
+		// if (isset($email)) {
+		// 	$email = trim($email);
+		// 	if ($email != "") {
+		// 		if (!self::validate_email($email))
+		// 			var_dump($email);
+		// 			throw new InvalidArgumentException('Correo no válido');
+		// 		$this->email = $email;
+		// 	}
+		// }
+		// if ($email == " ") {
+		// 	$this->email = "";
+		// }
+		// exit();
+		$this->email = $email;
 		return $this->email;
 	}
 
@@ -204,21 +260,62 @@ class User {
 		return password_verify($password, $this->password);
 	}
 
-	public function update_passwd($oldpass, $newpass) {
-		if (!self::validate_password($newpass))
-			throw new InvalidArgumentException("Contraseña incorrecta");
+	public function update_user_adult($id, $user, $email, $name, $surnames) {
+		if (!self::validate_user_adult($user)) {
+			throw new InvalidArgumentException('Usuario no válido');
+		}
+		if (!self::validate_string_with_especial_characters($name)) {
+			throw new InvalidArgumentException('Nombre no válido');
+		}
+		if (!self::validate_string_with_especial_characters($surnames)) {
+			throw new InvalidArgumentException('Apellidos no válidos');
+		}
+		if (!self::validate_email($email)) {
+			throw new InvalidArgumentException('Correo no válido');
+		}
 
-		// The password cannot be the same as the old one
-		if ($this->password_verify($newpass))
-			throw new InvalidArgumentException("La nueva contraseña no puede ser la misma que la anterior");
+		$result_user = User::get_user_from_id($id);
+		if ($result_user->user() != $name){
+			$result = self::get_user('user', $user);
+			if ($result) {
+				throw new InvalidArgumentException('El usuario '. $user .' ya existe');
+			}
+		}
+		$result_email = User::get_user_from_email($email);
+		if ($result_email->email() != $email){
+			$result = self::get_user('email', $email);
+			if ($result) {
+				throw new InvalidArgumentException('El correo '. $user .' ya está registrado');
+			}
+		}
 
+		$sql = "UPDATE `".self::TABLE."`
+				SET `user` = '$user',
+					`email` = '$email',
+					`name` = '$name',
+					`surnames` = '$surnames'
+				WHERE `id` = '$id'";
+		$res = self::query($sql);
+
+		return $res;
+	}
+
+	public static function password_update(int $id, string $password, string $password_confirm) {
 		// The new password cannot be less than 8 characters
-		if (strlen($newpass) < 8)
+		if (strlen($password) < 8)
 			throw new InvalidArgumentException("El tamaño mínimo de la contraseña es de 8 caracteres");
 
-		$hash = self::hash($newpass);
-		$sql = "UPDATE `".self::TABLE."` SET password = '$hash' WHERE user = '".$this->user."'";
-		self::query($sql);
+		if ($password != $password_confirm)
+			throw new InvalidArgumentException('Las contraseñas no coinciden');
+
+		$hash = self::hash($password);
+		$sql = "UPDATE `".self::TABLE."`
+					SET `password` = '$hash'
+					WHERE id = '$id'";
+
+		$result = self::query($sql);
+
+		return $result;
 	}
 
 
@@ -233,9 +330,14 @@ class User {
 		return password_hash($password, PASSWORD_BCRYPT);
 	}
 
-	public static function validate_user(?string $user = '') {
-		return preg_match('/^[\w]+$/', $use) ? $user : false;
+	public static function validate_user(string $user) {
+		return preg_match('/^[\w.\- ]+$/', $user);
 	}
+
+	public static function validate_user_adult(string $user) {
+		return preg_match('/^[a-zA-Z0-9ñÑ\-. ]+$/', $user);
+	}
+
 
 	public static function validate_email(string $email) : bool {
 		return filter_var($email, FILTER_VALIDATE_EMAIL);

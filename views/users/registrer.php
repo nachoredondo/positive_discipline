@@ -1,5 +1,28 @@
 <?php
 $type = $_REQUEST['type'];
+if ($type == "adult") {
+    $name_type = "adulto";
+}else {
+    $name_type = "niño";
+}
+
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == "password-length") {
+        $text_error = "Formato incorrecto de contraseña, mínimo 8 caracteres alfanuméricos";
+    } elseif ($_GET['error'] == "no-age") {
+        $text_error = "Sin escoger edad";
+    } elseif ($_GET['error'] == "no-img") {
+        $text_error = "Sin elegir foto";
+    } elseif ($_GET['error'] == "incorrect_camp") {
+        if (isset($_GET['message'])) {
+            $text_error = $_GET['message'];
+        } else {
+            $text_error = "Error";
+        }
+    } else {
+        $text_error = "Error";
+    }
+}
 
 ?>
 
@@ -33,7 +56,7 @@ $type = $_REQUEST['type'];
     </head>
     <body id="image">
         <div class="text-secondary text-center">
-            <h1 class="text-uppercase text-secondary mt-4">Crear usuario</h1>
+            <h1 class="text-uppercase text-secondary mt-4">Crear usuario <?php echo $name_type; ?></h1>
             <div class="mt-4 container d-flex align-items-center flex-column">
                 <div class="card-header">
                     <div class="flex-group">
@@ -41,22 +64,18 @@ $type = $_REQUEST['type'];
                         if (isset($_GET['success'])):
                             if ($_GET['success'] == 'false'):
                                 if (isset($_GET['error'])):
-                                    if ($_GET['error'] == "password-length") :
                                         ?>
-                                        <span class="badge badge-danger mb-2">Formato incorrecto de contraseña, mínimo 8 caracteres alfanuméricos</span>
-                                        <?php
-                                    endif;
-                                    if ($_GET['error'] == "incorrect_camp" && isset($_GET['message'])) :
-                                        ?>
-                                        <span class="badge badge-danger mb-2"><?php echo $_GET['message']; ?></span>
-                                        <?php
-                                    endif;
+                                    <span class="badge badge-danger mb-2"><?php echo $text_error; ?></span>
+                                    <?php
                                 endif;
                             endif;
                         endif;
                         ?>
                         <form class="form" method="post" action="create_user.php" role="form" id="the-form">
                             <input type="hidden" class="form-control ml-3" name="type" required/ value="<?php echo $type;?>">
+                            <?php
+                                if ($type == "adult"):
+                            ?>
                             <div class="row">
                                 <div class="input-group no-border">
                                     <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" required/>
@@ -75,18 +94,52 @@ $type = $_REQUEST['type'];
                                     <input type="password" placeholder="Confirmar contraseña" maxLength="128" class="form-control ml-3 mr-3" name="password-confirm" required/>
                                 </div>
                             </div>
-                            <!-- <div class="row mt-2">
+                            <?php
+                                else:
+                            ?>
+                            <div class="row">
                                 <div class="input-group no-border">
-                                    <input type="text" placeholder="Edad" class="form-control" name="age" required/>
-                                    <input type="text" placeholder="Foto perfil" class="form-control ml-3" name="image"/>
+                                    <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" required/>
+                                    <input type="text" placeholder="Usuario tutor" class="form-control ml-3 mr-3" name="user-tutor" required/>
                                 </div>
                             </div>
-                            <div class="row mt-2 ml-2">
-                                <label>Selecciona la foto de perfil:</label>
-                                <input type="file" class="form-control-file mt-1" value="Foto perfil" name="imagen" />
-                            </div> -->
+                            <div class="d-flex align-items-center">
+                                <div class="row mt-2">
+                                    <div class="ml-3 mt-2" style="width:auto;">
+                                        <select id="age" name="age" class="form-control mt-0">
+                                            <option value="">Edad</option>
+                                            <?php
+                                                for ($i = 3; $i <= 17; $i++) {
+                                                    echo '<option value="', $i, '">', $i, '</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="mt-2 col-2 mr-5">
+                                        <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
+                                            <option value="">Elegir foto</option>
+                                            <option value="robot.png">Robot</option>
+                                            <option value="bear.png">Oso</option>
+                                            <option value="dog.jpeg">Perro</option>
+                                            <option value="ball.jpg">Pelota</option>
+                                            <option value="unicorn.png">Unicornio</option>
+                                            <option value="whale.png">Ballena</option>
+                                        </select>
+                                    </div>
+                                    <div class="ml-5">
+                                        <img id="img-user" src="../../assets/img/user_child/robot.png" height="150" width="140" style="display:none"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <?php
+                                endif;
+                            ?>
                             <div class="text-center mt-4 ml-5 mr-5">
-                                <button type="submit" class="btn btn-primary btn-block" name="login">Crear</button>
+                                <button type="submit" class="btn btn-primary mr-2" name="login">Crear</button>
+                                <a href="login.php?type=<?php echo $type;?>">
+                                    <input type="button" class="btn btn-primary ml-2" value="Volver"/>
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -102,5 +155,20 @@ $type = $_REQUEST['type'];
         <!-- Contact form JS-->
         <script src="../../assets/mail/jqBootstrapValidation.js"></script>
         <script src="../../assets/mail/contact_me.js"></script>
+        <script type="text/javascript">
+            $('#img-form').on('change', function () {
+                let option = this.options[this.selectedIndex].value;
+                if (option == "") {
+                    $('#img-user').hide({ duration: 500 });
+                    sleep(500);
+                    let img = document.getElementById('img-user');
+                    img.src = "../../assets/img/user_child/" + option;
+                } else {
+                    let img = document.getElementById('img-user');
+                    img.src = "../../assets/img/user_child/" + option;
+                    $('#img-user').show({ duration: 500 });
+                }
+            });
+        </script>
     </body>
 </html>

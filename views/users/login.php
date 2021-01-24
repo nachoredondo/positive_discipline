@@ -49,7 +49,7 @@ session_start();
                 <div class="card-header">
                     <div class="text-center">
                     <?php if (isset($_SESSION['login-error'])): unset($_SESSION['login-error']) ?>
-                        <span class="badge badge-danger mb-0">Contraseña o correo incorrecto</span>
+                        <span class="badge badge-danger mb-0"><?php echo ($type == "adult") ? "Contraseña o correo incorrecto" : "Tutor o imagen seleccionada incorrecta";?></span>
                     <?php endif ?>
                     </div>
                     <div class="flex-group">

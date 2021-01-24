@@ -27,7 +27,7 @@
 			<i class="fas fa-user"></i>
 		</a>
 		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navUserDropdown">
-			<a class="dropdown-item" href="../users/edit_user.php">Mi perfil</a>
+			<a class="dropdown-item" href="../users/<?php echo ($_SESSION['type']) ? 'profile_tutor' : 'profile_child'?>.php">Mi perfil</a>
 			<a class="dropdown-item" href="../users/logout.php">
 				<i class="fas fa-sign-out-alt"></i> Cerrar sesión
 			</a>

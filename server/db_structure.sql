@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-01-2021 a las 20:03:07
+-- Tiempo de generación: 24-01-2021 a las 05:31:05
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -159,8 +159,7 @@ CREATE TABLE `users` (
   `password` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `educator` tinyint(1) NOT NULL DEFAULT '1',
   `image` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
-  `age` int(3) DEFAULT NULL,
-  `pwreset` tinyint(1) NOT NULL DEFAULT '1'
+  `age` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

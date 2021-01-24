@@ -3,10 +3,7 @@ require '../../classes/session.php';
 require '../../classes/user.php';
 
 Session::check_login_redirect();
-// var_dump($_SESSION['user']);
-// exit();
 $user = User::get_user_from_user($_SESSION['user']);
-// var_dump($user);
 
 ?>
 
@@ -46,6 +43,9 @@ $user = User::get_user_from_user($_SESSION['user']);
                 <!-- Contact Section Form-->
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
+                        <a href="profile_child.php">
+                            <button class="btn btn-primary btn-xl ml-1" id="create_child" type="button">Crear usuario hijo</button>
+                        </a>
                         <form id="contactForm" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">
                             <input class="form-control" id="type" name="type" type="hidden" required="required" value="<?php echo $_SESSION['type']?>" />
                             <input class="form-control" id="id-user" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />
@@ -96,13 +96,14 @@ $user = User::get_user_from_user($_SESSION['user']);
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <label>Confirmar contraseña</label>
-                                    <input class="form-control" id="pwd-confirm" name="pwd-confirm" type="text" placeholder="Confirmar contraseña" required="required" data-validation-required-message="Por favor confirma la contraseña." />
+                                    <input class="form-control" id="pwd-confirm" name="pwd-confirm" type="text" placeholder="Contraseña" required="required" data-validation-required-message="Por favor confirma la contraseña." />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <br />
                             <div class="form-group">
-                                <button class="btn btn-primary btn-xl ml-2" id="button-update-pwd" name="form" value="update" type="submit">Cambiar contraseña</button>
+                                <button class="btn btn-primary btn-xl ml-2" id="button-update-pwd" name="form" value="pwd" type="submit">Cambiar contraseña</button>
+                                <button class="btn btn-primary btn-xl ml-2 mr-4" id="button-delete-tutor" name="form" value="delete-tutor" type="submit">Eliminar usuario</button>
                             </div>
                         </form>
                     </div>
@@ -110,42 +111,9 @@ $user = User::get_user_from_user($_SESSION['user']);
             </div>
         </section>
         <!-- Footer-->
-        <footer class="footer text-center">
-            <div class="container">
-                <div class="row">
-                    <!-- Footer Social Icons-->
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h4 class="text-uppercase mb-4">Redes sociales</h4>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
-                    </div>
-                    <!-- Footer Location-->
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h4 class="text-uppercase mb-4">Autor</h4>
-                        <p class="lead mb-0">
-                            Ignacio Redondo Arroyo
-                        </p>
-                    </div>
-                    <!-- Footer About Text-->
-                    <div class="col-lg-4">
-                        <h4 class="text-uppercase mb-4">Página recomendada</h4>
-                        <p class="lead mb-0">
-                            Principios, bases, estrategias de la metodología del respeto mutuo
-                            <a href="http://disciplinapositivaespana.com/">link página de España</a>
-                            .
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Copyright Section-->
-        <div class="copyright py-4 text-center text-white">
-            <div class="container"><small>Copyright © Your Website 2021</small></div>
-        </div>
+        <?php include '../general/footer_template.php'; ?>
         <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
-        <div class="scroll-to-top d-lg-none position-fixed">
+        <div class="scroll-to-top d-lg-none position-fixed mt-5">
             <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i class="fa fa-chevron-up"></i></a>
         </div>
         <!-- Bootstrap core JS-->

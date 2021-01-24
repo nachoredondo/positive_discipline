@@ -119,15 +119,6 @@ class User {
 		return $res;
 	}
 
-
-	public static function delete_user($user) {
-		$sql = "DELETE
-					FROM `".self::TABLE."`
-					WHERE `user` = '$user'";
-
-		$res = self::query($sql);
-	}
-
 	public static function get_user_from_user(string $user) {
 		if (!self::validate_user($user))
 			throw new InvalidArgumentException('Usuario no válido');
@@ -295,6 +286,56 @@ class User {
 					`name` = '$name',
 					`surnames` = '$surnames'
 				WHERE `id` = '$id'";
+		$res = self::query($sql);
+
+		return $res;
+	}
+
+	public function update_user_child($id, $tutor, $name, $age, $image) {
+		$user_child = $tutor . "_" . $image;
+
+		$result_user = User::get_user_from_id($id);
+		if ($result_user->user() != $user_child){
+			$result = self::get_user('user', $user_child);
+			if ($result) {
+				throw new InvalidArgumentException('La foto ya está escogida');
+			}
+		}
+
+		$sql = "UPDATE `".self::TABLE."`
+				SET `user` = '$user_child',
+					`name` = '$name',
+					`age` = '$age',
+					`image` = '$image',
+					`password` = '$password'
+				WHERE `id` = '$id'";
+		$res = self::query($sql);
+		return $res;
+	}
+
+	public static function delete_tutor($id) {
+		$sql = "DELETE
+					FROM `".self::TABLE."`
+					WHERE `id` = '$id'";
+		$res = self::query($sql);
+
+		$sql = "DELETE
+			FROM `".self::TABLE_TUTORS."`
+			WHERE `child` = '$id'";
+		$res = self::query($sql);
+
+		return $res;
+	}
+
+	public function delete_child($id) {
+		$sql = "DELETE
+			FROM `".self::TABLE."`
+			WHERE `id` = '$id'";
+		$res = self::query($sql);
+
+		$sql = "DELETE
+			FROM `".self::TABLE_TUTORS."`
+			WHERE `child` = '$id'";
 		$res = self::query($sql);
 
 		return $res;

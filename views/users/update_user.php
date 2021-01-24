@@ -5,8 +5,6 @@ require '../../classes/session.php';
 Session::check_login_redirect();
 $errors = [];
 
-// var_dump($_POST);
-// exit();
 $type = $_POST['type'];
 $id = $_POST['id'];
 $form = $_POST['form'];
@@ -37,18 +35,18 @@ if(!$type) {
 }
 
 try {
-	print("actualiza");
 	if ($form == "data") {
 		$success = User::update_user_adult($id, $user, $email, $name, $surnames);
-	} else {
+	} else if ($form == "pwd") {
 		$success = User::password_update($id, $password, $password_confirm);
+	} else {
+		$success = User::delete_tutor($id);
 	}
 } catch(InvalidArgumentException $e) {
-	print("catch");
 	$errors[] = "incorrect_camp";
 	$message = $e->getMessage();
 	$error = implode(',', $errors);
-	header('Location: ./edit_user.php?success=false&error='.$error.'&message='.$message);
+	header('Location: ./profile_tutor.php?success=false&error='.$error.'&message='.$message);
 	exit();
 }
 if (!$errors) {
@@ -57,11 +55,13 @@ if (!$errors) {
 			$_SESSION['user'] = $user;
 			$_SESSION['fullname'] = ($surnames == "") ? $name : $surnames . ', ' . $name;
 			$_SESSION['name'] = $name;
-			header('Location: ./edit_user.php?action=data');
+			header('Location: ./profile_tutor.php?action=data');
+		} else if ($form == "pwd") {
+			header('Location: ./profile_tutor.php?action=pwd');
 		} else {
-			header('Location: ./edit_user.php?action=pwd');
+			header('Location: ./logout.php');
 		}
 	} else {
-		header('Location: ./edit_user.php?success='.($success === false ? 'false' : 'true'));
+		header('Location: ./profile_tutor.php?success='.($success === false ? 'false' : 'true'));
 	}
 }

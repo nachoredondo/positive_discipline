@@ -39,7 +39,7 @@
                      <div class="text-center row">
                         <a href="login.php?type=adult">
                         	<img src="../../assets/img/adult2.jpg" width="160">
-                        	<h5>Tutur@</h5>
+                        	<h5>Tutor@</h5>
 <!--                             <input type="button" class="btn btn-primary ml-2" value="Crear usuario adulto"/>
  -->                     </a>
                         <a class="ml-3" href="login.php?type=child">

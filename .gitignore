@@ -1,3 +1,6 @@
+# Ignore files folder. It's for application generated files and user interaction
+files/
+
 # Ignore ini files which may store passwords
 *.ini
 config.ini

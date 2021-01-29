@@ -20,9 +20,8 @@
             <div class="col-lg-4">
                 <h4 class="text-uppercase mb-4">Página recomendada</h4>
                 <p class="lead mb-0">
-                    Principios, bases, estrategias de la metodología del respeto mutuo
-                    <a href="http://disciplinapositivaespana.com/">link página de España</a>
-                    .
+                    Promueve relaciones de respeto mutuo y responsabilidad en la vida.
+                    <a href="http://disciplinapositivaespana.com/">Link página oficial de España</a>
                 </p>
             </div>
         </div>

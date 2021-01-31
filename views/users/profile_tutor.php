@@ -24,6 +24,12 @@ $user = User::get_user_from_user($_SESSION['user']);
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="../../css/styles.css" rel="stylesheet" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -43,6 +49,11 @@ $user = User::get_user_from_user($_SESSION['user']);
                 <!-- Contact Section Form-->
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
+                        <div class="table-responsive">
+                            <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
+                                <thead><!-- Leave empty. Column titles are automatically generated --></thead>
+                            </table>
+                        </div>
                         <a href="profile_child.php">
                             <button class="btn btn-primary btn-xl ml-1" id="create_child" type="button">Crear usuario hijo</button>
                         </a>
@@ -72,8 +83,8 @@ $user = User::get_user_from_user($_SESSION['user']);
                             </div>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                    <label>Name</label>
-                                    <input class="form-control" id="name" name="surnames" type="text" placeholder="Apellidos" required="required" value="<?php echo $user->surnames();?>"data-validation-required-message="Por favor introduce los apellidos" />
+                                    <label>Surnames</label>
+                                    <input class="form-control" id="surnames" name="surnames" type="text" placeholder="Apellidos" required="required" value="<?php echo $user->surnames();?>"data-validation-required-message="Por favor introduce los apellidos" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
@@ -117,7 +128,6 @@ $user = User::get_user_from_user($_SESSION['user']);
             <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i class="fa fa-chevron-up"></i></a>
         </div>
         <!-- Bootstrap core JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
@@ -125,5 +135,84 @@ $user = User::get_user_from_user($_SESSION['user']);
         <script src="../../assets/mail/jqBootstrapValidation.js"></script>
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
+        <script type="text/javascript">
+            function make_request(path, params, method) {
+                method = method || "post"; // Set method to post by default if not specified.
+
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function img_user(img) {
+                return '<img id="img-user" src="../../assets/img/user_child/'+img+'" height="50" width="48"/>'
+            }
+
+            window.addEventListener('load', function () {
+                let table = $('#the-table').DataTable({
+                    order: [[1, 'asc']],
+                    serverSide: true,
+                    language: {
+                        url: "<?php echo APP_ROOT; ?>/assets/datatables/es.json",
+                    },
+                    columns: [
+                        {
+                            data: 'name',
+                            title: 'Nombre',
+                        },
+                        {
+                            data: 'age',
+                            title: 'Edad',
+                            "searchable": false,
+                        },
+                        {
+                            data: 'image',
+                            title: 'Contraseña',
+                            render: function (_, _, row) { return img_user(row.password) },
+                            defaultContent: ' - ',
+                        },
+                        {
+                            sorting: false,
+                            defaultContent:
+                                '<button type="button" data-toggle="tooltip" title="Detalles" class="btn btn-success btn-sm btn-just-icon btn-link m-0"><i class="material-icons">text_snippet</i></button><button type="button" data-toggle="tooltip" title="Borrar" class="btn btn-success btn-sm btn-just-icon btn-link m-0 ml-3"><i class="material-icons">delete</i></button>',
+                            "searchable": false,
+                        },
+                    ],
+                    ajax: {
+                        method: 'POST',
+                        url: "<?php echo APP_ROOT; ?>api/user/list_child.php",
+                        error: function(xhr) {
+                            if (xhr.status === 401) { // Session expired
+                                window.location.reload();
+                            } else {
+                                console.log(xhr);
+                            }
+                        },
+                    },
+                });
+                $('#the-table tbody').on('click', 'button', function () {
+                    let data = table.row($(this).parents('tr')).data();
+                    if (this.textContent === 'text_snippet'){
+                        make_request('<?php echo APP_ROOT ?>views/users/profile_child.php', { id: data["id"] });
+                    } else {
+                        make_request('<?php echo APP_ROOT ?>views/users/edit_update_child.php', { id: data["id"] });
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

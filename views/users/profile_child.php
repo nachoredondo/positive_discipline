@@ -3,7 +3,12 @@ require '../../classes/session.php';
 require '../../classes/user.php';
 
 Session::check_login_redirect();
-$user = User::get_user_from_user($_SESSION['user']);
+
+if (isset($_POST['id'])) {
+    $user = User::get_user_from_id($_POST['id']);
+} else {
+    $user = User::get_user_from_user($_SESSION['user']);
+}
 // var_dump($user->image());
 // exit();
 
@@ -52,13 +57,13 @@ if (!$_SESSION['type']) {
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <form id="update-pwd" method="post" action="edit_update_child.php" name="sentMessage" novalidate="novalidate">
-                            <input class="form-control" id="id-user-pwd" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />
+                            <input class="form-control" id="id" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />
                             <input class="form-control" id="tutor" name="tutor" type="hidden" placeholder="Usuario tutor" required="required" data-validation-required-message="Introduzca el usuario tutor." value="<?php echo ($_SESSION['type']) ? $_SESSION['user'] : $tutor_child;?>" />
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <label>Nombre</label>
                                     <input class="form-control" id="name" name="name" type="text" placeholder="Nombre" required="required" data-validation-required-message="Introduzca el nombre."
-                                    value="<?php echo ($_SESSION['type']) ? '' : $_SESSION['name'];?>" />
+                                    value="<?php echo ($_SESSION['type']) ? ($_SESSION['type']) ? $user->name() : '' : $_SESSION['name'];?>" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
@@ -96,20 +101,19 @@ if (!$_SESSION['type']) {
                             <br />
                             <div class="form-group ml-2">
                                 <button class="btn btn-primary btn-xl ml-2 mr-4" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type']) ? "create-child" : "update-user";?>" type="submit">
-                                    <?php echo ($_SESSION['type']) ? "Crear" : "Editar";?>
+                                    <?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "Crear" : "Editar";?>
                                 </button>
+                            <?php
+                                if ($_SESSION['type'] && (!isset($_POST['id'])) || (!$_SESSION['type']))
+                            ?>
+                                    <button class="btn btn-primary btn-xl ml-2 mr-4" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
+                                </form>
                             <?php
                                 if ($_SESSION['type']):
                             ?>
                                     <a href="profile_tutor.php">
                                         <button class="btn btn-primary btn-xl ml-1" id="create_child" type="button">Volver</button>
                                     </a>
-                            <?php
-                                else:
-                            ?>
-                                    <button class="btn btn-primary btn-xl ml-2 mr-4" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
-                                </form>
-
                             <?php
                                 endif;
                             ?>

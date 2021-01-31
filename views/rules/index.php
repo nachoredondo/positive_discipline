@@ -78,27 +78,27 @@ $user = User::get_user_from_user($_SESSION['user']);
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
         <script type="text/javascript">
-                function make_request(path, params, method) {
-                    method = method || "post"; // Set method to post by default if not specified.
+            function make_request(path, params, method) {
+                method = method || "post"; // Set method to post by default if not specified.
 
-                    var form = document.createElement("form");
-                    form.setAttribute("method", method);
-                    form.setAttribute("action", path);
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
 
-                    for (var key in params) {
-                        if (params.hasOwnProperty(key)) {
-                            var hiddenField = document.createElement("input");
-                            hiddenField.setAttribute("type", "hidden");
-                            hiddenField.setAttribute("name", key);
-                            hiddenField.setAttribute("value", params[key]);
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
 
-                            form.appendChild(hiddenField);
-                        }
+                        form.appendChild(hiddenField);
                     }
-
-                    document.body.appendChild(form);
-                    form.submit();
                 }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
 
             window.addEventListener('load', function () {
                 let table = $('#the-table').DataTable({
@@ -147,11 +147,10 @@ $user = User::get_user_from_user($_SESSION['user']);
                 });
                 $('#the-table tbody').on('click', 'button', function () {
                     let data = table.row($(this).parents('tr')).data();
-                    console.log(this);
                     if (this.textContent === 'text_snippet'){
-                        make_request('<?php echo APP_ROOT ?>views/rules/edit_create.php', { id: data["idobra"] });
+                        make_request('<?php echo APP_ROOT ?>views/rules/edit_create.php', { id: data["id"] });
                     } else {
-                        make_request('<?php echo APP_ROOT ?>views/rules/delete.php', { id: data["idobra"] });
+                        make_request('<?php echo APP_ROOT ?>views/rules/delete.php', { id: data["id"] });
                     }
                 });
             });

@@ -33,6 +33,7 @@ $user = User::get_user_from_user($_SESSION['user']);
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
         <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
     </head>
@@ -77,20 +78,36 @@ $user = User::get_user_from_user($_SESSION['user']);
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
         <script type="text/javascript">
+                function make_request(path, params, method) {
+                    method = method || "post"; // Set method to post by default if not specified.
+
+                    var form = document.createElement("form");
+                    form.setAttribute("method", method);
+                    form.setAttribute("action", path);
+
+                    for (var key in params) {
+                        if (params.hasOwnProperty(key)) {
+                            var hiddenField = document.createElement("input");
+                            hiddenField.setAttribute("type", "hidden");
+                            hiddenField.setAttribute("name", key);
+                            hiddenField.setAttribute("value", params[key]);
+
+                            form.appendChild(hiddenField);
+                        }
+                    }
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+
             window.addEventListener('load', function () {
                 let table = $('#the-table').DataTable({
                     order: [[1, 'asc']],
                     serverSide: true,
                     language: {
-                        url: "<?php echo APP_ROOT ?>/assets/datatables/es.json",
+                        url: "<?php echo APP_ROOT; ?>/assets/datatables/es.json",
                     },
                     columns: [
-                        {
-                            sorting: false,
-                            defaultContent:
-                                '<button type="button" data-toggle="tooltip" title="Detalles" class="btn btn-success btn-sm btn-just-icon btn-link m-0"><i class="material-icons">edit</i></button>',
-                            "searchable": false,
-                        },
                         {
                             data: 'title',
                             title: 'Título',
@@ -108,12 +125,17 @@ $user = User::get_user_from_user($_SESSION['user']);
                             data: 'img_consequences',
                             title: 'Imagen consecuencia',
                             "searchable": false,
-                        }
+                        },
+                        {
+                            sorting: false,
+                            defaultContent:
+                                '<button type="button" data-toggle="tooltip" title="Detalles" class="btn btn-success btn-sm btn-just-icon btn-link m-0"><i class="material-icons">text_snippet</i></button><button type="button" data-toggle="tooltip" title="Borrar" class="btn btn-success btn-sm btn-just-icon btn-link m-0 ml-3"><i class="material-icons">delete</i></button>',
+                            "searchable": false,
+                        },
                     ],
                     ajax: {
                         method: 'POST',
-                        url: "./list_rules.php",
-                        data: [],
+                        url: "<?php echo APP_ROOT; ?>api/rules/list_rules.php",
                         error: function(xhr) {
                             if (xhr.status === 401) { // Session expired
                                 window.location.reload();
@@ -123,7 +145,17 @@ $user = User::get_user_from_user($_SESSION['user']);
                         },
                     },
                 });
+                $('#the-table tbody').on('click', 'button', function () {
+                    let data = table.row($(this).parents('tr')).data();
+                    console.log(this);
+                    if (this.textContent === 'text_snippet'){
+                        make_request('<?php echo APP_ROOT ?>views/rules/edit_create.php', { id: data["idobra"] });
+                    } else {
+                        make_request('<?php echo APP_ROOT ?>views/rules/delete.php', { id: data["idobra"] });
+                    }
+                });
             });
+
         </script>
     </body>
 </html>

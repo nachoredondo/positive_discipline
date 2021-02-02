@@ -100,7 +100,7 @@ if (isset($_GET['error'])) {
                             <div class="row">
                                 <div class="input-group no-border">
                                     <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" required/>
-                                    <input type="text" placeholder="Usuario tutor" class="form-control ml-3 mr-3" name="user-tutor" required/>
+                                    <input type="text" placeholder="Usuario padre, madre ..." class="form-control ml-3 mr-3" name="user-tutor" required/>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
@@ -109,7 +109,7 @@ if (isset($_GET['error'])) {
                                         <select id="age" name="age" class="form-control mt-0">
                                             <option value="">Edad</option>
                                             <?php
-                                                for ($i = 3; $i <= 17; $i++) {
+                                                for ($i = 6; $i <= 18; $i++) {
                                                     echo '<option value="', $i, '">', $i, '</option>';
                                                 }
                                             ?>

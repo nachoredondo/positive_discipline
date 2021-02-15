@@ -98,6 +98,11 @@ $user = User::get_user_from_user($_SESSION['user']);
                         <div id='calendar'></div>
                     </div>
                 </div>
+                <div class="text-center">
+                    <a href="edit_create.php">
+                        <button class="btn btn-primary btn-xl mt-4" id="create_child" type="button">Crear junta</button>
+                    </a>
+                </div>
             </div>
         </section>
         <!-- Footer-->
@@ -150,7 +155,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                             </tr>
                         </table>
                     </div>
-                    <form class="form" method="POST" action="../custom-reports/obras.php" style="margin: 0">
+                    <form class="form" method="POST" action="./edit_create.php" style="margin: 0">
                         <div class="modal-footer justify-content-between">
                             <input type="hidden" name="id"/>
                             <button type="button" class="btn btn-secondary my-0 ml-1" data-dismiss="modal">Cerrar</button>

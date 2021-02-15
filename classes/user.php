@@ -1,16 +1,6 @@
 <?php
 require_once("controller.php");
 
-/*
- * Get a connection to the MySQL.
- * $dbname: name of the database. Default app db if null.
- */
-function get_db_connection($dbname = null) {
-	$conn = Controller::get_global_connection();
-	return $conn;
-}
-
-
 class User {
 	private const TABLE = 'users';
 	private const TABLE_TUTORS = 'tutors';
@@ -154,8 +144,46 @@ class User {
 		return self::get_user('id', strval($id));
 	}
 
-	private static function get_user(string $key, string $value) : ?User {
-		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `$key` = '$value'");
+	public static function get_responsable(string $user) {
+		$sql = "SELECT *
+				from users
+				WHERE user = '$user'";
+		$result = self::query($sql);
+		$data = $result->fetch(PDO::FETCH_ASSOC);
+
+		if ($data['educator'] == "0") {
+			$responsable = array($data);
+			$sql = "SELECT user.*
+					FROM `tutors` as tutor
+					INNER JOIN `users` as user
+					ON tutor.parent = user.id
+					WHERE tutor.child = '29'";
+			$result = self::query($sql);
+			$data = $result->fetch(PDO::FETCH_ASSOC);
+			$responsable = array($data);
+			// echo json_encode($responsable, JSON_UNESCAPED_UNICODE);
+		} else {
+			$responsable = array($data);
+		}
+		$id_educator = $data['id'];
+		$sql = "SELECT user.* FROM `tutors` as tutor
+				INNER JOIN `users` as user
+				ON tutor.child = user.id
+				WHERE tutor.parent = '$id_educator'";
+		$result = self::query($sql);
+		if (!$result){
+			return null;
+		} else if ($result->rowCount() !== 1) {
+			return null;
+		}
+
+		$data = $result->fetch(PDO::FETCH_ASSOC);
+		array_push($responsable, $data);
+		return $responsable;
+	}
+
+	private static function get_user(string $id, string $value) {
+		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `$id` = '$value'");
 		if (!$result){
 			return null;
 		} else if ($result->rowCount() !== 1) {
@@ -405,7 +433,7 @@ class User {
 	}
 
 	private static function query($sql, ...$vars) {
-		$conn = get_db_connection();
+		$conn = Controller::get_global_connection();
 		$res = $conn->prepare($sql);
 		$res->execute();
 		return $res;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-01-2021 a las 05:31:05
+-- Tiempo de generación: 15-02-2021 a las 12:08:09
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -32,36 +32,12 @@ CREATE TABLE `meeting` (
   `id` int(11) NOT NULL,
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT '',
+  `topics` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date DEFAULT NULL,
-  `start` datetime DEFAULT NULL,
-  `end` datetime DEFAULT NULL,
-  `record` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
-  `responsable` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `meeting_list`
---
-
-CREATE TABLE `meeting_list` (
-  `id` int(11) NOT NULL,
-  `id_meeting` int(11) NOT NULL,
-  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-  `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `meeting_user`
---
-
-CREATE TABLE `meeting_user` (
-  `id` int(11) NOT NULL,
-  `id_meeting` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL
+  `start` time DEFAULT NULL,
+  `end` time DEFAULT NULL,
+  `responsable` int(11) NOT NULL,
+  `img_act` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -183,22 +159,8 @@ CREATE TABLE `wheel_options` (
 -- Indices de la tabla `meeting`
 --
 ALTER TABLE `meeting`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `meeting_list`
---
-ALTER TABLE `meeting_list`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `meeting_list` (`id_meeting`);
-
---
--- Indices de la tabla `meeting_user`
---
-ALTER TABLE `meeting_user`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `meeting` (`id_meeting`),
-  ADD KEY `user_meeting` (`id_user`);
+  ADD KEY `meting_user` (`responsable`);
 
 --
 -- Indices de la tabla `rules`
@@ -262,18 +224,6 @@ ALTER TABLE `meeting`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `meeting_list`
---
-ALTER TABLE `meeting_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `meeting_user`
---
-ALTER TABLE `meeting_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `rules`
 --
 ALTER TABLE `rules`
@@ -320,17 +270,10 @@ ALTER TABLE `wheel_options`
 --
 
 --
--- Filtros para la tabla `meeting_list`
+-- Filtros para la tabla `meeting`
 --
-ALTER TABLE `meeting_list`
-  ADD CONSTRAINT `meeting_list` FOREIGN KEY (`id_meeting`) REFERENCES `meeting` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `meeting_user`
---
-ALTER TABLE `meeting_user`
-  ADD CONSTRAINT `meeting` FOREIGN KEY (`id_meeting`) REFERENCES `meeting` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_meeting` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `meeting`
+  ADD CONSTRAINT `meting_user` FOREIGN KEY (`responsable`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `rules`

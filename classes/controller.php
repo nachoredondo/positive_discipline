@@ -10,6 +10,11 @@ function relpath($path = __FILE__) {
 	return $relp;
 }
 
+function inverse_date($date){
+	$date = explode("-", $date);
+	return $date[2] . "-" . $date[1] . "-" . $date[0];
+}
+
 define('APP_ROOT', relpath(__DIR__)."/../");
 define('REAL_APP_ROOT', $_SERVER['DOCUMENT_ROOT'] . APP_ROOT);
 

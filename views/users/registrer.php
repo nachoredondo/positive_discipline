@@ -72,7 +72,7 @@ if (isset($_GET['error'])) {
                         endif;
                         ?>
                         <form class="form" method="post" action="create_user.php" role="form" id="the-form">
-                            <input type="hidden" class="form-control ml-3" name="type" required/ value="<?php echo $type;?>">
+                            <input type="hidden" class="form-control ml-3" name="type" required value="<?php echo $type;?>"/>
                             <?php
                                 if ($type == "adult"):
                             ?>

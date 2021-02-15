@@ -54,14 +54,14 @@ $user = User::get_user_from_user($_SESSION['user']);
                 </div>
                 <!-- Rules Section -->
                 <div class="row">
-                    <div class="col-lg-8 mx-auto">
+                    <div class="col-lg-9 mx-auto">
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
                             </table>
                         </div>
                         <a href="edit_create.php">
-                            <button class="btn btn-primary btn-xl ml-2" id="create_child" type="button">Crear norma</button>
+                            <button class="btn btn-primary btn-xl ml-5 mt-4" id="create_child" type="button">Crear norma</button>
                         </a>
                     </div>
                 </div>

@@ -65,13 +65,7 @@ class SSPRules extends SSP {
 			 $order
 			 $limit";
 
-		$data = self::sql_exec($db, $bindings,
-			"SELECT *
-			 FROM ".self::FROM."
-			 $where
-			 $order
-			 $limit"
-		);
+		$data = self::sql_exec($db, $bindings, $sql);
 
 		// Total data set length
 		$resTotalLength = self::sql_exec($db,

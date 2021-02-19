@@ -194,8 +194,8 @@ if (isset($_REQUEST['id'])) {
 		<script type="text/javascript">
 			$('.clockpicker').clockpicker({
 				donetext: 'Hecho'
-			}
-			);
+			});
+
 			$(document).ready(function(){
 				let sr = new webkitSpeechRecognition();
 

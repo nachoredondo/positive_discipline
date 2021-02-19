@@ -46,19 +46,21 @@ $user = User::get_user_from_user($_SESSION['user']);
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
                 <h2 class="text-white">.</h2>
-                <h2 class="text-center text-uppercase text-secondary">Rueda</h2>
-                <!-- Icon Divider-->
-                <div class="divider-custom">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
+                <div class="mr-5">
+                    <h2 class="text-center text-uppercase text-secondary">Rueda</h2>
+                    <!-- Icon Divider-->
+                    <div class="divider-custom">
+                        <div class="divider-custom-line"></div>
+                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                        <div class="divider-custom-line"></div>
+                    </div>
                 </div>
                 <!-- Wheel Section -->
-                <h3 class="text-uppercase text-secondary ml-5 mb-3">Listado de opciones</h3>
-                <div class="row">
-                    <div class="col-lg-10 mx-auto">
+                <h3 class="text-uppercase text-center text-secondary mb-3">Listado de opciones</h3>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
                         <div class="table-responsive">
-                            <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
+                            <table id="the-table" class="center table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
                             </table>
                         </div>
@@ -159,9 +161,15 @@ $user = User::get_user_from_user($_SESSION['user']);
                 $('#the-table tbody').on('click', 'button', function () {
                     let data = table.row($(this).parents('tr')).data();
                     if (this.classList.contains('edit-btn')) {
-                        make_request('<?php echo APP_ROOT ?>/views/wheel/edit_option.php', { id: data["id"] });
+                        make_request('<?php echo APP_ROOT ?>/views/wheel/edit_create.php', { id: data["id"] });
                     } else if (this.classList.contains('remove-btn')) {
-                        make_request('<?php echo APP_ROOT ?>/views/wheel/delete_option.php', { id: data["id"] });
+                        make_request(
+                            '<?php echo APP_ROOT ?>/views/wheel/control.php',
+                            {
+                                id: data["id"],
+                                form: "delete"
+                            }
+                        );
                     } else {
                         console.error("Unknown button pressed!");
                     }

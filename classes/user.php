@@ -102,6 +102,16 @@ class User {
 						(parent, child)
 						VALUES ('$id_tutor', '$id_child')";
 				$res = self::query($sql);
+
+				// insert default wheel options
+				$sql =  "INSERT INTO `wheel` (`id_user`, `name`, `image`) VALUES
+						('$id_child', 'Contar hasta 10 y respirar', 'count.jpg'),
+						('$id_child', 'Relajarse', 'relax.png'),
+						('$id_child', 'Dibujar sentimientos', 'draw.jpg'),
+						('$id_child', 'Escuchar música', 'listen_music.png'),
+						('$id_child', 'Hablar sentimientos', 'speak_feelings.png'),
+						('$id_child', 'Estar sol@ para pensar', 'think.png')";
+				$res = self::query($sql);
 			}
 
 		}

@@ -18,11 +18,6 @@ if (isset($_REQUEST['id'])) {
 	$img_option = "";
 }
 
-// print($_REQUEST['id']);
-// exit();
-// echo $option->image();
-// echo $img_option;
-// exit();
 ?>
 
 <!DOCTYPE html>

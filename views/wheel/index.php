@@ -81,7 +81,7 @@ $size_wheel = count($wheel);
                         <img class="mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/files/img/wheel.png" width="200"/>
                     </a>
                 </div>
-                <h4 class="text-uppercase text-center text-secondary mb-3">Listado de opciones</h4>
+                <h5 class="text-uppercase text-center text-secondary mb-1 mr-5">Listado de opciones:</h5>
                 <div class="row justify-content-center">
                     <div class="col-auto">
                         <div class="table-responsive">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2021 a las 12:08:09
+-- Tiempo de generación: 25-02-2021 a las 00:34:16
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -48,11 +48,23 @@ CREATE TABLE `meeting` (
 
 CREATE TABLE `rules` (
   `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id_educator` int(11) NOT NULL,
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '',
   `consequences` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '',
   `img_consequences` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rules_children`
+--
+
+CREATE TABLE `rules_children` (
+  `id` int(11) NOT NULL,
+  `id_rule` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -141,12 +153,12 @@ CREATE TABLE `users` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `wheel_options`
+-- Estructura de tabla para la tabla `wheel`
 --
 
-CREATE TABLE `wheel_options` (
+CREATE TABLE `wheel` (
   `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id_user` int(11) DEFAULT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -167,7 +179,15 @@ ALTER TABLE `meeting`
 --
 ALTER TABLE `rules`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `rule_user` (`id_user`);
+  ADD KEY `rule_user` (`id_educator`);
+
+--
+-- Indices de la tabla `rules_children`
+--
+ALTER TABLE `rules_children`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `learner_rule` (`id_user`),
+  ADD KEY `rule` (`id_rule`);
 
 --
 -- Indices de la tabla `stop`
@@ -207,9 +227,9 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `user` (`user`);
 
 --
--- Indices de la tabla `wheel_options`
+-- Indices de la tabla `wheel`
 --
-ALTER TABLE `wheel_options`
+ALTER TABLE `wheel`
   ADD PRIMARY KEY (`id`),
   ADD KEY `wheel_user` (`id_user`);
 
@@ -227,6 +247,12 @@ ALTER TABLE `meeting`
 -- AUTO_INCREMENT de la tabla `rules`
 --
 ALTER TABLE `rules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `rules_children`
+--
+ALTER TABLE `rules_children`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -260,9 +286,9 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `wheel_options`
+-- AUTO_INCREMENT de la tabla `wheel`
 --
-ALTER TABLE `wheel_options`
+ALTER TABLE `wheel`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -279,7 +305,14 @@ ALTER TABLE `meeting`
 -- Filtros para la tabla `rules`
 --
 ALTER TABLE `rules`
-  ADD CONSTRAINT `rule_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `rule_user` FOREIGN KEY (`id_educator`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `rules_children`
+--
+ALTER TABLE `rules_children`
+  ADD CONSTRAINT `learner_rule` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rules` FOREIGN KEY (`id_rule`) REFERENCES `rules` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `stop`
@@ -308,9 +341,9 @@ ALTER TABLE `tutors`
   ADD CONSTRAINT `tutor` FOREIGN KEY (`parent`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `wheel_options`
+-- Filtros para la tabla `wheel`
 --
-ALTER TABLE `wheel_options`
+ALTER TABLE `wheel`
   ADD CONSTRAINT `wheel_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 

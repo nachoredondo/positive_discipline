@@ -36,6 +36,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
         <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="../../assets/sweetalert/sweetalert.min.js"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -60,9 +61,15 @@ $user = User::get_user_from_user($_SESSION['user']);
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
                             </table>
                         </div>
-                        <a href="edit_create.php">
-                            <button class="btn btn-primary btn-xl ml-5 mt-4" id="create_child" type="button">Crear norma</button>
-                        </a>
+                        <?php
+                            if ($_SESSION['type']) {
+                        ?>
+                                <a href="edit_create.php">
+                                    <button class="btn btn-primary btn-lg ml-5 mt-4" id="create_child" type="button">Crear norma</button>
+                                </a>
+                        <?php
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -100,6 +107,23 @@ $user = User::get_user_from_user($_SESSION['user']);
                 form.submit();
             }
 
+            function push_image(image){
+                if (image == "") {
+                    return "<em>Sin imagen</em>";
+                } else {
+                    return '<img class="mx-auto d-block" src="<?php echo APP_ROOT; ?>/files/img/rules/' + image + '" height="80">'
+                }
+            }
+
+            function edit_rules(){
+                let prueba = "<?php if ($_SESSION['type']){ echo '<button type=\"button\" title=\"Detalles\" class=\"edit-btn btn btn-success btn-sm mr-2\"><i class=\"fas fa-edit\"></i></button><button type=\"button\" title=\"Informe\" class=\"remove-btn btn btn-info btn-sm\"><i class=\"fas fa-trash-alt\"></i></button>';
+                        } else  {
+                            echo '';
+                        }
+                    ?>";
+                return prueba;
+            }
+
             window.addEventListener('load', function () {
                 let table = $('#the-table').DataTable({
                     order: [[1, 'asc']],
@@ -123,19 +147,24 @@ $user = User::get_user_from_user($_SESSION['user']);
                         },
                         {
                             data: 'img_consequences',
-                            title: 'Imagen consecuencia',
+                            title: 'Imagen consecuencias',
                             "searchable": false,
+                            render: function (_, _, row) { return push_image(row.img_consequences) },
+                            defaultContent: ' Sin imagen ',
                         },
                         {
                             sorting: false,
-                            defaultContent:
-                                '<button type="button" data-toggle="tooltip" title="Detalles" class="btn btn-success btn-sm btn-just-icon btn-link m-0"><i class="material-icons">text_snippet</i></button><button type="button" data-toggle="tooltip" title="Borrar" class="btn btn-success btn-sm btn-just-icon btn-link m-0 ml-3"><i class="material-icons">delete</i></button>',
+                            defaultContent: edit_rules(),
                             "searchable": false,
                         },
                     ],
                     ajax: {
                         method: 'POST',
                         url: "<?php echo APP_ROOT; ?>api/rules/list_rules.php",
+                        data: function (params) {
+                            params.id_user =  <?php echo $user->id(); ?>;
+                            return params;
+                        },
                         error: function(xhr) {
                             if (xhr.status === 401) { // Session expired
                                 window.location.reload();
@@ -147,10 +176,32 @@ $user = User::get_user_from_user($_SESSION['user']);
                 });
                 $('#the-table tbody').on('click', 'button', function () {
                     let data = table.row($(this).parents('tr')).data();
-                    if (this.textContent === 'text_snippet'){
+                    if (this.classList.contains('edit-btn')) {
                         make_request('<?php echo APP_ROOT ?>views/rules/edit_create.php', { id: data["id"] });
+                    } else if (this.classList.contains('remove-btn')) {
+                        swal({
+                            title: "¿Estás seguro de que quieres borrar la norma?",
+                            icon: "warning",
+                            buttonsStyling: false,
+                            buttons: ["No", "Si"],
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                make_request(
+                                    '<?php echo APP_ROOT ?>views/rules/control.php',
+                                    {
+                                        id: data["id"],
+                                        form: "delete"
+                                    }
+                                );
+                            } else {
+                                swal("La norma no ha sido borrada");
+                            }
+                        })
+                        .catch(function() { writeToScreen('err: Hubo un error al borrar la norma.', true)});
+
                     } else {
-                        make_request('<?php echo APP_ROOT ?>views/rules/delete.php', { id: data["id"] });
+                        console.error("Botón pulsado desconocido!");
                     }
                 });
             });

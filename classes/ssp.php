@@ -436,7 +436,6 @@ class SSP {
 		}
 
 		$stmt = $db->prepare( $sql );
-		//echo $sql;
 
 		// Bind parameters
 		if ( is_array( $bindings ) ) {

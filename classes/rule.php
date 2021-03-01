@@ -13,24 +13,20 @@ function get_db_connection($dbname = null) {
 
 class Rule {
 	private const TABLE = 'rules';
+	private const TABLE_CHILD = 'rules_children';
 	private $id;
-	private $id_user;
-	private $title;
-	private $description;
-	private $consequences;
-	private $img_consequences;
 
 	function __construct(?array $data = null) {
 		$this->id = 0;
 
 		if (isset($data)) {
-			$this->id_user($data['id_user']);
+			$this->id_educator($data['id_educator']);
 			$this->title($data['title']);
 			$this->description($data['description']);
 			$this->consequences($data['consequences']);
 			$this->img_consequences($data['img_consequences']);
 		} else {
-			$this->id_user = '';
+			$this->id_educator = '';
 			$this->title = '';
 			$this->description = '';
 			$this->consequences = '';
@@ -39,16 +35,90 @@ class Rule {
 
 	}
 
-	public static function insert_rule($id_user, $title, $description, $consequences, $fileName) {
+	public static function insert_rule($id_educator, $id_user_child, $title, $description, $consequences, $fileName) {
 		$sql = "INSERT INTO `".self::TABLE."`
-				(id_user, title, description, consequences, img_consequences)
-				VALUES ('$id_user', '$title', '$description', '$consequences', '$fileName')";
+				(id_educator, title, description, consequences, img_consequences)
+				VALUES ('$id_educator', '$title', '$description', '$consequences', '$fileName')";
 		$res = self::query($sql);
+
+		$sql = "SELECT MAX(id) AS id FROM `".self::TABLE."`";
+		$res = self::query($sql);
+		$id_rule = $res->fetch(PDO::FETCH_ASSOC)['id'];
+
+		foreach ($id_user_child as $key => $value) {
+			$sql = "INSERT INTO `".self::TABLE_CHILD."`
+				(id_rule, id_user)
+				VALUES ('$id_rule', '$value')";
+			$res = self::query($sql);
+		}
 		return $res;
 	}
 
-	private static function get_rule(string $id) : ?Rule {
-		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `id` = '$id'");
+	public static function update_rule($id, $id_educator, $id_user_child, $title, $description, $consequences, $fileName) {
+		$sql = "UPDATE `".self::TABLE."`
+			SET `id_educator` = '$id_educator',
+				`title` = '$title',
+				`description` = '$description',
+				`consequences` = '$consequences',
+				`img_consequences` = '$fileName'
+			WHERE `id` = '$id'";
+		$res = self::query($sql);
+
+		// delete rule to child
+		$children = self::get_children($id);
+		foreach ($children as $key_children => $value_children) {
+			$search = false;
+			foreach ($id_user_child as $key => $value) {
+				if ($value_children['id_user'] == $value) {
+					$search = true;
+					break;
+				}
+			}
+			if (!$search) {
+				$val = $value_children['id_user'];
+				$sql = "DELETE FROM `".self::TABLE_CHILD."` WHERE `id_user` = '$val' AND `id_rule`= '$id'";
+				$result = self::query($sql);
+				if (!$result){
+					return null;
+				}
+			}
+		}
+
+		// asign rule to child
+		foreach ($id_user_child as $key => $value) {
+			$sql = "SELECT * FROM `".self::TABLE_CHILD."` WHERE `id_user` = '$value'  AND `id_rule`= '$id'";
+			$result = self::query($sql);
+			if (!$result){
+				return null;
+			}
+			if ($result->rowCount() !== 1){
+				$sql = "INSERT INTO `".self::TABLE_CHILD."`
+					(id_rule, id_user)
+					VALUES ('$id', '$value')";
+				$res = self::query($sql);
+			}
+		}
+
+		return $res;
+	}
+
+	public static function delete_rule($id) {
+		$sql = "DELETE
+			FROM `".self::TABLE."`
+			WHERE `id` = '$id'";
+		$res = self::query($sql);
+
+		$sql = "DELETE
+			FROM `".self::TABLE_CHILD."`
+			WHERE `id_rule` = '$id'";
+		$res = self::query($sql);
+
+		return $res;
+	}
+
+	public static function get_rule(string $id) : ?Rule {
+		$sql = "SELECT * FROM `".self::TABLE."` WHERE `id` = '$id'";
+		$result = self::query($sql);
 		if (!$result){
 			return null;
 		} else if ($result->rowCount() !== 1) {
@@ -60,15 +130,26 @@ class Rule {
 		return $rule;
 	}
 
+	public static function get_children(string $id) {
+		$sql = "SELECT id_user FROM `".self::TABLE_CHILD."` WHERE `id_rule` = '$id'";
+		$result = self::query($sql);
+		if (!$result){
+			return null;
+		}
+
+		$data = $result->fetchAll();
+		return $data;
+	}
+
 	public function id() : int {
 		return $this->id;
 	}
 
-	public function id_user(?bool $id_user = null) : int {
-		if (isset($id_user)) {
-			$this->id_user = $id_user;
+	public function id_educator(?int $id_educator = null) : int {
+		if (isset($id_educator)) {
+			$this->id_educator = $id_educator;
 		}
-		return $this->id_user;
+		return $this->id_educator;
 	}
 
 	public function title(?string $title = null) : string {
@@ -99,8 +180,6 @@ class Rule {
 
 	private static function query($sql, ...$vars) {
 		$conn = get_db_connection();
-		// print($sql);
-		// exit();
 		$res = $conn->prepare($sql);
 		$res->execute();
 		return $res;

@@ -1,9 +1,6 @@
 <?php
 require_once("../../classes/controller.php");
 require_once("../../classes/ssp.php");
-require '../../classes/session.php';
-require '../../classes/user.php';
-Session::check_login_redirect();
 
 // Session::check_login_error();
 
@@ -30,10 +27,10 @@ function get_db_connection($dbname = null) {
 	return $conn;
 }
 
-class SSPRules extends SSP {
-	private const FROM = "`rules` as rule ";
-	private const FROM_CHILD = "INNER JOIN `rules_children` as rule_children
-								ON rule.id = rule_children.id_rule";
+class SSPChilds extends SSP {
+	private const FROM = " `users` as user
+		INNER JOIN `tutors` as tutor
+			ON `user`.`id` = `tutor`.`child`";
 
 	public static function exec ($request, $conn) {
 		// Datatbles columns - ADD THEM HERE
@@ -43,11 +40,12 @@ class SSPRules extends SSP {
 		// indexes
 		$DT_COLUMNS = [
 			[ 'db' => 'id', 'dt' => 'id' ],
-			[ 'db' => 'id_educator', 'dt' => 'id_educator' ],
-			[ 'db' => 'title', 'dt' => 'title' ],
-			[ 'db' => 'description', 'dt' => 'description' ],
-			[ 'db' => 'consequences', 'dt' => 'consequences' ],
-			[ 'db' => 'img_consequences', 'dt' => 'img_consequences' ],
+			[ 'db' => 'name', 'dt' => 'name' ],
+			[ 'db' => 'user', 'dt' => 'user' ],
+			[ 'db' => 'password', 'dt' => 'password' ],
+			[ 'db' => 'image', 'dt' => 'image' ],
+			[ 'db' => 'age', 'dt' => 'age' ],
+			[ 'db' => 'id_rule', 'dt' => 'id_rule' ],
 		];
 		return self::do_search($request, $conn, $DT_COLUMNS);
 	}
@@ -58,50 +56,44 @@ class SSPRules extends SSP {
 		$db = self::db($conn);
 
 		$request['search']['value'] = $request['search']['value'];
+		$from = self::rule_children(self::FROM, $request, $bindings);
+		$from_join = self::rule_children(self::FROM, $request, $bindings_join);
 
 		// Build the SQL query string from the request
-		$limit = self::limit($request, $columns);
 		$order = self::order($request, $columns);
 		$where = self::filter($request, $columns, $bindings);
 
-		$from = self::FROM;
-
-		if ($_SESSION['type']) {
-			$id_parent = $request['id_user'];
-		} else {
-			$id_parent = User::get_parent($request['id_user']);
-		}
-		$where = self::where_add($where, self::where_user($id_parent, $bindings));
+		$where = self::where_add($where, self::where_user($request, $bindings));
+		// $where = self::where_add($where, self::where_rule($request, $bindings));
 		$where_join = "";
-		if (!$_SESSION['type']) {
-			$from .= self::FROM_CHILD;
-			$where = self::where_add($where, self::where_user_child($request, $bindings));
-			$where_join = self::where_add($where_join, self::where_user_child($request, $bindings_join));
-		}
+		$where_join = self::where_add($where_join, self::where_user($request, $bindings_join));
+		// $where_join = self::where_add($where_join, self::where_rule($request, $bindings_join));
 
 		// Main query to actually get the data
-		$sql = "SELECT *
-			 FROM $from
+		$sql = "SELECT `user`.*, rule_children.`id_rule` as id_rule
+			 FROM $from_join
 			 $where
-			 $order
-			 $limit";
+			 GROUP BY `user`.`id`
+			 $order";
 
-		$data = self::sql_exec($db, $bindings, $sql);
+		$data = self::sql_exec($db, $bindings,$sql);
+
 
 		// Total data set length
 		$resTotalLength = self::sql_exec($db, $bindings_join,
-			"SELECT COUNT(`rule`.`id`)
-			 FROM $from
+			"SELECT COUNT(user.id)
+			 FROM $from_join
 			 $where_join"
 		);
 		$recordsTotal = $resTotalLength[0][0];
 		// Data set length after filtering
 		$recordsFiltered = $recordsTotal;
-		if (!empty($where)) {
+		if (!empty($where_join)) {
 			$resFilterLength = self::sql_exec($db, $bindings_join,
-				"SELECT COUNT(`rule`.`id`)
-				 FROM $from
-				 $where_join"
+				"SELECT COUNT(`user`.id)
+				 FROM $from_join
+				 $where_join
+				 GROUP BY `user`.`id`"
 			);
 			$recordsFiltered = $resFilterLength[0][0];
 		}
@@ -122,16 +114,19 @@ class SSPRules extends SSP {
 		return $where ? $where . $glue . $cond : 'WHERE ' . $cond;
 	}
 
-	private static function where_user($id_parent, &$bindings) {
-		$binding = self::bind($bindings, $id_parent, PDO::PARAM_STR);
-		return "`rule`.`id_educator` = $binding";
+	private static function where_user($request, &$bindings) {
+		$binding = self::bind($bindings, $request['id_user'], PDO::PARAM_STR);
+		return "`tutor`.`parent` = $binding";
 	}
 
-	private static function where_user_child($request, &$bindings) {
-		$binding = self::bind($bindings, $request['id_user'], PDO::PARAM_STR);
-		return "`rule_children`.`id_user` = $binding";
+	private static function rule_children($from, $request, &$bindings) {
+		$binding = self::bind($bindings, $request['id_rule'], PDO::PARAM_STR);
+		return $from . "LEFT JOIN rules_children as rule_children
+								ON rule_children.`id_user` = user.`id`
+										AND rule_children.`id_rule` = $binding";
 	}
 }
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -140,5 +135,5 @@ class SSPRules extends SSP {
  */
 
 echo json_encode(
-	SSPRules::exec($_POST, get_db_connection())
+	SSPChilds::exec($_POST, get_db_connection())
 );

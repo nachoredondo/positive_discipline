@@ -9,8 +9,6 @@ if (isset($_POST['id'])) {
 } else {
     $user = User::get_user_from_user($_SESSION['user']);
 }
-// var_dump($user->image());
-// exit();
 
 if (!$_SESSION['type']) {
     $tutor_child = explode("_", $_SESSION['user'])[0];
@@ -61,7 +59,10 @@ if (!$_SESSION['type']) {
                             <input class="form-control" id="tutor" name="tutor" type="hidden" placeholder="Usuario tutor" required="required" data-validation-required-message="Introduzca el usuario tutor." value="<?php echo ($_SESSION['type']) ? $_SESSION['user'] : $tutor_child;?>" />
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                    <label>Nombre</label>
+                                    <div class="row ml-1">
+                                        <label>Nombre</label>
+                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
+                                    </div>
                                     <input class="form-control" id="name" name="name" type="text" placeholder="Nombre" required="required" data-validation-required-message="Introduzca el nombre."
                                     value="<?php echo ($_SESSION['type']) ? ($_SESSION['type']) ? $user->name() : '' : $_SESSION['name'];?>" />
                                     <p class="help-block text-danger"></p>
@@ -73,7 +74,7 @@ if (!$_SESSION['type']) {
                                         <select id="age" name="age" class="form-control mt-0" style="font-size: large">
                                             <option value="">Edad</option>
                                             <?php
-                                                for ($i = 3; $i <= 17; $i++) {
+                                                for ($i = 6; $i <= 17; $i++) {
                                                     echo '<option value="', $i,'" ';
                                                     if ($user->age() == $i)
                                                         echo 'selected ';
@@ -157,7 +158,6 @@ if (!$_SESSION['type']) {
 
             $('#img-form').on('change', function () {
                 let option = this.options[this.selectedIndex].value;
-                console.log();
                 if (option == "no_image.png") {
                     $('#img-user').hide({ duration: 500 });
                     let img = document.getElementById('img-user');
@@ -166,6 +166,34 @@ if (!$_SESSION['type']) {
                     let img = document.getElementById('img-user');
                     img.src = "../../assets/img/user_child/" + option;
                     $('#img-user').show({ duration: 500 });
+                }
+            });
+
+            $(document).ready(function(){
+                let sr = new webkitSpeechRecognition();
+                $("#audio-name").mousedown(function(){
+                    recognition("#name");
+                });
+
+                function  recognition(id){
+                    // start recognition speech
+                    sr.start();
+                    const $consequences = document.querySelector(id);
+
+                    sr.onresult = result => {
+                        let last_element = result.results.length - 1;
+                        let text_listened = result.results[last_element][0].transcript;
+                        if ($consequences.value != "") {
+                            $consequences.value += " " + text_listened;
+                        } else {
+                            $consequences.value = text_listened;
+                        }
+                    }
+
+                    sr.onend = () => {
+                        // Stop when the audio finish
+                        sr.stop()
+                    };
                 }
             });
         </script>

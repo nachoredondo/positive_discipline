@@ -30,6 +30,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
         <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="../../assets/sweetalert/sweetalert.min.js"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -55,35 +56,47 @@ $user = User::get_user_from_user($_SESSION['user']);
                             </table>
                         </div>
                         <a href="profile_child.php">
-                            <button class="btn btn-primary btn-xl ml-1" id="create_child" type="button">Crear usuario hijo</button>
+                            <button class="btn btn-primary btn-lg ml-1" id="create_child" type="button">Crear usuario hijo</button>
                         </a>
                         <form id="contactForm" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">
                             <input class="form-control" id="type" name="type" type="hidden" required="required" value="<?php echo $_SESSION['type']?>" />
                             <input class="form-control" id="id-user" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                    <label>Usuario</label>
+                                    <div class="row ml-1">
+                                        <label>Usuario</label>
+                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-user"></i>
+                                    </div>
                                     <input class="form-control" id="user" name="user" type="text" required="required" value="<?php echo $user->user();?>"data-validation-required-message="Por favor introduce el usuario." placeholder="Usuario" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                    <label>Correo</label>
+                                    <div class="row ml-1">
+                                        <label>Correo</label>
+                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-email"></i>
+                                    </div>
                                     <input class="form-control" id="email" name="email" type="email" placeholder="Correo" required="required" value="<?php echo $user->email();?>"data-validation-required-message="Por favor introduce el correo." />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                    <label>Name</label>
+                                    <div class="row ml-1">
+                                        <label>Nombre</label>
+                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
+                                    </div>
                                     <input class="form-control" id="name" name="name" type="text" placeholder="Nombre" required="required" value="<?php echo $user->name();?>"data-validation-required-message="Por favor introduce el nombre" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                    <label>Surnames</label>
+                                    <div class="row ml-1">
+                                        <label>Apellidos</label>
+                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-surnames"></i>
+                                    </div>
                                     <input class="form-control" id="surnames" name="surnames" type="text" placeholder="Apellidos" required="required" value="<?php echo $user->surnames();?>"data-validation-required-message="Por favor introduce los apellidos" />
                                     <p class="help-block text-danger"></p>
                                 </div>
@@ -91,7 +104,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                             <br />
                             <div id="success"></div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-xl ml-2" id="sendMessageButton" name="form" value="data" type="submit">Actualizar datos</button>
+                                <button class="btn btn-primary btn-lg ml-2" id="sendMessageButton" name="form" value="data" type="submit">Actualizar datos</button>
                             </div>
                         </form>
                         <form id="update-pwd" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">
@@ -113,8 +126,8 @@ $user = User::get_user_from_user($_SESSION['user']);
                             </div>
                             <br />
                             <div class="form-group">
-                                <button class="btn btn-primary btn-xl ml-2" id="button-update-pwd" name="form" value="pwd" type="submit">Cambiar contraseña</button>
-                                <button class="btn btn-primary btn-xl ml-2 mr-4" id="button-delete-tutor" name="form" value="delete-tutor" type="submit">Eliminar usuario</button>
+                                <button class="btn btn-primary btn-lg ml-2" id="button-update-pwd" name="form" value="pwd" type="submit">Cambiar contraseña</button>
+                                <button class="btn btn-primary btn-lg ml-3 mr-4" id="button-delete-tutor" name="form" value="delete-tutor" type="submit">Eliminar usuario</button>
                             </div>
                         </form>
                     </div>
@@ -159,7 +172,7 @@ $user = User::get_user_from_user($_SESSION['user']);
             }
 
             function img_user(img) {
-                return '<img id="img-user" src="../../assets/img/user_child/'+img+'" height="50" width="48"/>'
+                return '<img id="img-user" src="../../assets/img/user_child/' + img + '" height="50" width="48"/>'
             }
 
             window.addEventListener('load', function () {
@@ -188,13 +201,18 @@ $user = User::get_user_from_user($_SESSION['user']);
                         {
                             sorting: false,
                             defaultContent:
-                                '<button type="button" data-toggle="tooltip" title="Detalles" class="btn btn-success btn-sm btn-just-icon btn-link m-0"><i class="material-icons">text_snippet</i></button><button type="button" data-toggle="tooltip" title="Borrar" class="btn btn-success btn-sm btn-just-icon btn-link m-0 ml-3"><i class="material-icons">delete</i></button>',
+                                '<button type="button" title="Detalles" class="edit-btn btn btn-success btn-sm mr-2"><i class="fas fa-edit"></i></button>' +
+                                '<button type="button" title="Informe" class="remove-btn btn btn-info btn-sm"><i class="fas fa-trash-alt"></i></button>',
                             "searchable": false,
                         },
                     ],
                     ajax: {
                         method: 'POST',
                         url: "<?php echo APP_ROOT; ?>api/user/list_child.php",
+                        data: function (params) {
+                            params.id_user =  <?php echo $user->id(); ?>;
+                            return params;
+                        },
                         error: function(xhr) {
                             if (xhr.status === 401) { // Session expired
                                 window.location.reload();
@@ -206,12 +224,68 @@ $user = User::get_user_from_user($_SESSION['user']);
                 });
                 $('#the-table tbody').on('click', 'button', function () {
                     let data = table.row($(this).parents('tr')).data();
-                    if (this.textContent === 'text_snippet'){
+                    if (this.classList.contains('edit-btn')) {
                         make_request('<?php echo APP_ROOT ?>views/users/profile_child.php', { id: data["id"] });
+                    } else if (this.classList.contains('remove-btn')) {
+                        swal({
+                            title: "¿Estás seguro de que quieres borrar el usuario?",
+                            icon: "warning",
+                            buttonsStyling: false,
+                            buttons: ["No", "Si"],
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                make_request('<?php echo APP_ROOT ?>views/users/edit_update_child.php', {
+                                    id: data["id"],
+                                    from: 'delete_child'
+                                });
+                            } else {
+                                swal("El usuario no ha sido borrada");
+                            }
+                        })
+                        .catch(function() { writeToScreen('err: Hubo un error al borrar la norma.', true)});
+
                     } else {
-                        make_request('<?php echo APP_ROOT ?>views/users/edit_update_child.php', { id: data["id"] });
+                        console.error("Botón pulsado desconocido!");
                     }
                 });
+            });
+
+            $(document).ready(function(){
+                let sr = new webkitSpeechRecognition();
+                $("#audio-user").mousedown(function(){
+                    recognition("#user");
+                });
+                $("#audio-email").mousedown(function(){
+                    recognition("#email");
+                });
+                $("#audio-name").mousedown(function(){
+                    recognition("#name");
+                });
+                $("#audio-surnames").mousedown(function(){
+                    recognition("#surnames");
+                });
+
+                function  recognition(id){
+                    // start recognition speech
+                    sr.start();
+                    const $consequences = document.querySelector(id);
+
+                    sr.onresult = result => {
+                        let last_element = result.results.length - 1;
+                        let text_listened = result.results[last_element][0].transcript;
+                        if ($consequences.value != "") {
+                            $consequences.value += " " + text_listened;
+                        } else {
+                            $consequences.value = text_listened;
+                        }
+                    }
+
+                    sr.onend = () => {
+                        // Stop when the audio finish
+                        sr.stop()
+                    };
+                }
             });
         </script>
     </body>

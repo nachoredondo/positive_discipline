@@ -51,6 +51,7 @@ class SSPChilds extends SSP {
 
 	private static function do_search($request, $conn, $columns) {
 		$bindings = [];
+		$bindings_join = [];
 		$db = self::db($conn);
 
 		$request['search']['value'] = $request['search']['value'];
@@ -60,9 +61,13 @@ class SSPChilds extends SSP {
 		$order = self::order($request, $columns);
 		$where = self::filter($request, $columns, $bindings);
 
+		$where = self::where_add($where, self::where_user($request, $bindings));
+		$where_join = "";
+		$where_join = self::where_add($where_join, self::where_user($request, $bindings_join));
+
 		// Main query to actually get the data
 		$sql = "SELECT `user`.*
-			 FROM `".self::FROM."`
+			 FROM ".self::FROM."
 			 $where
 			 $order
 			 $limit";
@@ -76,18 +81,19 @@ class SSPChilds extends SSP {
 		);
 
 		// Total data set length
-		$resTotalLength = self::sql_exec($db,
+		$resTotalLength = self::sql_exec($db, $bindings_join,
 			"SELECT COUNT(user.id)
-			 FROM ".self::FROM
+			 FROM ".self::FROM."
+			 $where_join"
 		);
 		$recordsTotal = $resTotalLength[0][0];
 		// Data set length after filtering
 		$recordsFiltered = $recordsTotal;
-		if (!empty($where)) {
-			$resFilterLength = self::sql_exec($db, $bindings,
+		if (!empty($where_join)) {
+			$resFilterLength = self::sql_exec($db, $bindings_join,
 				"SELECT COUNT(`user`.id)
 				 FROM ".self::FROM."
-				 $where"
+				 $where_join"
 			);
 			$recordsFiltered = $resFilterLength[0][0];
 		}
@@ -102,7 +108,18 @@ class SSPChilds extends SSP {
 		];
 	}
 
+	static function where_add(?string $where = '', string $cond, string $glue = ' AND ') : string {
+		if (empty($cond))
+			return $where;
+		return $where ? $where . $glue . $cond : 'WHERE ' . $cond;
+	}
+
+	private static function where_user($request, &$bindings) {
+		$binding = self::bind($bindings, $request['id_user'], PDO::PARAM_STR);
+		return "`tutor`.`parent` = $binding";
+	}
 }
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

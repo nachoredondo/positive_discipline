@@ -7,13 +7,13 @@ $errors = [];
 
 $from = $_POST['from'];
 $id = $_POST['id'];
-$name = $_POST['name'];
-$tutor = $_POST['tutor'];
-$age = $_POST['age'];
-$img = $_POST['img'];
+$name = $_POST['name'] ?? 'NULL';
+$tutor = $_POST['tutor'] ?? 'NULL';
+$age = $_POST['age'] ?? 'NULL';
+$img = $_POST['img'] ?? 'NULL';
 
 try {
-	if ($_SESSION['type']) {
+	if ($_SESSION['type'] && $from != "delete_child") {
 		$success = User::insert_user("child", 'NULL', 'NULL', $name, 'NULL', 'NULL', 'NULL', $tutor, $age, $img);
 	} else {
 		if ($from == "update-user"){
@@ -32,7 +32,7 @@ try {
 }
 if (!$errors) {
 	if ($success) {
-		if ($_SESSION['type']) {
+		if ($_SESSION['type'] && $from != "delete_child") {
 			header('Location: ./profile_tutor.php?action=create_user');
 		} else {
 			if ($from == "update-user"){
@@ -41,7 +41,11 @@ if (!$errors) {
 				$_SESSION['name'] = $name;
 				header('Location: ./profile_child.php?action=update');
 			} else {
-				header('Location: ./logout.php');
+				if ($from != "delete_child") {
+					header('Location: ./logout.php');
+				} else {
+					header('Location: ./profile_tutor.php?action=delete_child');
+				}
 			}
 		}
 	} else {

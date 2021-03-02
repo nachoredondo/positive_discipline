@@ -24,13 +24,18 @@ $date = $_POST['date'];
 $date_start = $_POST['date_start'];
 $date_end = $_POST['date_end'];
 $responsable_act = $_POST['responsable_act'];
+$file_saved = $_POST['file_saved'] ?? 'NULL';
 
 $fileTmpPath = $_FILES['fimagen']['tmp_name'];
 $fileName = $_FILES['fimagen']['name'];
 $fileSize = $_FILES['fimagen']['size'];
 $fileType = $_FILES['fimagen']['type'];
-$uploadFileDir = '../../files/img/meeting/';
+$uploadFileDir = '../../files/meeting/';
 $destPath = $uploadFileDir . $fileName;
+
+if ($fileName == null) {
+	$fileName = $file_saved;
+}
 
 try {
 	if ($form == "Crear") {

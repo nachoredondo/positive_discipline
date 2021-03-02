@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-02-2021 a las 00:34:16
+-- Tiempo de generación: 02-03-2021 a las 03:05:10
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -36,8 +36,8 @@ CREATE TABLE `meeting` (
   `date` date DEFAULT NULL,
   `start` time DEFAULT NULL,
   `end` time DEFAULT NULL,
-  `responsable` int(11) NOT NULL,
-  `img_act` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+  `responsable` int(11) DEFAULT NULL,
+  `file_act` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -299,7 +299,7 @@ ALTER TABLE `wheel`
 -- Filtros para la tabla `meeting`
 --
 ALTER TABLE `meeting`
-  ADD CONSTRAINT `meting_user` FOREIGN KEY (`responsable`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `meting_user` FOREIGN KEY (`responsable`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Filtros para la tabla `rules`

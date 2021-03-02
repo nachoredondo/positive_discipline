@@ -78,6 +78,7 @@ if (isset($_REQUEST['id'])) {
 					<div class="col-lg-8 mx-auto">
 						<form id="contactForm" method="post" action="create_meeting.php" name="sentMessage" novalidate="novalidate" enctype="multipart/form-data">
 							<input name="id" type="hidden" value="<?php echo $_POST['id']; ?>"/>
+							<input name="file_saved" type="hidden" value="<?php echo $meeting->file_act(); ?>"/>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
@@ -165,7 +166,7 @@ if (isset($_REQUEST['id'])) {
 										<div class="row ml-1">
 											<label>Acta</label>
 										</div>
-										<input class="form-control" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
+										<input class="form-control" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.ms-excel, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, .docx" style="font-size: large"/>
 									</div>
 								</div>
 							</div>

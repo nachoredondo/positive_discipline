@@ -64,8 +64,6 @@ class SSPWheel extends SSP {
 			 $where
 			 $order";
 
-		// print($sql);
-		// exit();
 		$data = self::sql_exec($db, $bindings, $sql);
 
 		// Total data set length

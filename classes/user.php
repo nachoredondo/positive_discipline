@@ -4,6 +4,7 @@ require_once("controller.php");
 class User {
 	private const TABLE = 'users';
 	private const TABLE_TUTORS = 'tutors';
+	private const TABLE_MEETING = 'meeting';
 	private $id;
 	private $type;
 	private $user;
@@ -113,10 +114,17 @@ class User {
 						('$id_child', 'Estar sol@ para pensar', 'think.png')";
 				$res = self::query($sql);
 			}
-
 		}
 
 		return $res;
+	}
+
+	public static function get_parent(string $id_user) {
+		$sql = "SELECT parent
+				from `tutors`
+				WHERE `child` = '$id_user'";
+		$result = self::query($sql);
+		return $result->fetch(PDO::FETCH_ASSOC)['parent'];
 	}
 
 	public static function get_user_from_user(string $user) {
@@ -161,34 +169,37 @@ class User {
 		$result = self::query($sql);
 		$data = $result->fetch(PDO::FETCH_ASSOC);
 
+
 		if ($data['educator'] == "0") {
 			$responsable = array($data);
+			$id_user = $data['id'];
 			$sql = "SELECT user.*
 					FROM `tutors` as tutor
 					INNER JOIN `users` as user
 					ON tutor.parent = user.id
-					WHERE tutor.child = '29'";
+					WHERE tutor.child = '$id_user'";
 			$result = self::query($sql);
 			$data = $result->fetch(PDO::FETCH_ASSOC);
 			$responsable = array($data);
-			// echo json_encode($responsable, JSON_UNESCAPED_UNICODE);
 		} else {
 			$responsable = array($data);
 		}
-		$id_educator = $data['id'];
+
+		$id_educator = $responsable[0]['id'];
 		$sql = "SELECT user.* FROM `tutors` as tutor
 				INNER JOIN `users` as user
 				ON tutor.child = user.id
-				WHERE tutor.parent = '$id_educator'";
+				WHERE tutor.parent = '$id_educator'
+					AND user.age > 9";
 		$result = self::query($sql);
 		if (!$result){
 			return null;
-		} else if ($result->rowCount() !== 1) {
-			return null;
 		}
 
-		$data = $result->fetch(PDO::FETCH_ASSOC);
-		array_push($responsable, $data);
+		$data = $result->fetchAll();
+		foreach ($data as $key => $value) {
+			array_push($responsable, $value);
+		}
 		return $responsable;
 	}
 
@@ -228,20 +239,9 @@ class User {
 	}
 
 	public function email(?string $email = null) : ?string {
-		// if (isset($email)) {
-		// 	$email = trim($email);
-		// 	if ($email != "") {
-		// 		if (!self::validate_email($email))
-		// 			var_dump($email);
-		// 			throw new InvalidArgumentException('Correo no válido');
-		// 		$this->email = $email;
-		// 	}
-		// }
-		// if ($email == " ") {
-		// 	$this->email = "";
-		// }
-		// exit();
-		$this->email = $email;
+		if (isset($email)) {
+			$this->email = $email;
+		}
 		return $this->email;
 	}
 
@@ -374,6 +374,11 @@ class User {
 		$sql = "DELETE
 			FROM `".self::TABLE_TUTORS."`
 			WHERE `child` = '$id'";
+		$res = self::query($sql);
+
+		$sql = "UPDATE `".self::TABLE_MEETING."`
+					SET `responsable` = NULL
+					WHERE `responsable` = '$id'";
 		$res = self::query($sql);
 
 		return $res;

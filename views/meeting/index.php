@@ -29,7 +29,22 @@ $user = User::get_user_from_user($_SESSION['user']);
         <script src='../../assets/fullcalendar/main.min.js'></script>
         <script>
 
-          document.addEventListener('DOMContentLoaded', function() {
+        function inverse_date(date) {
+            let date_parts = date.split("-");
+            let date_inverse = date_parts[2] + "-" + date_parts[1] + "-" + date_parts[0];
+            return date_inverse;
+        }
+
+        function control_description(data) {
+            let max_description = 45;
+            if (data.length > max_description) {
+                return data.substring(0,max_description) + "...";
+            } else {
+                return data;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -54,22 +69,20 @@ $user = User::get_user_from_user($_SESSION['user']);
                         },
                     }).done(function (data) {
                         let json = JSON.parse(data);
+                        let date = inverse_date(json['date']);
+                        let description = control_description(json['description']);
                         let modal = $('#new-event').modal();
                         modal.find('.meeting-title').text(json['title']);
-                        modal.find('.modal-body .description').text(json['description']);
-                        modal.find('.modal-body .date').text(json['date']);
+                        modal.find('.modal-body .description').text(description);
+                        modal.find('.modal-body .date').text(date);
                         modal.find('.modal-body .hour-start').text(json['start']);
                         modal.find('.modal-body .hour-end').text(json['end']);
-                        modal.find('.modal-body .record').text(json['record']);
-                        modal.find('.modal-body .responsable').text(json['responsable']);
-                        modal.find('.modal-footer [name=id]')[0].value = id
-
+                        modal.find('.modal-body .record').text(json['file_act']);
+                        document.getElementById("record").href = '<?php echo APP_ROOT ?>/files/meeting/'+json['file_act'];
+                        modal.find('.modal-footer [name=id]')[0].value = id;
                     }).fail(function(xhr) {
                         console.error(xhr);
                     });
-
-                    // change the border color just for fun
-                    // info.el.style.borderColor = 'purple';
                 },
             });
             calendar.render();
@@ -116,50 +129,43 @@ $user = User::get_user_from_user($_SESSION['user']);
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="modal-title text-truncate">
-                            <h6 class="text-secondary m-0">Información de junta</h6>
-                            <h5 class="meeting-title title text-truncate my-0"></h5>
+                        <div class="modal-title">
+                            <h5 class="text-secondary m-0">Información de junta</h5>
+                            <h4 class="meeting-title text-center mt-3"></h4>
                         </div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <table class="totals-table table-bordered m-0 w-100">
                             <tr>
-                                <th colspan="2" class="text-center">Datos de la junta</th>
+                                <th colspan="2" class="p-2 text-center">Datos de la junta</th>
                             </tr>
                             <tr>
-                                <th>Descripción</th>
-                                <td><span class="description text-muted"></span></td>
+                                <th class="p-2">Descripción</th>
+                                <td><span class="p-2 description text-muted"></span></td>
                             </tr>
                             <tr>
-                                <th>Fecha</th>
-                                <td><span class="date text-muted"></span></td>
+                                <th class="p-2">Fecha</th>
+                                <td><span class="p-2 date text-muted"></span></td>
                             </tr>
                             <tr>
-                                <th>Hora inicio</th>
-                                <td><span class="hour-start text-muted"></span></td>
+                                <th class="p-2">Hora inicio</th>
+                                <td><span class="p-2 hour-start text-muted"></span></td>
                             </tr>
                             <tr>
-                                <th>Hora fin</th>
-                                <td><span class="hour-end text-muted"></span></td>
+                                <th class="p-2">Hora fin</th>
+                                <td><span class="p-2 hour-end text-muted"></span></td>
                             </tr>
                             <tr>
-                                <th>Record</th>
-                                <td><span class="record text-muted"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Responsable</th>
-                                <td><span class="responsable text-muted"></span></td>
+                                <th class="p-2">Acta</th>
+                                <td><a href="#" class="p-2 record text-muted" id="record"></a></td>
                             </tr>
                         </table>
                     </div>
                     <form class="form" method="POST" action="./edit_create.php" style="margin: 0">
-                        <div class="modal-footer justify-content-between">
+                        <div class="modal-footer justify-content-between mb-3">
                             <input type="hidden" name="id"/>
-                            <button type="button" class="btn btn-secondary my-0 ml-1" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary my-0 ml-1">Editar junta</button>
+                            <button type="button" class="btn btn-secondary my-0 ml-4" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary my-0 mr-4">Editar junta</button>
                         </div>
                     </form>
                 </div>

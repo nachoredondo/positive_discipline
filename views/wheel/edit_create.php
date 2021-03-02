@@ -52,8 +52,7 @@ if (isset($_REQUEST['id'])) {
 			<div class="container mb-3">
 				<!-- Contact Section Heading-->
 				<h2 class="text-white">.</h2>
-				<h2 class="text-center text-uppercase text-secondary"><?php echo $value_submit;?> opción
-				</h2>
+				<h2 class="text-center text-uppercase text-secondary"><?php echo $value_submit;?> opción</h2>
 				<!-- Icon Divider-->
 				<div class="divider-custom">
 					<div class="divider-custom-line"></div>

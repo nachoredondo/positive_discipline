@@ -7,6 +7,7 @@ class Meeting {
 
 	function __construct(?array $data = null) {
 		$this->id = 0;
+		$this->responsable = null;
 
 		if (isset($data)) {
 			$this->title($data['title']);
@@ -16,7 +17,7 @@ class Meeting {
 			$this->start($data['start']);
 			$this->end($data['end']);
 			$this->responsable($data['responsable']);
-			$this->img_act($data['img_act']);
+			$this->file_act($data['file_act']);
 		} else {
 			$this->title = '';
 			$this->description = '';
@@ -25,20 +26,20 @@ class Meeting {
 			$this->start = '';
 			$this->end = '';
 			$this->responsable = '';
-			$this->img_act = '';
+			$this->file_act = '';
 		}
 	}
 
-	public static function insert_meeting($title, $description, $topics, $date, $start, $end, $responsable, $img_act) {
+	public static function insert_meeting($title, $description, $topics, $date, $start, $end, $responsable, $file_act) {
 		$date = inverse_date($date);
 		$sql = "INSERT INTO `".self::TABLE."`
-				(title, description, topics, date, start, end, responsable, img_act)
-				VALUES ('$title', '$description', '$topics', '$date', '$start', '$end', '$responsable', '$img_act')";
+				(title, description, topics, date, start, end, responsable, file_act)
+				VALUES ('$title', '$description', '$topics', '$date', '$start', '$end', '$responsable', '$file_act')";
 		$res = self::query($sql);
 		return $res;
 	}
 
-	public static function update_meeting($id, $title, $description, $topics, $date, $start, $end, $responsable, $img_act) {
+	public static function update_meeting($id, $title, $description, $topics, $date, $start, $end, $responsable, $file_act) {
 		$date = inverse_date($date);
 		$sql = "UPDATE `".self::TABLE."`
 			SET `title` = '$title',
@@ -48,7 +49,7 @@ class Meeting {
 				`start` = '$start',
 				`end` = '$end',
 				`responsable` = '$responsable',
-				`img_act` = '$img_act'
+				`file_act` = '$file_act'
 			WHERE `id` = '$id'";
 		$res = self::query($sql);
 
@@ -112,18 +113,18 @@ class Meeting {
 		return strval($this->end);
 	}
 
-	public function responsable(?string $responsable = null) : int {
+	public function responsable(?string $responsable = null) {
 		if (isset($responsable)) {
 			$this->responsable = $responsable;
 		}
 		return $this->responsable;
 	}
 
-	public function img_act(?string $img_act = null) : ?string {
-		if (isset($img_act)) {
-			$this->img_act = $img_act;
+	public function file_act(?string $file_act = null) : ?string {
+		if (isset($file_act)) {
+			$this->file_act = $file_act;
 		}
-		return $this->img_act;
+		return $this->file_act;
 	}
 
 	private static function query($sql, ...$vars) {

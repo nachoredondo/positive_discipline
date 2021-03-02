@@ -23,8 +23,6 @@ class Option_Wheel {
 		$sql = "INSERT INTO `".self::TABLE."`
 				(id_user, name, image)
 				VALUES ('$id_user', '$name', '$image')";
-		// print($sql);
-		// exit();
 		$res = self::query($sql);
 		return $res;
 	}

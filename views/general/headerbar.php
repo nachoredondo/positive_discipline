@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg bg-secondary fixed-top" id="mainNav">
     <div class="container">
         <h4>
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Disciplina positiva</a>
+            <a class="navbar-brand js-scroll-trigger" href="<?php echo APP_ROOT; ?>index.php">Disciplina positiva</a>
         </h4>
         <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menú

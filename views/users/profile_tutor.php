@@ -240,7 +240,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                                     from: 'delete_child'
                                 });
                             } else {
-                                swal("El usuario no ha sido borrada");
+                                swal("El usuario no ha sido borrado");
                             }
                         })
                         .catch(function() { writeToScreen('err: Hubo un error al borrar la norma.', true)});

@@ -101,19 +101,19 @@ if (!$_SESSION['type']) {
                             </div>
                             <br />
                             <div class="form-group ml-2">
-                                <button class="btn btn-primary btn-xl ml-2 mr-4" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type']) ? "create-child" : "update-user";?>" type="submit">
+                                <button class="btn btn-primary btn-lg ml-2 mr-4" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type']) ? "create-child" : "update-user";?>" type="submit">
                                     <?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "Crear" : "Editar";?>
                                 </button>
                             <?php
                                 if ($_SESSION['type'] && (!isset($_POST['id'])) || (!$_SESSION['type']))
                             ?>
-                                    <button class="btn btn-primary btn-xl ml-2 mr-4" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
+                                    <button class="btn btn-primary btn-lg ml-2 mr-4" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
                                 </form>
                             <?php
                                 if ($_SESSION['type']):
                             ?>
                                     <a href="profile_tutor.php">
-                                        <button class="btn btn-primary btn-xl ml-1" id="create_child" type="button">Volver</button>
+                                        <button class="btn btn-primary btn-lg ml-1" id="create_child" type="button">Volver</button>
                                     </a>
                             <?php
                                 endif;

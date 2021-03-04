@@ -13,7 +13,7 @@ if ($title == "") {
 	if ($form == "Crear") {
 		header('Location: ./edit_create.php?message=not_title');
 		exit();
-	} else {
+	} else if ("Editar") {
 		header('Location: ./edit_create.php?id='.$id_meeting.'&message=not_title');
 		exit();
 	}
@@ -40,8 +40,10 @@ if ($fileName == null) {
 try {
 	if ($form == "Crear") {
 		$success = Meeting::insert_meeting($title, $description, $topics, $date, $date_start, $date_end, $responsable_act, $fileName);
-	} else {
+	} else if ($form == "Editar") {
 		$success = Meeting::update_meeting($id_meeting, $title, $description, $topics, $date, $date_start, $date_end, $responsable_act, $fileName);
+	} else {
+		$success = Meeting::delete_meeting($id_meeting);
 	}
 } catch(InvalidArgumentException $e) {
 	print("catch");
@@ -66,7 +68,9 @@ if (!$errors) {
 			header('Location: ./index.php?action=update_rule');
 		}
 
-	} else {
+	} else if ($form == "Editar") {
 		header('Location: ./edit_create.php?success='.($success === false ? 'false' : 'true'));
+	} else {
+			header('Location: ./index.php?action=delete_meeting');
 	}
 }

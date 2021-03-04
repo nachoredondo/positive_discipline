@@ -56,6 +56,13 @@ class Meeting {
 		return $res;
 	}
 
+	public static function delete_meeting($id) {
+		$sql = "DELETE
+			FROM `".self::TABLE."`
+			WHERE `id` = '$id'";
+		$res = self::query($sql);
+	}
+
 	public static function get_meeting_by_id(string $id) : ?Meeting {
 		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `id` = '$id'");
 		if (!$result){

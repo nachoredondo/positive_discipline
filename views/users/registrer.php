@@ -13,6 +13,10 @@ if (isset($_GET['error'])) {
         $text_error = "Sin escoger edad";
     } elseif ($_GET['error'] == "no-img") {
         $text_error = "Sin elegir foto";
+    } elseif ($_GET['error'] == "no-user-tutor") {
+        $text_error = "No existe el usuario tutor";
+    } elseif ($_GET['error'] == "no-pass-tutor") {
+        $text_error = "Contraseña del tutor incorrecta";
     } elseif ($_GET['error'] == "incorrect_camp") {
         if (isset($_GET['message'])) {
             $text_error = $_GET['message'];
@@ -78,20 +82,26 @@ if (isset($_GET['error'])) {
                             ?>
                             <div class="row">
                                 <div class="input-group no-border">
-                                    <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" required/>
-                                    <input type="email" placeholder="Correo" class="form-control ml-3 mr-3" name="email" required/>
+                                    <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" id="user" required size="25"/>
+                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-user"></i>
+                                    <input type="email" placeholder="Correo" class="form-control ml-4" name="email" id="email" required/>
+                                    <i class="fas fa-microphone ml-1 mt-2 mr-3" id="audio-email" style="visibility: hidden"></i>
                                 </div>
                             </div>
-                            <div class="row mt-2">
+                            <div class="row mt-3">
                                 <div class="input-group no-border">
-                                    <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" required/>
-                                    <input type="text" placeholder="Apellidos" class="form-control ml-3 mr-3" name="surnames"/>
+                                    <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" id="name" required/>
+                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-name"></i>
+                                    <input type="text" placeholder="Apellidos" class="form-control ml-4" name="surnames" id="surnames"/>
+                                    <i class="fas fa-microphone ml-1 mt-2 mr-3" id="audio-surnames"></i>
                                 </div>
                             </div>
-                            <div class="row mt-2">
+                            <div class="row mt-3">
                                 <div class="input-group no-border">
-                                    <input type="password" placeholder="Contraseña" class="form-control ml-3" name="password" maxLength="128" required/>
-                                    <input type="password" placeholder="Confirmar contraseña" maxLength="128" class="form-control ml-3 mr-3" name="password-confirm" required/>
+                                    <input type="password" placeholder="Contraseña" class="form-control ml-3" name="password" maxLength="128" id="password">
+                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-password" style="visibility: hidden"></i>
+                                    <input type="password" placeholder="Confirmar contraseña" maxLength="128" class="form-control ml-4 mr-3" name="password-confirm" id="confirm-password" required/>
+                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-confirm-password" style="visibility: hidden"></i>
                                 </div>
                             </div>
                             <?php
@@ -99,8 +109,15 @@ if (isset($_GET['error'])) {
                             ?>
                             <div class="row">
                                 <div class="input-group no-border">
-                                    <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" required/>
-                                    <input type="text" placeholder="Usuario padre, madre ..." class="form-control ml-3 mr-3" name="user-tutor" required/>
+                                    <input type="text" placeholder="Nombre" class="form-control ml-3 col-lg-6" name="name" required id="name-child"/>
+                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-name-child"></i>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="input-group no-border">
+                                    <input type="text" placeholder="Usuario tutor..." class="form-control ml-3" name="user-tutor" required id="user-tutor-child"/>
+                                    <i class="fas fa-microphone ml-1 mt-2 mr-2" id="audio-user-tutor-child"></i>
+                                    <input type="password" placeholder="Contraseña tutor..." class="form-control ml-3 mr-3" name="password-tutor" required/>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
@@ -167,6 +184,64 @@ if (isset($_GET['error'])) {
                     let img = document.getElementById('img-user');
                     img.src = "../../assets/img/user_child/" + option;
                     $('#img-user').show({ duration: 500 });
+                }
+            });
+
+            $(document).ready(function(){
+                let sr = new webkitSpeechRecognition();
+
+                $("#audio-user").mousedown(function(){
+                    recognition("#user");
+                });
+
+                $("#audio-email").mousedown(function(){
+                    recognition("#email");
+                });
+
+                $("#audio-name").mousedown(function(){
+                    recognition("#name");
+                });
+
+                $("#audio-surnames").mousedown(function(){
+                    recognition("#surnames");
+                });
+
+                $("#audio-password").mousedown(function(){
+                    recognition("#password");
+                });
+
+                $("#audio-confirm-password").mousedown(function(){
+                    recognition("#confirm-password");
+                });
+
+                $("#audio-name-child").mousedown(function(){
+                    recognition("#name-child");
+                });
+
+                $("#audio-user-tutor-child").mousedown(function(){
+                    recognition("#user-tutor-child");
+                });
+
+                function  recognition(id){
+                    // start recognition speech
+                    sr.start();
+
+                    const $consequences = document.querySelector(id);
+
+                    sr.onresult = result => {
+                        let last_element = result.results.length - 1;
+                        let text_listened = result.results[last_element][0].transcript;
+                        if ($consequences.value != "") {
+                            $consequences.value += " " + text_listened;
+                        } else {
+                            $consequences.value = text_listened;
+                        }
+                    }
+
+                    sr.onend = () => {
+                        // Stop when the audio finish
+                        sr.stop()
+                    };
                 }
             });
         </script>

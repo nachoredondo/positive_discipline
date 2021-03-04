@@ -180,7 +180,6 @@ if (isset($_REQUEST['id'])) {
                 }
             });
 
-
             function img_user(img) {
                 return '<img id="img-user" src="../../assets/img/user_child/' + img + '" height="50" width="48"/>';
             }

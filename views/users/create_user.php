@@ -5,6 +5,8 @@ $errors = [];
 
 $type = $_POST['type'];
 $user = $_POST['user'] ?? 'NULL';
+$user_tutor = $_POST['user-tutor'] ?? 'NULL';
+$password_tutor = $_POST['password-tutor'] ?? 'NULL';
 $email = $_POST['email'] ?? 'NULL';
 $name = $_POST['name'];
 $surnames = $_POST['surnames'] ?? 'NULL';
@@ -14,18 +16,26 @@ $tutor = $_POST['user-tutor'] ?? 'NULL';
 $age = $_POST['age'] ?? 'NULL';
 $image = $_POST['img'] ?? 'NULL';
 
-if($type=="adult" && (strlen($password) < 8 || strlen($password)) > 128) {
+if($type == "adult" && (strlen($password) < 8 || strlen($password)) > 128) {
 	header('Location: ./registrer.php?type='.$type.'&success=false&error=password-length');
 	exit();
 }
 
 if($type == "child") {
-	if ($age=="") {
+	if ($age == "") {
 		header('Location: ./registrer.php?type='.$type.'&success=false&error=no-age');
 		exit();
 	}
 	if ($image == "") {
 		header('Location: ./registrer.php?type='.$type.'&success=false&error=no-img');
+		exit();
+	}
+	$user_tutor_child = User::get_user_from_user($user_tutor);
+	if (!$user_tutor_child) {
+		header('Location: ./registrer.php?type='.$type.'&success=false&error=no-user-tutor');
+	}
+	if (!$user_tutor_child->password_verify($password_tutor)) {
+		header('Location: ./registrer.php?type='.$type.'&success=false&error=no-pass-tutor');
 		exit();
 	}
 }

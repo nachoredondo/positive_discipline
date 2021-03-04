@@ -6,8 +6,10 @@ Session::check_login_redirect();
 
 if (isset($_POST['id'])) {
     $user = User::get_user_from_id($_POST['id']);
-} else {
+} else if (!$_SESSION['type']) {
     $user = User::get_user_from_user($_SESSION['user']);
+} else {
+    $user = new User();
 }
 
 if (!$_SESSION['type']) {
@@ -105,11 +107,12 @@ if (!$_SESSION['type']) {
                                     <?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "Crear" : "Editar";?>
                                 </button>
                             <?php
-                                if ($_SESSION['type'] && (!isset($_POST['id'])) || (!$_SESSION['type']))
+                                if ($_SESSION['type'] && (isset($_POST['id']))):
                             ?>
                                     <button class="btn btn-primary btn-lg ml-2 mr-4" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
                                 </form>
                             <?php
+                                endif;
                                 if ($_SESSION['type']):
                             ?>
                                     <a href="profile_tutor.php">

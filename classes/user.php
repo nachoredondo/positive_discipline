@@ -5,6 +5,7 @@ class User {
 	private const TABLE = 'users';
 	private const TABLE_TUTORS = 'tutors';
 	private const TABLE_MEETING = 'meeting';
+	private const TABLE_STOP = 'stop';
 	private $id;
 	private $type;
 	private $user;
@@ -74,6 +75,14 @@ class User {
 					(name, surnames, user, email, password, educator, image, age)
 					VALUES ('$name', '$surnames', '$user', '$email', '$pwd', '$educator', '$image', $age)";
 			$res = self::query($sql);
+
+			$result = self::get_user('user', $user_child);
+			if ($result) {
+				$id_tutor = $result->id();
+				$sql =  "INSERT INTO `".self::TABLE_STOP."` (`id_user`, `type`, `name`, `link`, `position`) VALUES
+						('$id_tutor', 'youtube', 'Relax', '1ZYbU82GVz4', '1')";
+				$res = self::query($sql);
+			}
 		} else {
 			$user_child = $tutor . "_" . $image;
 

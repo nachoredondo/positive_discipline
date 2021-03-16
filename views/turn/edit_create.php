@@ -1,23 +1,23 @@
 <?php
 require '../../classes/session.php';
 require '../../classes/user.php';
-require '../../classes/meeting.php';
+require '../../classes/task.php';
 
 Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
 $responsable_age = User::get_responsable($_SESSION['user']);
 
 if (isset($_REQUEST['id'])) {
-	$meeting = Meeting::get_meeting_by_id($_REQUEST['id']);
-	$meeting_date = inverse_date($meeting->date);
-	$meeting_start = $meeting->start;
-	$meeting_end = $meeting->end;
+	$task = Task::get_task_by_id($_REQUEST['id']);
+	$task_date = inverse_date($meeting->date);
+	$task_start = $task->start;
+	$task_end = $task->end;
 	$value_submit = "Editar";
 } else {
-	$meeting = new Meeting();
-	$meeting_date = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
-	$meeting_start = "00:00";
-	$meeting_end = "00:00";
+	$task = new Task();
+	$task_date = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
+	$task_start = "00:00";
+	$task_end = "00:00";
 	$value_submit = "Crear";
 }
 
@@ -30,7 +30,7 @@ if (isset($_REQUEST['id'])) {
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<meta name="description" content="" />
 		<meta name="author" content="" />
-		<title>Norma</title>
+		<title>Crear tarea</title>
 		<!-- Favicon-->
 		<link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
 		<!-- Font Awesome icons (free version)-->
@@ -65,7 +65,7 @@ if (isset($_REQUEST['id'])) {
 			<div class="container mb-3">
 				<!-- Contact Section Heading-->
 				<h2 class="text-white">.</h2>
-				<h2 class="text-center text-uppercase text-secondary"><?php echo $value_submit;?> norma
+				<h2 class="text-center text-uppercase text-secondary"><?php echo $value_submit;?> tarea
 				</h2>
 				<!-- Icon Divider-->
 				<div class="divider-custom">
@@ -82,10 +82,10 @@ if (isset($_REQUEST['id'])) {
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
-										<label>Título</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-title"></i>
+										<label>Nombre</label>
+										<i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
 									</div>
-									<input class="form-control mr-5" id="title" name="title" type="text" required="required" data-validation-required-message="Introduzca el título." placeholder="Título" value="<?php echo $meeting->title; ?>"/>
+									<input class="form-control mr-5" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Título" value="<?php echo $task->name; ?>"/>
 									<p class="help-block text-danger" required style="display:none;"></p>
 								</div>
 							</div>
@@ -95,24 +95,38 @@ if (isset($_REQUEST['id'])) {
 										<label>Descripción</label>
 										<i class="fas fa-microphone ml-3 mt-4" id="audio-description"></i>
 									</div>
-									<input class="form-control" id="description" name="description" type="textarea" placeholder="Descripción..." required="required" data-validation-required-message="Introduzca la descripción."value="<?php echo $meeting->description; ?>"/>
+									<input class="form-control" id="description" name="description" type="textarea" placeholder="Descripción..." required="required" data-validation-required-message="Introduzca la descripción."value="<?php echo $task->description; ?>"/>
 									<p class="help-block text-danger" style="display:none;"></p>
 								</div>
 							</div>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
-										<label>Listado de temas a tratar</label>
+										<label>Hijos asociados a la tarea</label>
 										<i class="fas fa-microphone ml-3 mt-4" id="audio-topics"></i>
 									</div>
-									<textarea class="form-control" id="topics" name="topics"  placeholder="Temas..." rows="3" required="required" data-validation-required-message="Introduzca la descripción."><?php echo $meeting->topics; ?></textarea>
-									<p class="help-block text-danger" style="display:none;"></p>
 								</div>
 							</div>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
-										<label>Fecha</label>
+										<label>Fecha inicio</label>
+									</div>
+									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $meeting_date; ?>"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="form-group floating-label-form-group controls mb-0 pb-2">
+									<div class="row ml-1">
+										<label>Fecha fin</label>
+									</div>
+									<input type="text" id="date_finalization" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $meeting_date; ?>"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="form-group floating-label-form-group controls mb-0 pb-2">
+									<div class="row ml-1">
+										<label>Fecha modificación</label>
 									</div>
 									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $meeting_date; ?>"/>
 								</div>

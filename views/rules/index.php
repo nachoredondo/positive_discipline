@@ -138,7 +138,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                         },
                         {
                             data: 'description',
-                            title: 'Description',
+                            title: 'Descripción',
                             "searchable": false,
                         },
                         {

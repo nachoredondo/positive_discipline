@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-03-2021 a las 03:05:10
+-- Tiempo de generación: 18-03-2021 a las 20:10:46
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -76,6 +76,7 @@ CREATE TABLE `rules_children` (
 CREATE TABLE `stop` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `type` enum('youtube','video','image','audio') COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `link` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `position` int(2) DEFAULT NULL
@@ -91,21 +92,22 @@ CREATE TABLE `task` (
   `id` int(11) NOT NULL,
   `parent` int(11) NOT NULL,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-  `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT '',
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT '',
   `date_start` date DEFAULT NULL,
   `date_end` date DEFAULT NULL,
+  `date_modification` datetime NOT NULL,
   `time_start` time DEFAULT NULL,
   `time_end` time DEFAULT NULL,
-  `day` tinyint(1) NOT NULL DEFAULT '1',
-  `week` tinyint(1) NOT NULL DEFAULT '1',
-  `month` tinyint(1) NOT NULL DEFAULT '1',
-  `monday` tinyint(1) NOT NULL DEFAULT '1',
-  `thursday` tinyint(1) NOT NULL DEFAULT '1',
-  `wenesday` tinyint(1) NOT NULL DEFAULT '1',
-  `tuesday` tinyint(1) NOT NULL DEFAULT '1',
-  `friday` tinyint(1) NOT NULL DEFAULT '1',
-  `saturday` tinyint(1) NOT NULL DEFAULT '1',
-  `sunday` tinyint(1) NOT NULL DEFAULT '1'
+  `daily` tinyint(1) NOT NULL DEFAULT '0',
+  `weekly` tinyint(1) NOT NULL DEFAULT '0',
+  `monthly` tinyint(1) NOT NULL DEFAULT '0',
+  `monday` tinyint(1) NOT NULL DEFAULT '0',
+  `thursday` tinyint(1) NOT NULL DEFAULT '0',
+  `wenesday` tinyint(1) NOT NULL DEFAULT '0',
+  `tuesday` tinyint(1) NOT NULL DEFAULT '0',
+  `friday` tinyint(1) NOT NULL DEFAULT '0',
+  `saturday` tinyint(1) NOT NULL DEFAULT '0',
+  `sunday` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -117,7 +119,8 @@ CREATE TABLE `task` (
 CREATE TABLE `task_children` (
   `id` int(11) NOT NULL,
   `id_task` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL
+  `id_user` int(11) NOT NULL,
+  `position` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

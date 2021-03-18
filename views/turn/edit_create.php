@@ -9,17 +9,23 @@ $responsable_age = User::get_responsable($_SESSION['user']);
 
 if (isset($_REQUEST['id'])) {
 	$task = Task::get_task_by_id($_REQUEST['id']);
-	$task_date = inverse_date($meeting->date);
-	$task_start = $task->start;
-	$task_end = $task->end;
+	$task_date_modification = inverse_date($task->date_modification());
+	$task_date_start = inverse_date($task->date_start());
+	$task_date_end = inverse_date($task->date_end());
+	$task_time_start = $task->time_start();
+	$task_time_end = $task->time_end();
 	$value_submit = "Editar";
 } else {
 	$task = new Task();
-	$task_date = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
-	$task_start = "00:00";
-	$task_end = "00:00";
+	$task_date_modification = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
+	$task_date_start = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
+	$task_date_end = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
+	$task_time_start = "00:00";
+	$task_time_end = "00:00";
 	$value_submit = "Crear";
 }
+// var_dump($task);
+// exit();
 
 ?>
 
@@ -76,9 +82,8 @@ if (isset($_REQUEST['id'])) {
 				<!-- Contact Section Form-->
 				<div class="row">
 					<div class="col-lg-8 mx-auto">
-						<form id="contactForm" method="post" action="create_meeting.php" name="sentMessage" novalidate="novalidate" enctype="multipart/form-data">
-							<input name="id" type="hidden" value="<?php echo $_POST['id']; ?>"/>
-							<input name="file_saved" type="hidden" value="<?php echo $meeting->file_act(); ?>"/>
+						<form id="contactForm" method="post" action="control.php" name="sentMessage" novalidate="novalidate" enctype="multipart/form-data">
+							<input name="id" type="hidden" value="<?php echo $_REQUEST['id']; ?>"/>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
@@ -112,7 +117,7 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Fecha inicio</label>
 									</div>
-									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $meeting_date; ?>"/>
+									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $task_date_start; ?>"/>
 								</div>
 							</div>
 							<div class="control-group">
@@ -120,7 +125,7 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Fecha fin</label>
 									</div>
-									<input type="text" id="date_finalization" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $meeting_date; ?>"/>
+									<input type="text" id="date_finalization" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $task_date_end; ?>"/>
 								</div>
 							</div>
 							<div class="control-group">
@@ -128,17 +133,17 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Fecha modificación</label>
 									</div>
-									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $meeting_date; ?>"/>
+									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $task_date_modification; ?>"/>
 								</div>
 							</div>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2 d-flex align-items-center">
 									<div class="col">
 										<div class="row ml-1">
-											<label>Desde hora</label>
+											<label>Hora desde</label>
 										</div>
 										<div class="input-group clockpicker">
-											<input type="text" class="form-control" name="date_start" value="<?php echo $meeting_start; ?>"/>
+											<input type="text" class="form-control" name="date_start" value="<?php echo $task_time_start; ?>"/>
 											<span class="input-group-addon">
 												<span class="glyphicon glyphicon-time"></span>
 											</span>
@@ -146,41 +151,14 @@ if (isset($_REQUEST['id'])) {
 									</div>
 									<div class="col">
 										<div class="row ml-1">
-											<label>Hasta hora</label>
+											<label>Hora hasta</label>
 										</div>
 										<div class="input-group clockpicker">
-											<input type="text" class="form-control" name="date_end" value="<?php echo $meeting_end; ?>"/>
+											<input type="text" class="form-control" name="date_end" value="<?php echo $task_time_end; ?>"/>
 											<span class="input-group-addon">
 												<span class="glyphicon glyphicon-time"></span>
 											</span>
 										</div>
-									</div>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="form-group floating-label-form-group controls pb-4 d-flex align-items-center">
-									<div class="col-4">
-										<div class="row ml-1">
-											<label>Responsable acta</label>
-										</div>
-										<select id="responsable_act" name="responsable_act" class="form-control mt-1">
-											<!-- <option value="">Responable acta...</option> -->
-											<?php
-												foreach ($responsable_age as $responsable) {
-													echo '<option value="'.$responsable["id"];
-													if ($responsable['educator'] == "1") {
-														echo ' selected';
-													}
-													echo '">'.$responsable["name"].'</option>';
-												}
-											?>
-										</select>
-									</div>
-									<div class="mt-1">
-										<div class="row ml-1">
-											<label>Acta</label>
-										</div>
-										<input class="form-control" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.ms-excel, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, .docx" style="font-size: large"/>
 									</div>
 								</div>
 							</div>

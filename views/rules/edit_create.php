@@ -82,10 +82,15 @@ if (isset($_REQUEST['id'])) {
                             <?php
                                 if ($_SESSION['type']) {
                             ?>
-                            <div class="table-responsive">
-                                <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
-                                    <thead><!-- Leave empty. Column titles are automatically generated --></thead>
-                                </table>
+                            <div class="control-group">
+                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                    <div class="table-responsive">
+                                        <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
+                                            <thead><!-- Leave empty. Column titles are automatically generated --></thead>
+                                        </table>
+                                    </div>
+                                    <p class="help-block text-danger" style="display:none;"></p>
+                                </div>
                             </div>
                             <?php
                                 }
@@ -139,8 +144,6 @@ if (isset($_REQUEST['id'])) {
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Third party plugin JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <!-- Contact form JS-->
         <script src="../../assets/mail/jqBootstrapValidation.js"></script>
         <!-- Core theme JS-->

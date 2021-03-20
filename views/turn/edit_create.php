@@ -50,6 +50,12 @@ if (isset($_REQUEST['id'])) {
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 		<!-- Third party plugin JS-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+		<script src="../../assets/datatables/jquery.dataTables.min.js"></script>
+		<script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/js/moment.js" type="text/javascript"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
@@ -105,11 +111,13 @@ if (isset($_REQUEST['id'])) {
 								</div>
 							</div>
 							<div class="control-group">
-								<div class="form-group floating-label-form-group controls mb-0 pb-2">
-									<div class="row ml-1">
-										<label>Hijos asociados a la tarea</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-topics"></i>
+								 <div class="form-group floating-label-form-group controls mb-0 pb-2">
+									<div class="table-responsive">
+										<table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
+											<thead><!-- Leave empty. Column titles are automatically generated --></thead>
+										</table>
 									</div>
+									<p class="help-block text-danger" style="display:none;"></p>
 								</div>
 							</div>
 							<div class="control-group">
@@ -162,6 +170,57 @@ if (isset($_REQUEST['id'])) {
 									</div>
 								</div>
 							</div>
+							<div class="control-group">
+								<div class="form-group floating-label-form-group controls mb-0 pb-2">
+									<div class="row ml-1">
+										<label>Frecuencia</label>
+									</div>
+									<div class="ml-3">
+										<div class="form-check">
+											<input class="form-check-input check_child" name="daily" type="checkbox" id="daily" <?php if ($task->daily) echo "checked"; ?>
+											/> Diariamente
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="monthly" type="checkbox" id="weekly" <?php if ($task->weekly) echo "checked"; ?>
+											/> Semanalmente
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="monthly" type="checkbox" id="monthly" <?php if ($task->monthly) echo "checked"; ?>
+											/> Mensualmente
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="monthly" type="checkbox" id="monday" <?php if ($task->monday) echo "monday"; ?>
+											/> Lunes
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="thursday" type="checkbox" id="thursday" <?php if ($task->thursday) echo "checked"; ?>
+											/> Martes
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="wenesday" type="checkbox" id="wenesday" <?php if ($task->wenesday) echo "checked"; ?>
+											/> Miércoles
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="tuesday" type="checkbox" id="tuesday" <?php if ($task->tuesday) echo "checked"; ?>
+											/> Jueves
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="friday" type="checkbox" id="friday" <?php if ($task->friday) echo "friday"; ?>
+											/> Viernes
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="saturday" type="checkbox" id="saturday" <?php if ($task->saturday) echo "checked"; ?>
+											/> Sábado
+										</div>
+										<div class="form-check">
+											<input class="form-check-input check_child" name="sunday" type="checkbox" id="sunday" <?php if ($task->sunday) echo "checked"; ?>
+											/> Domingo
+										</div>
+									</div>
+
+								</div>
+
+							</div>
 							<div class="form-group mt-3">
 								<button class="btn btn-primary btn-lg ml-3" id="createEditButton" name="form" value="<?php echo $value_submit;?>" type="submit"><?php echo $value_submit;?></button>
 								<a href="index.php">
@@ -192,16 +251,12 @@ if (isset($_REQUEST['id'])) {
 			$(document).ready(function(){
 				let sr = new webkitSpeechRecognition();
 
-				$("#audio-title").mousedown(function(){
-					recognition("#title");
+				$("#audio-name").mousedown(function(){
+					recognition("#name");
 				});
 
 				$("#audio-description").mousedown(function(){
 					recognition("#description");
-				});
-
-				$("#audio-topics").mousedown(function(){
-					recognition("#topics");
 				});
 
 				function  recognition(id){
@@ -214,17 +269,9 @@ if (isset($_REQUEST['id'])) {
 						let last_element = result.results.length - 1;
 						let text_listened = result.results[last_element][0].transcript;
 						if ($consequences.value != "") {
-							if (id == "#topics") {
-								$consequences.value += "\n- " + text_listened;
-							} else {
-								$consequences.value += " " + text_listened;
-							}
+							$consequences.value += " " + text_listened;
 						} else {
-							if (id == "#topics") {
-								$consequences.value = "- " + text_listened;
-							} else {
-								$consequences.value = text_listened;
-							}
+							$consequences.value = text_listened;
 						}
 					}
 
@@ -250,6 +297,194 @@ if (isset($_REQUEST['id'])) {
 					clear: 'fa fa-trash',
 					close: 'fas fa-times'
 				},
+			});
+
+			function img_user(img) {
+				return '<img id="img-user" src="../../assets/img/user_child/' + img + '" height="50" width="48"/>';
+			}
+
+			function update_select(select_object){
+				let value_select = select_object.value;
+				let selects = document.getElementsByClassName("child_selected");
+				let number_child = selects.length;
+				let all_positions = []
+				let previous_positions = [];
+				for (var i = 0; i < number_child; i++) {
+					all_positions.push(i+1)
+					previous_positions.push(parseInt(selects[i].value));
+				}
+				all_positions = all_positions.filter(function (item) {
+				    return previous_positions.indexOf(item) === -1;
+				});
+				for (var i = 0; i < number_child; i++) {
+					if (selects[i].value == value_select && selects[i] != select_object){
+						value_select = all_positions[0];
+						let parent_select = selects[i].parentNode;
+						selects[i].remove();
+						let select = create_select(number_child-1, value_select);
+						parent_select.appendChild(select);
+					}
+				}
+			}
+
+			function create_select(number_child, value_select=null){
+				let select = document.createElement("select");
+				select.classList.add("form-check-input");
+				select.classList.add("child_selected");
+				select.name = "id_child_position[]";
+				select.setAttribute("onchange", "update_select(this)");
+				for (var i = 1; i <= number_child + 1; i++) {
+					let option = document.createElement("option");
+					option.value = i;
+					option.text = i;
+					if (value_select == null && number_child + 1 == i) {
+						option.selected = true;
+					} else if (value_select == i) {
+						option.selected = true;
+					}
+					select.add(option);
+				}
+				return select;
+			}
+
+			function option_remove(number_child, value_select_deleted) {
+				if (document.getElementsByClassName("child_selected")) {
+					let selects = document.getElementsByClassName("child_selected");
+					for (var i = 0; i < number_child; i++) {
+						value_select = selects[i].value;
+						let parent_select = selects[i].parentNode;
+						selects[i].remove();
+						if (value_select_deleted < value_select) {
+							value_select -= 1;
+						}
+						let select = create_select(number_child-1, value_select);
+						parent_select.appendChild(select);
+					}
+				}
+			}
+
+			function option_add(number_child) {
+				if (document.getElementsByClassName("child_selected")) {
+					let selects = document.getElementsByClassName("child_selected");
+					for (var i = 0; i < number_child; i++) {
+						var option = document.createElement("option");
+						option.text = number_child + 1;
+						option.value = number_child + 1;
+						selects[i].add(option);
+					}
+				}
+			}
+
+			function select_turn(child_selected) {
+				let tr = child_selected.parentNode.parentNode.parentNode;
+				let div_select = tr.getElementsByClassName("turn")[0];
+				if(child_selected.checked) {
+					let number_child = document.getElementsByClassName("child_selected").length;
+					div_select.firstChild.remove();
+					option_add(number_child);
+					let select = create_select(number_child);
+					div_select.appendChild(select);
+				} else {
+					let value_select_deleted = div_select.firstChild.value;
+					div_select.firstChild.remove();
+					let number_child = document.getElementsByClassName("child_selected").length;
+					option_remove(number_child, value_select_deleted);
+					let span = document.createElement("span");
+					let textContent = document.createTextNode("Sin escoger");
+					span.appendChild(textContent);
+					div_select.appendChild(span);
+				}
+			}
+
+			function check_user(id_task, id_user) {
+				let check = "";
+				if (id_task) {
+					check = "checked";
+				}
+				return  '<div class="form-check">' +
+							'<input onclick="select_turn(this)" class="form-check-input check_child" name="id_user_child[]" type="checkbox" value="' + id_user + '" id="flexCheckDefault" ' + check + ' >' +
+						'</div>';
+			}
+
+			function position_user(position, number_child) {
+				let element = '<div class="form-check turn">';
+				if (position != null) {
+					element += '<select class="form-check-input child_selected" id="slcAutos" name="id_child_position[]" onchange="update_select(this)">';
+					for (var i = 1; i <= number_child; i++) {
+						element += '<option value="' + position + '">' + position + '</option>';
+					}
+					element += '</select>';
+				} else {
+					element += "<span>Sin escoger</span>"
+				}
+
+				 element += '</div>';
+
+				return element;
+			}
+
+			window.addEventListener('load', function () {
+				let table = $('#the-table').DataTable({
+					order: [[1, 'asc']],
+					serverSide: true,
+					bPaginate: false,
+					bFilter: false,
+					bInfo: false,
+					language: {
+						url: "<?php echo APP_ROOT; ?>/assets/datatables/es.json",
+					},
+					columns: [
+						{
+							sorting: false,
+							title:'Hijo escogido',
+							render: function (_, _, row) { return check_user(row.id_task, row.id) },
+							"searchable": false,
+						},
+						{
+							data: 'name',
+							title: 'Nombre',
+						},
+						{
+							sorting: false,
+							title:'Posición siguiente turno',
+							render: function (_, _, row) { return position_user(row.position, row.number_child) },
+							"searchable": false,
+						},
+						{
+							data: 'age',
+							title: 'Edad',
+							"searchable": false,
+						},
+						{
+							data: 'image',
+							title: 'Contraseña',
+							render: function (_, _, row) { return img_user(row.password) },
+							defaultContent: ' - ',
+						},
+					],
+					ajax: {
+						method: 'POST',
+						url: "<?php echo APP_ROOT; ?>api/user/list_child_task.php",
+						data: function (params) {
+							params.id_user =  <?php echo $user->id(); ?>;
+							params.id_task =  "<?php
+												if (isset($_REQUEST['id'])) {
+													echo $_REQUEST['id'];
+												} else {
+													echo 'NULL';
+												}
+											?>";
+							return params;
+						},
+						error: function(xhr) {
+							if (xhr.status === 401) { // Session expired
+								window.location.reload();
+							} else {
+								console.log(xhr);
+							}
+						},
+					},
+				});
 			});
 
 		</script>

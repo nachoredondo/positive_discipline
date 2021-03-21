@@ -9,23 +9,21 @@ $responsable_age = User::get_responsable($_SESSION['user']);
 
 if (isset($_REQUEST['id'])) {
 	$task = Task::get_task_by_id($_REQUEST['id']);
-	$task_date_modification = inverse_date($task->date_modification());
-	$task_date_start = inverse_date($task->date_start());
-	$task_date_end = inverse_date($task->date_end());
-	$task_time_start = $task->time_start();
-	$task_time_end = $task->time_end();
+	$date_start = inverse_date($task->date_start());
+	$date_end = inverse_date($task->date_end());
+	$date_modification = inverse_date($task->date_modification());
+	$time_start = $task->time_start();
+	$time_end = $task->time_end();
 	$value_submit = "Editar";
 } else {
 	$task = new Task();
-	$task_date_modification = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
-	$task_date_start = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
-	$task_date_end = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
-	$task_time_start = "00:00";
-	$task_time_end = "00:00";
+	$date_start = date("d-m-Y", time()); // a day is added to calculate tomorrow
+	$date_end = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
+	$date_modification = date("d-m-Y", time());
+	$time_start = date("G:i", time());
+	$time_end = date("G:i", time());
 	$value_submit = "Crear";
 }
-// var_dump($task);
-// exit();
 
 ?>
 
@@ -90,6 +88,7 @@ if (isset($_REQUEST['id'])) {
 					<div class="col-lg-8 mx-auto">
 						<form id="contactForm" method="post" action="control.php" name="sentMessage" novalidate="novalidate" enctype="multipart/form-data">
 							<input name="id" type="hidden" value="<?php echo $_REQUEST['id']; ?>"/>
+							<input name="id_educator" type="hidden" value="<?php echo $user->id(); ?>"/>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
@@ -125,7 +124,7 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Fecha inicio</label>
 									</div>
-									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $task_date_start; ?>"/>
+									<input type="text" class="form-control monthpicker" name="date_start" autocomplete="off" value="<?php echo $date_start; ?>"/>
 								</div>
 							</div>
 							<div class="control-group">
@@ -133,7 +132,7 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Fecha fin</label>
 									</div>
-									<input type="text" id="date_finalization" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $task_date_end; ?>"/>
+									<input type="text" class="form-control monthpicker" name="date_end" autocomplete="off" value="<?php echo $date_end; ?>"/>
 								</div>
 							</div>
 							<div class="control-group">
@@ -141,7 +140,7 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Fecha modificación</label>
 									</div>
-									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $task_date_modification; ?>"/>
+									<input type="text" class="form-control monthpicker" name="date_modification" autocomplete="off" value="<?php echo $date_modification; ?>"/>
 								</div>
 							</div>
 							<div class="control-group">
@@ -151,7 +150,7 @@ if (isset($_REQUEST['id'])) {
 											<label>Hora desde</label>
 										</div>
 										<div class="input-group clockpicker">
-											<input type="text" class="form-control" name="date_start" value="<?php echo $task_time_start; ?>"/>
+											<input type="text" class="form-control" name="time_start" value="<?php echo $time_start; ?>"/>
 											<span class="input-group-addon">
 												<span class="glyphicon glyphicon-time"></span>
 											</span>
@@ -162,7 +161,7 @@ if (isset($_REQUEST['id'])) {
 											<label>Hora hasta</label>
 										</div>
 										<div class="input-group clockpicker">
-											<input type="text" class="form-control" name="date_end" value="<?php echo $task_time_end; ?>"/>
+											<input type="text" class="form-control" name="time_end"  value="<?php echo $time_end; ?>"/>
 											<span class="input-group-addon">
 												<span class="glyphicon glyphicon-time"></span>
 											</span>
@@ -177,43 +176,43 @@ if (isset($_REQUEST['id'])) {
 									</div>
 									<div class="ml-3">
 										<div class="form-check">
-											<input class="form-check-input check_child" name="daily" type="checkbox" id="daily" <?php if ($task->daily) echo "checked"; ?>
+											<input class="form-check-input check_child" name="daily" type="checkbox" onclick="frecuency_not_day(this)" id="daily" <?php if ($task->daily) echo "checked"; ?>
 											/> Diariamente
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="monthly" type="checkbox" id="weekly" <?php if ($task->weekly) echo "checked"; ?>
+											<input class="form-check-input check_child" name="weekly" type="checkbox" onclick="frecuency_not_day(this)" id="weekly" <?php if ($task->weekly) echo "checked"; ?>
 											/> Semanalmente
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="monthly" type="checkbox" id="monthly" <?php if ($task->monthly) echo "checked"; ?>
+											<input class="form-check-input check_child" name="monthly" type="checkbox" onclick="frecuency_not_day(this)" id="monthly" <?php if ($task->monthly) echo "checked"; ?>
 											/> Mensualmente
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="monthly" type="checkbox" id="monday" <?php if ($task->monday) echo "monday"; ?>
+											<input class="form-check-input check_child" name="monday" type="checkbox" onclick="frecuency_day(this)" id="monday" <?php if ($task->monday) echo "monday"; ?>
 											/> Lunes
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="thursday" type="checkbox" id="thursday" <?php if ($task->thursday) echo "checked"; ?>
+											<input class="form-check-input check_child" name="thursday" type="checkbox" onclick="frecuency_day(this)" id="thursday" <?php if ($task->thursday) echo "checked"; ?>
 											/> Martes
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="wenesday" type="checkbox" id="wenesday" <?php if ($task->wenesday) echo "checked"; ?>
+											<input class="form-check-input check_child" name="wenesday" type="checkbox" onclick="frecuency_day(this)" id="wenesday" <?php if ($task->wenesday) echo "checked"; ?>
 											/> Miércoles
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="tuesday" type="checkbox" id="tuesday" <?php if ($task->tuesday) echo "checked"; ?>
+											<input class="form-check-input check_child" name="tuesday" type="checkbox" onclick="frecuency_day(this)" id="tuesday" <?php if ($task->tuesday) echo "checked"; ?>
 											/> Jueves
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="friday" type="checkbox" id="friday" <?php if ($task->friday) echo "friday"; ?>
+											<input class="form-check-input check_child" name="friday" type="checkbox" onclick="frecuency_day(this)" id="friday" <?php if ($task->friday) echo "friday"; ?>
 											/> Viernes
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="saturday" type="checkbox" id="saturday" <?php if ($task->saturday) echo "checked"; ?>
+											<input class="form-check-input check_child" name="saturday" type="checkbox" onclick="frecuency_day(this)" id="saturday" <?php if ($task->saturday) echo "checked"; ?>
 											/> Sábado
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="sunday" type="checkbox" id="sunday" <?php if ($task->sunday) echo "checked"; ?>
+											<input class="form-check-input check_child" name="sunday" type="checkbox" onclick="frecuency_day(this)" id="sunday" <?php if ($task->sunday) echo "checked"; ?>
 											/> Domingo
 										</div>
 									</div>
@@ -244,6 +243,31 @@ if (isset($_REQUEST['id'])) {
 		<!-- Core theme JS-->
 		<script src="../../js/scripts.js"></script>
 		<script type="text/javascript">
+			let not_day_frecuency = ['daily', 'weekly', 'monthly'];
+			let all_frecuency = not_day_frecuency.concat(['monday', 'thursday', 'wenesday', 'tuesday', 'friday', 'saturday', 'sunday']);
+
+			function frecuency_day(element){
+				if (element.checked) {
+					for (var i = 0; i < not_day_frecuency.length; i++) {
+						let input = document.getElementById(not_day_frecuency[i]);
+						if (input.checked){
+							input.checked = false;
+						}
+					}
+				}
+			}
+
+			function frecuency_not_day(element){
+				if (element.checked) {
+					for (var i = 0; i < all_frecuency.length; i++) {
+						let input = document.getElementById(all_frecuency[i]);
+						if (input.checked && element != input){
+							input.checked = false;
+						}
+					}
+				}
+			}
+
 			$('.clockpicker').clockpicker({
 				donetext: 'Confirmar'
 			});

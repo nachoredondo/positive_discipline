@@ -3,10 +3,11 @@ require_once("controller.php");
 
 class Task {
 	private const TABLE = 'task';
-	private $id;
+	private const TABLE_CHILD = 'task_children';
+	private $id_task;
 
 	function __construct(?array $data = null) {
-		$this->id = 0;
+		$this->id_task = 0;
 
 		if (isset($data)) {
 			$this->parent($data['parent']);
@@ -49,32 +50,59 @@ class Task {
 		}
 	}
 
-	public static function insert_task($title, $parent, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $children) {
+	public static function insert_task($parent, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $children, $position_children) {
 		$date_start = inverse_date($date_start);
 		$date_end = inverse_date($date_end);
 		$date_modification = inverse_date($date_modification);
-		var_dump($frecuency);
-		var_dump($children);
-		print("crear");
-		exit();
+		$daily = $frecuency['daily'];
+		$weekly = $frecuency['weekly'];
+		$monthly = $frecuency['monthly'];
+		$monday = $frecuency['monday'];
+		$thursday = $frecuency['thursday'];
+		$wenesday = $frecuency['wenesday'];
+		$tuesday = $frecuency['tuesday'];
+		$friday = $frecuency['friday'];
+		$saturday = $frecuency['saturday'];
+		$sunday = $frecuency['sunday'];
+
 		$sql = "INSERT INTO `".self::TABLE."`
-				(title, parent, name, description, date_start, date_end, date_modification, time_start, time_end, daily, weekly, monthly, monday, thursday, wenesday, tuesday, friday, saturday, sunday)
-				VALUES ('$title', '$parent', '$name', '$description', '$date_start', '$date_end', '$date_modification', '$time_start', '$time_end', '$frecuency', '$children')";
+				(parent, name, description, date_start, date_end, date_modification, time_start, time_end, daily, weekly, monthly, monday, thursday, wenesday, tuesday, friday, saturday, sunday)
+				VALUES ('$parent', '$name', '$description', '$date_start', '$date_end', '$date_modification', '$time_start', '$time_end', '$daily', '$weekly', '$monthly', '$monday', '$thursday', '$wenesday', '$tuesday', '$friday', '$saturday', '$sunday')";
 		$res = self::query($sql);
+
+		$sql = "SELECT MAX(id_task) AS id_task FROM `".self::TABLE."`";
+		$res = self::query($sql);
+		$id_task = $res->fetch(PDO::FETCH_ASSOC)['id_task'];
+
+		$count = 0;
+		foreach ($children as $key => $value) {
+			$position = $position_children[$count];
+			$sql = "INSERT INTO `".self::TABLE_CHILD."`
+				(id_task, id_user, position)
+				VALUES ('$id_task', '$value', '$position')";
+			$res = self::query($sql);
+			$count += 1;
+		}
 		return $res;
 	}
 
-	public static function update_task($id, $title, $parent, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $children) {
+	public static function update_task($id_task, $parent, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $children, $position_children) {
 		$date_start = inverse_date($date_start);
 		$date_end = inverse_date($date_end);
 		$date_modification = inverse_date($date_modification);
-		var_dump($frecuency);
-		var_dump($children);
-		print("actualizar");
-		exit();
+		$daily = $frecuency['daily'];
+		$weekly = $frecuency['weekly'];
+		$monthly = $frecuency['monthly'];
+		$monday = $frecuency['monday'];
+		$thursday = $frecuency['thursday'];
+		$wenesday = $frecuency['wenesday'];
+		$tuesday = $frecuency['tuesday'];
+		$friday = $frecuency['friday'];
+		$saturday = $frecuency['saturday'];
+		$sunday = $frecuency['sunday'];
+
 		$sql = "UPDATE `".self::TABLE."`
-			SET `title` = '$title',
-				`parent` = '$parent',
+			SET `parent` = '$parent',
 				`name` = '$name',
 				`description` = '$description',
 				`date_start` = '$date_start',
@@ -92,21 +120,75 @@ class Task {
 				`friday` = '$friday',
 				`saturday` = '$saturday',
 				`sunday` = '$sunday'
-			WHERE `id` = '$id'";
+			WHERE `id_task` = '$id_task'";
 		$res = self::query($sql);
 
+		// delete task to child
+		$children_saved = self::get_children($id_task);
+		foreach ($children_saved as $key_children => $value_children) {
+			$search = false;
+			foreach ($children as $key => $value) {
+				if ($value_children['id_user'] == $value) {
+					$search = true;
+					break;
+				}
+			}
+			if (!$search) {
+				$val = $value_children['id_user'];
+				$sql = "DELETE FROM `".self::TABLE_CHILD."` WHERE `id_user` = '$val' AND `id_task`= '$id_task'";
+				$result = self::query($sql);
+				if (!$result){
+					return null;
+				}
+			}
+		}
+
+		// asign task to child
+		$count = 0;
+		foreach ($children as $key => $value) {
+			$sql = "SELECT * FROM `".self::TABLE_CHILD."` WHERE `id_user` = '$value'  AND `id_task`= '$id_task'";
+			$result = self::query($sql);
+			if (!$result){
+				return null;
+			}
+			$position = $position_children[$count];
+			if ($result->rowCount() !== 1){
+				$sql = "INSERT INTO `".self::TABLE_CHILD."`
+					(id_task, id_user, position)
+					VALUES ('$id_task', '$value', '$position')";
+				$res = self::query($sql);
+			} else {
+				$sql = "UPDATE `".self::TABLE_CHILD."`
+					SET `position` = '$position'
+					WHERE `id_task` = '$id_task'
+						AND `id_user` = '$id_user'";
+				$res = self::query($sql);
+			}
+			$count += 1;
+		}
 		return $res;
 	}
 
-	public static function delete_task($id) {
+	public static function delete_task($id_task) {
 		$sql = "DELETE
 			FROM `".self::TABLE."`
-			WHERE `id` = '$id'";
+			WHERE `id_task` = '$id_task'";
 		$res = self::query($sql);
 	}
 
-	public static function get_task_by_id(string $id) : ?Task {
-		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `id` = '$id'");
+	public static function get_children(string $id_task) {
+		$sql = "SELECT id_user FROM `".self::TABLE_CHILD."` WHERE `id_task` = '$id_task'";
+		$result = self::query($sql);
+		if (!$result){
+			return null;
+		}
+
+		$data = $result->fetchAll();
+		return $data;
+	}
+
+	public static function get_task_by_id(string $id_task) : ?Task {
+		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `id_task` = '$id_task'");
 		if (!$result){
 			return null;
 		} else if ($result->rowCount() !== 1) {
@@ -118,8 +200,8 @@ class Task {
 		return $task;
 	}
 
-	public function id() : int {
-		return $this->id;
+	public function id_task() : int {
+		return $this->id_task;
 	}
 
 	public function parent(?string $parent = null) : ?string {

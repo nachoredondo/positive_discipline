@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-03-2021 a las 20:10:46
+-- Tiempo de generación: 21-03-2021 a las 06:20:42
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -89,7 +89,7 @@ CREATE TABLE `stop` (
 --
 
 CREATE TABLE `task` (
-  `id` int(11) NOT NULL,
+  `id_task` int(11) NOT NULL,
   `parent` int(11) NOT NULL,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT '',
@@ -203,7 +203,7 @@ ALTER TABLE `stop`
 -- Indices de la tabla `task`
 --
 ALTER TABLE `task`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_task`),
   ADD KEY `parent_task` (`parent`);
 
 --
@@ -268,7 +268,7 @@ ALTER TABLE `stop`
 -- AUTO_INCREMENT de la tabla `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_task` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `task_children`
@@ -334,7 +334,7 @@ ALTER TABLE `task`
 --
 ALTER TABLE `task_children`
   ADD CONSTRAINT `learner_task` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `task` FOREIGN KEY (`id_task`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `task` FOREIGN KEY (`id_task`) REFERENCES `task` (`id_task`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tutors`

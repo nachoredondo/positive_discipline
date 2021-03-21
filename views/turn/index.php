@@ -79,7 +79,102 @@ $user = User::get_user_from_user($_SESSION['user']);
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
         <script type="text/javascript">
+            function make_request(path, params, method) {
+                method = method || "post"; // Set method to post by default if not specified.
 
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function edit_rules(){
+                let prueba = "<?php if ($_SESSION['type']){ echo '<button type=\"button\" title=\"Realizado\" class=\"check-btn btn btn-info btn-sm mr-3\"><i class=\"fas fa-check\"></i></button><button type=\"button\" title=\"Detalles\" class=\"edit-btn btn btn-success btn-sm\"><i class=\"fas fa-edit\"></i></button>';
+                        } else  {
+                            echo '';
+                        }
+                    ?>";
+                return prueba;
+            }
+
+            window.addEventListener('load', function () {
+                let table = $('#the-table').DataTable({
+                    order: [[1, 'asc']],
+                    serverSide: true,
+                    language: {
+                        url: "<?php echo APP_ROOT; ?>/assets/datatables/es.json",
+                    },
+                    columns: [
+                        {
+                            data: 'name',
+                            title: 'Name',
+                        },
+                        {
+                            data: 'description',
+                            title: 'Descripción',
+                            "searchable": false,
+                        },
+                        // {
+                        //     data: 'consequences',
+                        //     title: 'Siguiente turno',
+                        // },
+                        // {
+                        //     data: 'consequences',
+                        //     title: 'Estado',
+                        //     defaultContent: edit_rules(),
+                        //     "searchable": false,
+                        // },
+                        // {
+                        //     data: 'consequences',
+                        //     title: 'Anterior turno',
+                        // },
+                        {
+                            sorting: false,
+                            defaultContent: edit_rules(),
+                            "searchable": false,
+                        },
+                    ],
+                    ajax: {
+                        method: 'POST',
+                        url: "<?php echo APP_ROOT; ?>api/turn/list_task.php",
+                        data: function (params) {
+                            params.id_user =  <?php echo $user->id(); ?>;
+                            return params;
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 401) { // Session expired
+                                window.location.reload();
+                            } else {
+                                console.log(xhr);
+                            }
+                        },
+                    },
+                });
+                $('#the-table tbody').on('click', 'button', function () {
+                    let data = table.row($(this).parents('tr')).data();
+                    console.log(data);
+                    if (this.classList.contains('edit-btn')) {
+                        make_request('<?php echo APP_ROOT ?>views/turn/edit_create.php', { id: data["t_id_task"] });
+                    } else if (this.classList.contains('check-btn')) {
+                        make_request('<?php echo APP_ROOT ?>views/turn/control.php', { id: data["t_id_task"] });
+                    } else {
+                        console.error("Botón pulsado desconocido!");
+                    }
+                });
+            });
 
         </script>
     </body>

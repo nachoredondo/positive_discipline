@@ -1,6 +1,9 @@
 <?php
 require_once("../../classes/controller.php");
 require_once("../../classes/ssp.php");
+require '../../classes/session.php';
+require '../../classes/user.php';
+Session::check_login_redirect();
 
 // Session::check_login_error();
 
@@ -27,10 +30,12 @@ function get_db_connection($dbname = null) {
 	return $conn;
 }
 
-class SSPChilds extends SSP {
-	private const FROM = " `users` as user
-		INNER JOIN `tutors` as tutor
-			ON `user`.`id` = `tutor`.`child`";
+class SSPTasks extends SSP {
+	private const FROM = "`task` as t
+						LEFT JOIN (SELECT position, id_task FROM `task_children`
+							ORDER BY position ASC
+							LIMIT 1)
+						first_child USING (id_task)";
 
 	public static function exec ($request, $conn) {
 		// Datatbles columns - ADD THEM HERE
@@ -39,15 +44,9 @@ class SSPChilds extends SSP {
 		// parameter represents the DataTables column identifier. In this case simple
 		// indexes
 		$DT_COLUMNS = [
-			[ 'db' => 'id', 'dt' => 'id' ],
+			[ 'db' => 't.id_task', 'dt' => 't_id_task' ],
 			[ 'db' => 'name', 'dt' => 'name' ],
-			[ 'db' => 'user', 'dt' => 'user' ],
-			[ 'db' => 'password', 'dt' => 'password' ],
-			[ 'db' => 'image', 'dt' => 'image' ],
-			[ 'db' => 'age', 'dt' => 'age' ],
-			[ 'db' => 'id_task', 'dt' => 'id_task' ],
-			[ 'db' => 'position', 'dt' => 'position' ],
-			[ 'db' => 'number_child', 'dt' => 'number_child' ]
+			[ 'db' => 'description', 'dt' => 'description' ],
 		];
 		return self::do_search($request, $conn, $DT_COLUMNS);
 	}
@@ -58,48 +57,42 @@ class SSPChilds extends SSP {
 		$db = self::db($conn);
 
 		$request['search']['value'] = $request['search']['value'];
-		$from = self::task_children(self::FROM, $request, $bindings);
-		$from_join = self::task_children(self::FROM, $request, $bindings_join);
-		$from = self::count_children($from, $request, $bindings);
-		$from_join = self::count_children($from_join, $request, $bindings_join);
 
 		// Build the SQL query string from the request
+		$limit = self::limit($request, $columns);
 		$order = self::order($request, $columns);
 		$where = self::filter($request, $columns, $bindings);
 
-		$where = self::where_add($where, self::where_user($request, $bindings));
-		// $where = self::where_add($where, self::where_task($request, $bindings));
+		$from = self::FROM;
+
+		$where = self::where_add($where, self::where_user($request['id_user'], $bindings));
 		$where_join = "";
-		$where_join = self::where_add($where_join, self::where_user($request, $bindings_join));
-		// $where_join = self::where_add($where_join, self::where_task($request, $bindings_join));
 
 		// Main query to actually get the data
-		$sql = "SELECT `user`.*,
-			 	id_task,
-			 	position,
-			 	number_child
-			 FROM $from_join
-			 $where
-			 GROUP BY `user`.`id`
-			 $order";
+		$sql = "SELECT t.`id_task` as 't.id_task',
+					name,
+					description
+				FROM $from
+				$where
+				$order
+				$limit";
 
-		$data = self::sql_exec($db, $bindings,$sql);
+		$data = self::sql_exec($db, $bindings, $sql);
 
 		// Total data set length
 		$resTotalLength = self::sql_exec($db, $bindings_join,
-			"SELECT COUNT(user.id)
-			 FROM $from_join
+			"SELECT COUNT(`t`.`id_task`)
+			 FROM $from
 			 $where_join"
 		);
 		$recordsTotal = $resTotalLength[0][0];
 		// Data set length after filtering
 		$recordsFiltered = $recordsTotal;
-		if (!empty($where_join)) {
+		if (!empty($where)) {
 			$resFilterLength = self::sql_exec($db, $bindings_join,
-				"SELECT COUNT(`user`.id)
-				 FROM $from_join
-				 $where_join
-				 GROUP BY `user`.`id`"
+				"SELECT COUNT(`t`.`id_task`)
+				 FROM $from
+				 $where_join"
 			);
 			$recordsFiltered = $resFilterLength[0][0];
 		}
@@ -120,28 +113,11 @@ class SSPChilds extends SSP {
 		return $where ? $where . $glue . $cond : 'WHERE ' . $cond;
 	}
 
-	private static function where_user($request, &$bindings) {
-		$binding = self::bind($bindings, $request['id_user'], PDO::PARAM_STR);
-		return "`tutor`.`parent` = $binding";
+	private static function where_user($id_parent, &$bindings) {
+		$binding = self::bind($bindings, $id_parent, PDO::PARAM_STR);
+		return "`t`.`parent` = $binding";
 	}
-
-	private static function task_children($from, $request, &$bindings) {
-		$binding = self::bind($bindings, $request['id_task'], PDO::PARAM_STR);
-		return $from . "LEFT JOIN task_children as task_child
-								ON task_child.`id_user` = user.`id`
-										AND task_child.`id_task` = $binding";
-	}
-
-	private static function count_children($from, $request, &$bindings) {
-		$binding = self::bind($bindings, $request['id_task'], PDO::PARAM_STR);
-		return $from . " INNER JOIN (SELECT count(id) as number_child
-                			FROM task_children
-               				WHERE `id_task` = $binding)
-                		top_child";
-	}
-
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -150,5 +126,5 @@ class SSPChilds extends SSP {
  */
 
 echo json_encode(
-	SSPChilds::exec($_POST, get_db_connection())
+	SSPTasks::exec($_POST, get_db_connection())
 );

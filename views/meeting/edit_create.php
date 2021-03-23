@@ -194,7 +194,7 @@ if (isset($_REQUEST['id'])) {
 		<script src="../../js/scripts.js"></script>
 		<script type="text/javascript">
 			$('.clockpicker').clockpicker({
-				donetext: 'Hecho'
+				donetext: 'Confirmar'
 			});
 
 			$(document).ready(function(){

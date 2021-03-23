@@ -16,8 +16,8 @@ class Task {
 			$this->date_start($data['date_start']);
 			$this->date_end($data['date_end']);
 			$this->date_modification($data['date_modification']);
-			$this->time_start($data['time_start']);
-			$this->time_end($data['time_end']);
+			// $this->time_start($data['time_start']);
+			// $this->time_end($data['time_end']);
 			$this->daily($data['daily']);
 			$this->weekly($data['weekly']);
 			$this->monthly($data['monthly']);
@@ -35,8 +35,8 @@ class Task {
 			$this->date_start = '';
 			$this->date_end = '';
 			$this->date_modification = '';
-			$this->time_start = '';
-			$this->time_end = '';
+			// $this->time_start = '';
+			// $this->time_end = '';
 			$this->daily = '';
 			$this->weekly = '';
 			$this->monthly = '';
@@ -50,7 +50,7 @@ class Task {
 		}
 	}
 
-	public static function insert_task($parent, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $children, $position_children) {
+	public static function insert_task($parent, $name, $description, $date_start, $date_end, $date_modification, $frecuency, $children, $position_children) {
 		$date_start = inverse_date($date_start);
 		$date_end = inverse_date($date_end);
 		$date_modification = inverse_date($date_modification);
@@ -66,8 +66,8 @@ class Task {
 		$sunday = $frecuency['sunday'];
 
 		$sql = "INSERT INTO `".self::TABLE."`
-				(parent, name, description, date_start, date_end, date_modification, time_start, time_end, daily, weekly, monthly, monday, thursday, wenesday, tuesday, friday, saturday, sunday)
-				VALUES ('$parent', '$name', '$description', '$date_start', '$date_end', '$date_modification', '$time_start', '$time_end', '$daily', '$weekly', '$monthly', '$monday', '$thursday', '$wenesday', '$tuesday', '$friday', '$saturday', '$sunday')";
+				(parent, name, description, date_start, date_end, date_modification, daily, weekly, monthly, monday, thursday, wenesday, tuesday, friday, saturday, sunday)
+				VALUES ('$parent', '$name', '$description', '$date_start', '$date_end', '$date_modification', '$daily', '$weekly', '$monthly', '$monday', '$thursday', '$wenesday', '$tuesday', '$friday', '$saturday', '$sunday')";
 		$res = self::query($sql);
 
 		$sql = "SELECT MAX(id_task) AS id_task FROM `".self::TABLE."`";
@@ -86,7 +86,38 @@ class Task {
 		return $res;
 	}
 
-	public static function update_task($id_task, $parent, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $children, $position_children) {
+	public static function check_turn_task($id_task) {
+		$current_date = date("Y-m-d");
+		// update date_modification task
+		$sql = "UPDATE `".self::TABLE."`
+					SET `date_modification` = '$current_date'
+					WHERE `id_task` = '$id_task'";
+		$res = self::query($sql);
+
+		// update position child
+		$sql = "SELECT * FROM `".self::TABLE_CHILD."` WHERE `id_task`= '$id_task'";
+		$result = self::query($sql);
+		if (!$result){
+			return null;
+		}
+		$data = $result->fetchAll();
+		foreach ($data as $key => $value) {
+			$id_user = $value['id_user'];
+			if ($value['position'] == "1") {
+				$position = count($data);
+			} else {
+				$position = intval($value['position']) - 1;
+			}
+			$sql = "UPDATE `".self::TABLE_CHILD."`
+					SET `position` = '$position'
+					WHERE `id_task` = '$id_task'
+						AND `id_user` = '$id_user'";
+			$res = self::query($sql);
+		}
+		return $res;
+	}
+
+	public static function update_task($id_task, $parent, $name, $description, $date_start, $date_end, $date_modification, $frecuency, $children, $position_children) {
 		$date_start = inverse_date($date_start);
 		$date_end = inverse_date($date_end);
 		$date_modification = inverse_date($date_modification);
@@ -108,8 +139,6 @@ class Task {
 				`date_start` = '$date_start',
 				`date_end` = '$date_end',
 				`date_modification` = '$date_modification',
-				`time_start` = '$time_start',
-				`time_end` = '$time_end',
 				`daily` = '$daily',
 				`weekly` = '$weekly',
 				`monthly` = '$monthly',
@@ -239,26 +268,26 @@ class Task {
 		return $this->date_end;
 	}
 
-	public function date_modification(?string $date_end = null) : ?string {
-		if (isset($date_end)) {
-			$this->date_end = $date_end;
+	public function date_modification(?string $date_modification = null) : ?string {
+		if (isset($date_modification)) {
+			$this->date_modification = $date_modification;
 		}
-		return $this->date_end;
+		return $this->date_modification;
 	}
 
-	public function time_start(?string $time_start = null) : ?string {
-		if (isset($time_start)) {
-			$this->time_start = $time_start;
-		}
-		return $this->time_start;
-	}
+	// public function time_start(?string $time_start = null) : ?string {
+	// 	if (isset($time_start)) {
+	// 		$this->time_start = $time_start;
+	// 	}
+	// 	return $this->time_start;
+	// }
 
-	public function time_end(?string $time_end = null) : ?string {
-		if (isset($time_end)) {
-			$this->time_end = $time_end;
-		}
-		return $this->time_end;
-	}
+	// public function time_end(?string $time_end = null) : ?string {
+	// 	if (isset($time_end)) {
+	// 		$this->time_end = $time_end;
+	// 	}
+	// 	return $this->time_end;
+	// }
 
 	public function daily(?string $daily = null) : ?string {
 		if (isset($daily)) {

@@ -12,16 +12,17 @@ if (isset($_REQUEST['id'])) {
 	$date_start = inverse_date($task->date_start());
 	$date_end = inverse_date($task->date_end());
 	$date_modification = inverse_date($task->date_modification());
-	$time_start = $task->time_start();
-	$time_end = $task->time_end();
+	// $time_start = $task->time_start();
+	// $time_end = $task->time_end();
 	$value_submit = "Editar";
 } else {
 	$task = new Task();
-	$date_start = date("d-m-Y", time()); // a day is added to calculate tomorrow
-	$date_end = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
+	$date_start = date("d-m-Y");
+	$date_end = strtotime ('1 year' , strtotime($date_start)); // year is added
+	$date_end = date ('d-m-Y', $date_end);
 	$date_modification = date("d-m-Y", time());
-	$time_start = date("G:i", time());
-	$time_end = date("G:i", time());
+	// $time_start = date("G:i", time());
+	// $time_end = date("G:i", time());
 	$value_submit = "Crear";
 }
 
@@ -143,7 +144,7 @@ if (isset($_REQUEST['id'])) {
 									<input type="text" class="form-control monthpicker" name="date_modification" autocomplete="off" value="<?php echo $date_modification; ?>"/>
 								</div>
 							</div>
-							<div class="control-group">
+							<!-- <div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2 d-flex align-items-center">
 									<div class="col">
 										<div class="row ml-1">
@@ -168,7 +169,7 @@ if (isset($_REQUEST['id'])) {
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
@@ -188,7 +189,7 @@ if (isset($_REQUEST['id'])) {
 											/> Mensualmente
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="monday" type="checkbox" onclick="frecuency_day(this)" id="monday" <?php if ($task->monday) echo "monday"; ?>
+											<input class="form-check-input check_child" name="monday" type="checkbox" onclick="frecuency_day(this)" id="monday" <?php if ($task->monday) echo "checked"; ?>
 											/> Lunes
 										</div>
 										<div class="form-check">
@@ -204,7 +205,7 @@ if (isset($_REQUEST['id'])) {
 											/> Jueves
 										</div>
 										<div class="form-check">
-											<input class="form-check-input check_child" name="friday" type="checkbox" onclick="frecuency_day(this)" id="friday" <?php if ($task->friday) echo "friday"; ?>
+											<input class="form-check-input check_child" name="friday" type="checkbox" onclick="frecuency_day(this)" id="friday" <?php if ($task->friday) echo "checked"; ?>
 											/> Viernes
 										</div>
 										<div class="form-check">

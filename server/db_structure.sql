@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-03-2021 a las 06:20:42
+-- Tiempo de generación: 23-03-2021 a las 01:56:59
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -95,9 +95,7 @@ CREATE TABLE `task` (
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT '',
   `date_start` date DEFAULT NULL,
   `date_end` date DEFAULT NULL,
-  `date_modification` datetime NOT NULL,
-  `time_start` time DEFAULT NULL,
-  `time_end` time DEFAULT NULL,
+  `date_modification` date NOT NULL,
   `daily` tinyint(1) NOT NULL DEFAULT '0',
   `weekly` tinyint(1) NOT NULL DEFAULT '0',
   `monthly` tinyint(1) NOT NULL DEFAULT '0',

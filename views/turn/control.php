@@ -23,8 +23,6 @@ $description = $_POST['description'] ?? 'NULL';
 $date_start = $_POST['date_start'] ?? 'NULL';
 $date_end = $_POST['date_end'] ?? 'NULL';
 $date_modification = $_POST['date_modification'] ?? 'NULL';
-$time_start = $_POST['time_start'] ?? 'NULL';
-$time_end = $_POST['time_end'] ?? 'NULL';
 
 $frecuency['daily'] = isset($_POST['daily']) ? '1' : '0';
 $frecuency['weekly'] = isset($_POST['weekly']) ? '1' : '0';
@@ -37,11 +35,28 @@ $frecuency['friday'] = isset($_POST['friday']) ? '1' : '0';
 $frecuency['saturday'] = isset($_POST['saturday']) ? '1' : '0';
 $frecuency['sunday'] = isset($_POST['sunday']) ? '1' : '0';
 
+$correct_frecuency = false;
+foreach ($frecuency as $key => $value) {
+	if ($value == '1') {
+		$correct_frecuency = true;
+		break;
+	}
+}
+if ($form == "Crear" and !$correct_frecuency) {
+	header('Location: ./edit_create.php?success=false&error=no-frecuency');
+	exit();
+} else if ($form == "Editar" and !$correct_frecuency) {
+	header('Location: ./edit_create.php?id='.$id.'&success=false&error=no-frecuency');
+	exit();
+}
+
 try {
 	if ($form == "Crear") {
-		$success = Task::insert_task($id_educator, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $id_user_child, $id_child_position);
+		$success = Task::insert_task($id_educator, $name, $description, $date_start, $date_end, $date_modification, $frecuency, $id_user_child, $id_child_position);
 	} else if ($form == "Editar") {
-		$success = Task::update_task($id, $id_educator, $name, $description, $date_start, $date_end, $date_modification, $time_start, $time_end, $frecuency, $id_user_child, $id_child_position);
+		$success = Task::update_task($id, $id_educator, $name, $description, $date_start, $date_end, $date_modification, $frecuency, $id_user_child, $id_child_position);
+	} else if ($form == "Siguiente-turno") {
+		$success = Task::check_turn_task($id);
 	} else {
 		$success = Task::delete_task($id);
 	}
@@ -59,6 +74,8 @@ if (!$errors) {
 			header('Location: ./index.php?action=create_option');
 		} else if ($form == "Editar") {
 			header('Location: ./index.php?action=update_task');
+		} else if ($form == "Siguiente-turno") {
+			header('Location: ./index.php?action=next_turn');
 		} else {
 			header('Location: ./index.php?action=delete_task');
 		}

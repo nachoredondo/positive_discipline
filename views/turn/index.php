@@ -37,6 +37,11 @@ $user = User::get_user_from_user($_SESSION['user']);
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
         <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
         <script src="../../assets/sweetalert/sweetalert.min.js"></script>
+        <style>
+            #the-table_length {
+                margin-left:65px;
+            }
+        </style>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -101,8 +106,228 @@ $user = User::get_user_from_user($_SESSION['user']);
                 form.submit();
             }
 
+            function date_bbdd_end_day(date) {
+                date = date.split("-");
+                return new Date(date[0], date[1]-1, date[2], 23, 59, 59)
+            }
+
+            function date_bbdd_start_day(date) {
+                date = date.split("-");
+                return new Date(date[0], date[1]-1, date[2])
+            }
+
+            function not_realized(){
+                return "<span class='text-danger'>" +
+                            "<i class='fas fa-circle'></i> Sin realizar" +
+                            "<button type='button' title='Relizar' class='check-btn btn btn-success btn-sm ml-2'><i class='fas fa-check'></i>" +
+                            "</button>" +
+                        "</span>";
+            }
+
+            function pending(){
+                return "<span class='text-warning'>" +
+                            "<i class='fas fa-circle'></i> Pendiente" +
+                            "<button type='button' title='Relizar' class='check-btn btn btn-success btn-sm ml-2'><i class='fas fa-check'></i>" +
+                            "</button>" +
+                        "</span>";
+            }
+
+            function success(){
+                return "<span class='text-success'>" +
+                            "<i class='fas fa-circle'></i> Realizada" +
+                        "</span>";
+            }
+
+            function finalized(){
+                return "<span class='text-dark'>" +
+                            "<i class='fas fa-circle'></i> Finalizado" +
+                        "</span>";
+            }
+
+            function state_daily(date_modification, date_now) {
+                date_end_day = date_bbdd_end_day(date_modification);
+                let ms_day = 24 * 60 * 60 * 1000;
+                let yesterday = new Date(date_now.getTime() - ms_day);
+                yesterday_start = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate())
+                if (date_end_day <= yesterday_start) {
+                    return not_realized();
+                } else if (date_end_day <= date_now) {
+                    return pending();
+                } else {
+                    return success();
+                }
+            }
+
+            function start_day_week(date){
+                let day = date.getDay() || 7;
+                if (day !== 1) {
+                    day -= 1;
+                    date_end_week = date.setDate(date.getDate() - day);   // added days
+                    date_end_week = new Date(date_end_week);
+                } else {
+                    date_end_week = date;
+                }
+                console.log(date_end_week);
+                return new Date(date_end_week.getFullYear(), date_end_week.getMonth(), date_end_week.getDate());
+            }
+
+            function last_day_week(date){
+                let day = date.getDay() || 7;
+                if (day !== 7) {
+                    if (day == 1) {
+                        day = 6;
+                    } else if (day == 2){
+                        day = 5;
+                    } else if (day == 3){
+                        day = 4;
+                    } else if (day == 4){
+                        day = 3;
+                    } else if (day == 5){
+                        day = 2;
+                    } else if (day == 6){
+                        day = 1;
+                    }
+                    date_end_week = date.setDate(date.getDate() + day)   // added days
+                } else {
+                    date_end_week = date;
+                }
+
+                return new Date(date_end_week);
+            }
+
+            function state_weekly(date_modification, date_now) {
+                let previous_week_now = date_now;
+                previous_week_now = previous_week_now.setDate(previous_week_now.getDate() - 7);
+                let date_start_previous = start_day_week(new Date(previous_week_now));
+                date_modification = date_bbdd_end_day(date_modification);
+                let date_end_week_modification = last_day_week(date_modification);
+                date_now = new Date();
+                if (date_end_week_modification <= date_start_previous) {
+                    return not_realized();
+                } else if (date_end_week_modification <= date_now) {
+                    return pending();
+                } else {
+                    return success();
+                }
+            }
+
+            function first_day_month(date) {
+                let year = date.getFullYear();
+                let month = date.getMonth();
+                return new Date(year, month, 1);
+            }
+
+            function last_day_month(date) {
+                let year = date.getFullYear();
+                let month = date.getMonth();
+                if (month == 11) {
+                    year = year + 1;
+                    month = 1;
+                } else {
+                    month += 1;
+                }
+                let first_day = new Date(year, month, 1);
+                let last_day_month = first_day.setHours(-1);
+                last_day = new Date(last_day_month);
+                return new Date(date.getFullYear(), date.getMonth(), last_day.getDate(), 23, 59, 59)
+            }
+
+            function state_monthly(date_modification, date_now) {
+                last_day_modification = last_day_month(date_modification);
+                date_previous_month =  new Date(date_now.setMonth(date_now.getMonth() - 1));
+                first_day_previous_month = first_day_month(date_previous_month);
+                date_now = new Date();
+                if (last_day_modification <= first_day_previous_month) {
+                    return not_realized();
+                } else if (last_day_modification <= date_now) {
+                    return pending();
+                } else {
+                    return success();
+                }
+            }
+
+            function search_previous_day(day_now, data) {
+                let days = [
+                    data.monday,
+                    data.monday,
+                    data.wenesday,
+                    data.thursday,
+                    data.friday,
+                    data.saturday,
+                    data.sunday
+                ]
+                let number_previous_day = 1;
+                for (var i = days.length + day_now - 2; i > day_now - 2; i--) {
+                    let aux = i % 7;
+                    if (days[aux] == "1") {
+                        break;
+                    }
+                    number_previous_day += 1;
+                }
+                return number_previous_day;
+            }
+
+            function pending_not_realized_days(day_now, data, date_now, date_end_day) {
+                let previous_day = search_previous_day(day_now, data);
+                previous_day = date_now.setDate(date_now.getDate() - previous_day);
+                previous_day = new Date(previous_day);
+                if (date_end_day < previous_day) {
+                    return not_realized();
+                } else {
+                    return pending();
+                }
+            }
+
+            function state_days(date_now, data) {
+                date_end_day = date_bbdd_end_day(data.date_modification);
+                let day_modification = date_end_day.getDay() || 7;
+                let day_now  = date_now.getDay() || 7;
+                if (day_modification == day_now) {
+                    if ((day_now == 1 && data.monday == "1" && date_end_day > date_now) ||
+                        (day_now == 2 && data.thursday == "1" && date_end_day > date_now) ||
+                        (day_now == 3 && data.wenesday == "1" && date_end_day > date_now) ||
+                        (day_now == 4 && data.tuesday == "1" && date_end_day > date_now) ||
+                        (day_now == 5 && data.friday == "1" && date_end_day > date_now) ||
+                        (day_now == 6 && data.saturday == "1" && date_end_day > date_now) ||
+                        (day_now == 7 && data.sunday == "1" && date_end_day > date_now))
+                        return success();
+                    else
+                        return pending_not_realized_days(day_now, data, date_now, date_end_day);
+                } else
+                    return pending_not_realized_days(day_now, data, date_now, date_end_day);
+            }
+
+            function state(data){
+                let date_end = date_bbdd_end_day(data.date_end);
+                let date_modification = date_bbdd_start_day(data.date_modification);
+                let date_now = new Date();
+                if (date_now <= date_end) {
+                    if (data.daily == "1") {
+                        return state_daily(data.date_modification, date_now);
+                    } else if (data.weekly == "1") {
+                        return state_weekly(data.date_modification, date_now);
+                    } else if (data.monthly == "1") {
+                        return state_monthly(date_modification, date_now);
+                    } else {
+                        return state_days(date_now, data);
+                    }
+                    return "Sin estado";
+                } else {
+                    return finalized();
+                }
+            }
+
+            function control_description(data) {
+                let max_description = 45;
+                if (data.length > max_description) {
+                    return data.substring(0,max_description) + "...";
+                } else {
+                    return data;
+                }
+            }
+
             function edit_rules(){
-                let prueba = "<?php if ($_SESSION['type']){ echo '<button type=\"button\" title=\"Realizado\" class=\"check-btn btn btn-info btn-sm mr-3\"><i class=\"fas fa-check\"></i></button><button type=\"button\" title=\"Detalles\" class=\"edit-btn btn btn-success btn-sm\"><i class=\"fas fa-edit\"></i></button>';
+                let prueba = "<?php if ($_SESSION['type']){ echo '<button type=\"button\" title=\"Detalles\" class=\"edit-btn btn btn-info btn-sm\"><i class=\"fas fa-edit\"></i></button>';
                         } else  {
                             echo '';
                         }
@@ -114,36 +339,38 @@ $user = User::get_user_from_user($_SESSION['user']);
                 let table = $('#the-table').DataTable({
                     order: [[1, 'asc']],
                     serverSide: true,
+                    bFilter: false,
                     language: {
                         url: "<?php echo APP_ROOT; ?>/assets/datatables/es.json",
                     },
                     columns: [
                         {
-                            data: 'name',
+                            data: 't_name',
                             title: 'Name',
                         },
-                        {
-                            data: 'description',
-                            title: 'Descripción',
-                            "searchable": false,
-                        },
                         // {
-                        //     data: 'consequences',
-                        //     title: 'Siguiente turno',
-                        // },
-                        // {
-                        //     data: 'consequences',
-                        //     title: 'Estado',
-                        //     defaultContent: edit_rules(),
+                        //     data: 'description',
+                        //     title: 'Descripción',
+                        //     render: function (_, _, row) { return control_description(row.description) },
                         //     "searchable": false,
                         // },
-                        // {
-                        //     data: 'consequences',
-                        //     title: 'Anterior turno',
-                        // },
+                        {
+                            data: 'first_child_name',
+                            title: 'Siguiente turno',
+                        },
+                        {
+                            data: 'last_child_name',
+                            title: 'Estado',
+                            render: function (_, _, row) { return state(row) },
+                            "searchable": false,
+                        },
+                        {
+                            data: 'last_child_name',
+                            title: 'Anterior turno',
+                        },
                         {
                             sorting: false,
-                            defaultContent: edit_rules(),
+                            render: function (_, _, row) { return edit_rules() },
                             "searchable": false,
                         },
                     ],
@@ -165,11 +392,15 @@ $user = User::get_user_from_user($_SESSION['user']);
                 });
                 $('#the-table tbody').on('click', 'button', function () {
                     let data = table.row($(this).parents('tr')).data();
-                    console.log(data);
                     if (this.classList.contains('edit-btn')) {
                         make_request('<?php echo APP_ROOT ?>views/turn/edit_create.php', { id: data["t_id_task"] });
                     } else if (this.classList.contains('check-btn')) {
-                        make_request('<?php echo APP_ROOT ?>views/turn/control.php', { id: data["t_id_task"] });
+                        make_request('<?php echo APP_ROOT ?>views/turn/control.php',
+                                        {
+                                            id: data["t_id_task"],
+                                            form: "Siguiente-turno",
+                                        }
+                                    );
                     } else {
                         console.error("Botón pulsado desconocido!");
                     }

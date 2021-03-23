@@ -32,10 +32,20 @@ function get_db_connection($dbname = null) {
 
 class SSPTasks extends SSP {
 	private const FROM = "`task` as t
-						LEFT JOIN (SELECT position, id_task FROM `task_children`
-							ORDER BY position ASC
-							LIMIT 1)
-						first_child USING (id_task)";
+						LEFT JOIN (SELECT position, id_task, us.name as name
+                    		FROM `task_children` as tc
+                   				INNER JOIN `users` as us ON us.id = tc.id_user
+                   			WHERE position = (SELECT MIN(position)
+                                        		FROM `task_children`
+                                        		WHERE `id_task` = tc.id_task)
+                   		) first_child USING (id_task)
+        				LEFT JOIN (SELECT position, id_task, us.name as name
+                   			FROM `task_children` as tc
+                   				INNER JOIN `users` as us ON us.id = tc.id_user
+                   			WHERE position = (SELECT MAX(position)
+                                        		FROM `task_children`
+                                        		WHERE `id_task` = tc.id_task)
+                   			) last_child USING (id_task) ";
 
 	public static function exec ($request, $conn) {
 		// Datatbles columns - ADD THEM HERE
@@ -45,8 +55,22 @@ class SSPTasks extends SSP {
 		// indexes
 		$DT_COLUMNS = [
 			[ 'db' => 't.id_task', 'dt' => 't_id_task' ],
-			[ 'db' => 'name', 'dt' => 'name' ],
+			[ 'db' => 't.name', 'dt' => 't_name' ],
 			[ 'db' => 'description', 'dt' => 'description' ],
+			[ 'db' => 'date_modification', 'dt' => 'date_modification' ],
+			[ 'db' => 'date_end', 'dt' => 'date_end' ],
+			[ 'db' => 'daily', 'dt' => 'daily' ],
+			[ 'db' => 'weekly', 'dt' => 'weekly' ],
+			[ 'db' => 'monthly', 'dt' => 'monthly' ],
+			[ 'db' => 'monday', 'dt' => 'monday' ],
+			[ 'db' => 'thursday', 'dt' => 'thursday' ],
+			[ 'db' => 'wenesday', 'dt' => 'wenesday' ],
+			[ 'db' => 'tuesday', 'dt' => 'tuesday' ],
+			[ 'db' => 'friday', 'dt' => 'friday' ],
+			[ 'db' => 'saturday', 'dt' => 'saturday' ],
+			[ 'db' => 'sunday', 'dt' => 'sunday' ],
+			[ 'db' => 'first_child.name', 'dt' => 'first_child_name' ],
+			[ 'db' => 'last_child.name', 'dt' => 'last_child_name' ],
 		];
 		return self::do_search($request, $conn, $DT_COLUMNS);
 	}
@@ -63,6 +87,8 @@ class SSPTasks extends SSP {
 		$order = self::order($request, $columns);
 		$where = self::filter($request, $columns, $bindings);
 
+		$group = " GROUP BY  t.`id_task` ";
+
 		$from = self::FROM;
 
 		$where = self::where_add($where, self::where_user($request['id_user'], $bindings));
@@ -70,10 +96,13 @@ class SSPTasks extends SSP {
 
 		// Main query to actually get the data
 		$sql = "SELECT t.`id_task` as 't.id_task',
-					name,
-					description
+					t.`name` as 't.name',
+					description, date_modification, date_end, daily, weekly, monthly, monday, thursday, wenesday, tuesday, friday, saturday, sunday,
+					first_child.`name` as 'first_child.name',
+					last_child.`name` as 'last_child.name'
 				FROM $from
 				$where
+				$group
 				$order
 				$limit";
 
@@ -83,7 +112,8 @@ class SSPTasks extends SSP {
 		$resTotalLength = self::sql_exec($db, $bindings_join,
 			"SELECT COUNT(`t`.`id_task`)
 			 FROM $from
-			 $where_join"
+			 $where_join
+			 $group"
 		);
 		$recordsTotal = $resTotalLength[0][0];
 		// Data set length after filtering
@@ -92,7 +122,8 @@ class SSPTasks extends SSP {
 			$resFilterLength = self::sql_exec($db, $bindings_join,
 				"SELECT COUNT(`t`.`id_task`)
 				 FROM $from
-				 $where_join"
+				 $where_join
+				 $group"
 			);
 			$recordsFiltered = $resFilterLength[0][0];
 		}

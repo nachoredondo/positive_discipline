@@ -63,7 +63,7 @@ $size_wheel = count($wheel);
                 <!-- Rules Section Heading-->
                 <h2 class="text-white">.</h2>
                 <div class="mr-5">
-                    <h2 class="text-center text-uppercase text-secondary ml-3">Rueda de la ira</h2>
+                    <h2 class="text-center text-uppercase text-secondary ml-3 mt-5">Rueda de la ira</h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>

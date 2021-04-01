@@ -78,7 +78,6 @@ $user = User::get_user_from_user($_SESSION['user']);
             function background(value){
                 console.log(value);
                 let table = document.getElementById("table");
-                // table.style.cssText = 'background-color: black; color: white;';
                 table.style.backgroundImage = 'url(../../assets/img/table/main/'+ value + ')';
             }
 
@@ -174,11 +173,21 @@ $user = User::get_user_from_user($_SESSION['user']);
             }
 
             function cleaner() {
-                let m = confirm("Want to clear");
-                if (m) {
-                    ctx.clearRect(0, 0, w, h);
-                    document.getElementById("canvasimg").style.display = "none";
-                }
+                swal({
+                    title: "¿Estás seguro de que quieres borrar el dibujo?",
+                    icon: "warning",
+                    buttonsStyling: false,
+                    buttons: ["No", "Si"],
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        ctx.clearRect(0, 0, w, h);
+                        document.getElementById("canvasimg").style.display = "none";
+                    } else {
+                        swal("El dibujo no ha sido borrado");
+                    }
+                })
+                .catch(function() { writeToScreen('err: Hubo un error al borrar el dibujo.', true)});
             }
 
             function findxy(res, e) {
@@ -221,6 +230,15 @@ $user = User::get_user_from_user($_SESSION['user']);
                     }
                 }
             }
+
+            function hide_show(checkbox){
+                let div = document.getElementById(checkbox.value)
+                if (div.style.visibility === "hidden") {
+                    div.style.visibility = "";
+                } else {
+                    div.style.visibility = "hidden";
+                }
+            }
         </script>
     </head>
     <body id="page-top" onload="init()">
@@ -258,48 +276,82 @@ $user = User::get_user_from_user($_SESSION['user']);
                                 <option value="wolf.jpg">Lobo</option>
                             </select>
                         </div>
-                        <div class="col-9 mb-2">
-                            <div class="mr-5">
-                                <input class="form-check-input check_child" name="daily" type="checkbox" onclick="" id="daily" checked> Avatar
+                        <div class="control-group">
+                            <div class="row mb-2">
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" name="daily" type="checkbox" value="profile" onclick="hide_show(this)" id="profile-check" checked> Perfil
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" name="daily" type="checkbox" value="elephant" onclick="hide_show(this)" id="elephant-check" checked> Elefante
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" name="daily" type="checkbox" value="bear" onclick="hide_show(this)" id="bear-check" checked> Oso
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" name="daily" type="checkbox" value="rabbit" onclick="hide_show(this)" id="rabbit-check" checked> Conejo
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" name="daily" type="checkbox" value="horse" onclick="hide_show(this)" id="horse-check" checked> Caballo
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" name="daily" type="checkbox" value="ball" onclick="hide_show(this)" id="ball-check" checked> Pelota
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" type="checkbox" value="car" onclick="hide_show(this)" id="car-check" checked> Coche
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" type="checkbox" value="rose" onclick="hide_show(this)" id="rose-check" checked> Rosa
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" type="checkbox" value="tree" onclick="hide_show(this)" id="tree-check" checked> Arbol
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" type="checkbox" value="tree2" onclick="hide_show(this)" id="tree2-check" checked> Arbol
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" type="checkbox" value="plant" onclick="hide_show(this)" id="plant-check" checked> Planta
+                                </div>
+                                <div class="ml-5 col-1 mb-1">
+                                    <input class="form-check-input check_child" type="checkbox" value="plant2" onclick="hide_show(this)" id="plant2-check" checked> Planta
+                                </div>
                             </div>
-                            <input class="form-check-input check_child" name="daily" type="checkbox" onclick="" id="daily" checked> Elefante
                         </div>
                         <div id="table" >
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/user_child/unicorn.png" width="50" height="50">
+                                <img id="profile" src="../../assets/img/user_child/unicorn.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
                                 <img id="elephant" src="../../assets/img/table/elephant.png" width="70" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/teddy.png" width="50" height="50">
+                                <img id="bear" src="../../assets/img/table/teddy.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/rabbit.png" width="50" height="50">
+                                <img id="rabbit" src="../../assets/img/table/rabbit.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/horse.png" width="60" height="50">
+                                <img id="horse" src="../../assets/img/table/horse.png" width="60" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/ball.png" width="50" height="50">
+                                <img id="ball" src="../../assets/img/table/ball.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
                                 <img id="car" src="../../assets/img/table/car.png" width="70" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/rose.png" width="50" height="50">
+                                <img id="rose" src="../../assets/img/table/rose.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/tree.png" width="50" height="50">
+                                <img id="tree" src="../../assets/img/table/tree.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/tree2.png" width="50" height="50">
+                                <img id="tree2" src="../../assets/img/table/tree2.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
-                                <img id="" src="../../assets/img/table/plant.png" width="50" height="50">
+                                <img id="plant" src="../../assets/img/table/plant.png" width="50" height="50">
                             </div>
                             <div class="grid-square">
-                               <img id="" src="../../assets/img/table/plant2.png" width="50" height="50">
+                               <img id="plant2" src="../../assets/img/table/plant2.png" width="50" height="50">
                             </div>
                         </div>
                     </div>

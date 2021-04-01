@@ -76,7 +76,6 @@ $user = User::get_user_from_user($_SESSION['user']);
         <script type="text/javascript">
 
             function background(value){
-                console.log(value);
                 let table = document.getElementById("table");
                 table.style.backgroundImage = 'url(../../assets/img/table/main/'+ value + ')';
             }
@@ -266,9 +265,9 @@ $user = User::get_user_from_user($_SESSION['user']);
                                 <label>Tipo de fondo</label>
                             </div>
                             <select id="responsable_act" name="responsable_act" style="width:180px;" onchange="background(this.value)" class="form-control mt-1">
+                                <option value="night.jpg">Noche</option>
                                 <option value="beach.jpg">Playa</option>
                                 <option value="beach2.png">Playa infantil</option>
-                                <option value="night.jpg">Noche</option>
                                 <option value="planet.jpg">Montañas</option>
                                 <option value="sun.jpg">Ficción</option>
                                 <option value="sun2.jpg">Puesta de sol</option>

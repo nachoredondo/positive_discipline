@@ -27,8 +27,7 @@ class Controller {
 	public static function staticInit() {
 		// Read configuration files
 		if (!isset(self::$config)) {
-			Config::set_default_config_location(REAL_APP_ROOT.'/config.ini');
-			self::$config = Config::get_default();
+			self::$config = new Config();
 		}
 
 		if (!isset(self::$conn)) {
@@ -41,18 +40,11 @@ class Controller {
 	}
 
 	public static function get_global_connection() {
-		return self::get_connection(self::$config->get_db_config());
-	}
-
-	public static function get_connection(array $config) : \PDO {
+		$config = self::$config;
 		$dsn = 'mysql:dbname='.$config['database'].
 			';host='.$config['host'].
-			';port='.$config['port'].
 			';charset=utf8';
-		$conn = new \PDO($dsn, $config['user'], $config['password'], [
-			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-		]);
+		$conn = new \PDO($dsn, $config['user'], $config['pass']);
 		return $conn;
 	}
 }

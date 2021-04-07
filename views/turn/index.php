@@ -167,7 +167,6 @@ $user = User::get_user_from_user($_SESSION['user']);
                 } else {
                     date_end_week = date;
                 }
-                console.log(date_end_week);
                 return new Date(date_end_week.getFullYear(), date_end_week.getMonth(), date_end_week.getDate());
             }
 

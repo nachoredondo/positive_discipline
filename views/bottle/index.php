@@ -85,7 +85,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                         </ol>
 
                         <span class="row">A continuación se pone un video de ejemplo para hacer una botella de la calma</span>
-                        <h4 class="text-uppercase text-info ml-4 mb-2">Video</h4>
+                        <h4 class="text-uppercase text-info ml-4 mt-2 mb-2">Video</h4>
                         <div class="responsiveContent">
                             <iframe src="https://www.youtube.com/embed/YARHS1gFDuM"
                                     allowfullscreen="" frameborder="0"></iframe>

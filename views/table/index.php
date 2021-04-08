@@ -26,12 +26,12 @@ $user = User::get_user_from_user($_SESSION['user']);
         <link href="../../css/styles.css" rel="stylesheet" />
 
         <!-- Bootstrap core JS-->
-        <script src="<?php echo APP_ROOT ?>/node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="<?php echo APP_ROOT ?>/assets/jquery/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="../../assets/sweetalert/sweetalert.min.js"></script>
-        <script src="<?php echo APP_ROOT ?>/node_modules/sortablejs/sortable.min.js"></script>
+        <script src="<?php echo APP_ROOT ?>/assets/sortable/sortable.min.js"></script>
         <style>
             .grid-square {
                 width: 100px;

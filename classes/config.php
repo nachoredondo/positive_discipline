@@ -1,25 +1,40 @@
 <?php
 
 class Config implements \ArrayAccess {
-	public function __construct() {
+	private const DB_KEYS_WHITELIST = ['host','port','user','password','database'];
+	private static $DEFAULT_CONFIG_PATH = './config.ini';
+	private const MAIL_KEYS_WHITELIST = ['host', 'port', 'src', 'password'];
+
+	private static $app_config;
+
+	private $config;
+	private $dbconfig;
+
+	public function __construct(string $path) {
 		if (!$this->config = self::get_dt_config()) {
-			throw new Exception();
+			throw new Exception($path);
 		}
 	}
 
+	public static function set_default_config_location(string $path) : void {
+		self::$DEFAULT_CONFIG_PATH = $path;
+	}
+
+	public static function get_default() : self {
+		if (!self::$app_config)
+			self::$app_config = new self(self::$DEFAULT_CONFIG_PATH);
+		return self::$app_config;
+	}
+
 	public static function get_dt_config(string $database = null) : ?array {
-		// return [
-		// 	'host' => 'localhost',
-		// 	'user' => 'root',
-		// 	'password' => '',
-		// 	'database' => 'positive_discipline',
-		// ];
 		$conf = parse_url(getenv("CLEARDB_DATABASE_URL"));
+		// var_dump($conf);
+		// exit();
 		return [
 			'host' => $conf['host'],
 			'port' => $conf['port'] ?? null,
 			'user' => $conf['user'],
-			'password' => $conf['password'],
+			'password' => $conf['pass'],
 			'database' => substr($conf["path"],1),
 		];
 	}
@@ -39,5 +54,9 @@ class Config implements \ArrayAccess {
 
 	public function offsetUnset ($offset) : void {
 		throw new \Exception("Configuration files are read-only.");
+	}
+
+	protected function parse_file(string $path) : ?array {
+		return parse_ini_file($path, true, INI_SCANNER_TYPED);
 	}
 }

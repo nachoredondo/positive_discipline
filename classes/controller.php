@@ -27,7 +27,8 @@ class Controller {
 	public static function staticInit() {
 		// Read configuration files
 		if (!isset(self::$config)) {
-			self::$config = new Config();
+			// Config::set_default_config_location(REAL_APP_ROOT.'/config.ini');
+			self::$config = Config::get_dt_config();
 		}
 
 		if (!isset(self::$conn)) {
@@ -40,11 +41,11 @@ class Controller {
 	}
 
 	public static function get_global_connection() {
-		$config = self::$config;
-		$dsn = 'mysql:dbname='.$config['database'].
-			';host='.$config['host'].
+		$dsn = 'mysql:dbname='.self::$config['database'].
+			';host='.self::$config['host'].
 			';charset=utf8';
-		$conn = new \PDO($dsn, $config['user'], $config['password']);
+		// $example_heroku = "mysql:host=".self::$config['host'].";dbname=".self::$config['database'];
+		$conn = new \PDO($dsn, self::$config['user'], self::$config['password']);
 		return $conn;
 	}
 }

@@ -45,7 +45,15 @@ session_start();
                 </div>
                 <!-- Contact Section Form-->
             <div class="container d-flex align-items-center flex-column">
-                <h4 class="text-uppercase text-secondary">Iniciar sesión</h4>
+                <h4 class="text-uppercase text-secondary">
+                    Iniciar sesión
+                    <?php
+                        if ($type == "adult")
+                            echo "tutor@";
+                        else
+                            echo "niñ@";
+                    ?>
+                </h4>
                 <div class="card-header">
                     <div class="text-center">
                     <?php if (isset($_SESSION['login-error'])): unset($_SESSION['login-error']) ?>
@@ -74,9 +82,10 @@ session_start();
                                 <div class="row">
                                     <div class="input-group no-border">
                                         <div class="form-control-lg">
-                                            <input type="text" placeholder="Usuario tutor" class="form-control" name="tutor" required>
+                                            <input type="text" placeholder="Usuario tutor" class="form-control" name="tutor" required/>
                                         </div>
-                                        <div class="mt-2 mr-3">
+                                        <!-- <div class="mt-2 mr-3"> -->
+                                        <div class="mt-2 ml-3">
                                             <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
                                                 <option value="">Elegir foto</option>
                                                 <option value="robot.png">Robot</option>
@@ -95,13 +104,13 @@ session_start();
                             <?php
                                 endif;
                             ?>
-                            <div class="text-center mt-2">
-                                <button type="submit" class="btn btn-primary mr-2" name="login">Entrar</button>
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary ml-2 mb-2" name="login">Entrar</button>
                                 <a href="registrer.php?type=<?php echo $type;?>">
-                                    <input type="button" class="btn btn-primary ml-2" value="Crear usuario"/>
+                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Crear usuario"/>
                                 </a>
                                 <a href="../../">
-                                    <input type="button" class="btn btn-primary ml-2" value="Tipo usuario"/>
+                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Cambiar tipo usuario"/>
                                 </a>
                             </div>
                         </form>

@@ -455,7 +455,6 @@ if ($video_stop) {
         <script type="text/javascript">
             let election = $("input[name = 'election']")
             election.click( function () {
-                console.log(this);
                 if (this.getAttribute("checked") == null) {
                     let types = ['youtube', 'audio', 'image', 'video'];
                     // let types = ['image', 'audio', 'video'];

@@ -19,7 +19,7 @@ class Config implements \ArrayAccess {
 			'host' => $conf['host'],
 			'port' => $conf['port'] ?? null,
 			'user' => $conf['user'],
-			'password' => $conf['pass'],
+			'password' => $conf['password'],
 			'database' => substr($conf["path"],1),
 		];
 	}

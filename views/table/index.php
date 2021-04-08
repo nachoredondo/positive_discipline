@@ -31,7 +31,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="../../assets/sweetalert/sweetalert.min.js"></script>
-        <script src="<?php echo APP_ROOT ?>/assets/sortable/sortable.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"> </script>
         <style>
             .grid-square {
                 width: 100px;

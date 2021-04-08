@@ -66,26 +66,25 @@ $user = User::get_user_from_user($_SESSION['user']);
                         <div class="divider-custom-line"></div>
                     </div>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h5 class="row">Los materiales que se necesitan son:</h5>
+                        <h5 class="row">Tutorial según se indica en el canal de el Bosque de las Fantasías de Youtube</h5>
+                        <h5 class="row mt-3 text-info ">Los materiales que se necesitan son:</h5>
                         <ul>
-                            <li>Bote de cristal o de plástico</li>
-                            <li>Agua caliente</li>
-                            <li>Jabón líquido</li>
-                            <li>Purpurina de colores y/o pequeños elementos decorativos permeables</li>
-                            <li>Silicona o cola blanca</li>
+                            <li class="mb-1">Bote de cristal o de plástico</li>
+                            <li class="mb-1">Agua caliente</li>
+                            <li class="mb-1">Jabón líquido</li>
+                            <li class="mb-1">Purpurina de colores y/o pequeños elementos decorativos permeables</li>
+                            <li class="mb-1">Silicona o cola blanca</li>
                         </ul>
-                        <h5 class="row">Los pasos a seguir son:</h5>
+                        <h5 class="row text-info ">Los pasos a seguir son:</h5>
                         <ol>
-                            <li>Rellenar agua caliente al bote.</li>
-                            <li>Echar y mezclar jabón líquido transparente, la mezcla se podrá hacer con una cuchara por ejemplo.</li>
-                            <li>Echar y mezclar purpurina de colores a nuestro gusto.</li>
-                            <li>Echar y mezclar elementos decorativos a nuestro gusto.</li>
-                            <li>Cerrar el bote bien con silicona o cola blanca.</li>
-                            <li>Agita el bote y disfruta.</li>
+                            <li class="mb-1">&nbsp;Rellenar agua caliente al bote.</li>
+                            <li class="mb-1">&nbsp;Echar y mezclar jabón líquido transparente, la mezcla se podrá hacer con una cuchara por ejemplo.</li>
+                            <li class="mb-1">&nbsp;Echar y mezclar purpurina de colores a nuestro gusto.</li>
+                            <li class="mb-1">&nbsp;Echar y mezclar elementos decorativos a nuestro gusto.</li>
+                            <li class="mb-1">&nbsp;Cerrar el bote bien con silicona o cola blanca.</li>
+                            <li class="mb-1">&nbsp;Agita el bote y disfruta.</li>
                         </ol>
-
-                        <span class="row">A continuación se pone un video de ejemplo para hacer una botella de la calma</span>
-                        <h4 class="text-uppercase text-info ml-4 mt-2 mb-2">Video</h4>
+                        <h5 class="row text-uppercase text-info mt-2 mb-2">Video de youtube</h5>
                         <div class="responsiveContent">
                             <iframe src="https://www.youtube.com/embed/YARHS1gFDuM"
                                     allowfullscreen="" frameborder="0"></iframe>

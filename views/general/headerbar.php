@@ -15,22 +15,24 @@ $user_child = User::get_user_from_user($_SESSION['user'])
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
+            <div class="mr-1">
             <?php  if ($_SESSION['type']) :  ?>
                 <a class="ml-5" href="../stop/">
-                    <img id="img-user" src="../../assets/img/stop.png" height="80" width="90"/>
+                    <img id="img-user" src="../../assets/img/stop.png" height="70" width="90"/>
                 </a>
             <?php  else:;  ?>
-                <img id="img-user" src="../../assets/img/user_child/<?php  echo $user_child->image();  ?>" height="130" width="125"/>
+                <img id="img-user" src="../../assets/img/user_child/<?php  echo $user_child->image();  ?>" height="100" width="97"/>
             <?php  endif;  ?>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../rules/">Normas</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../meeting/">Juntas</a></li>
+            </div>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../rules/">Normas</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../meeting/">Juntas</a></li>
                 <?php  if ($_SESSION['type']){  ?>
-	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../turn/">Turnos</a></li>
+	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../turn/">Turnos</a></li>
                 <?php } else {  ?>
-	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../wheel/">Rueda</a></li>
-	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../table">Mesa</a></li>
-	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../bottle">Botella</a></li>
+	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../wheel/">Rueda</a></li>
+	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../table">Mesa</a></li>
+	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../bottle">Botella</a></li>
                 <?php } ?>
             </ul>
         </div>

@@ -1,0 +1,2 @@
+# redirect index.html to index.php
+RewriteRule ^index.html$ /index.php [R,L]

@@ -11,7 +11,7 @@ class Config implements \ArrayAccess {
 		// return [
 		// 	'host' => 'localhost',
 		// 	'user' => 'root',
-		// 	'pass' => '',
+		// 	'password' => '',
 		// 	'database' => 'positive_discipline',
 		// ];
 		$conf = parse_url(getenv("CLEARDB_DATABASE_URL"));

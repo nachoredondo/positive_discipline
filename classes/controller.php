@@ -44,7 +44,7 @@ class Controller {
 		$dsn = 'mysql:dbname='.$config['database'].
 			';host='.$config['host'].
 			';charset=utf8';
-		$conn = new \PDO($dsn, $config['user'], $config['pass']);
+		$conn = new \PDO($dsn, $config['user'], $config['password']);
 		return $conn;
 	}
 }

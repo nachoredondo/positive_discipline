@@ -8,11 +8,19 @@ class Config implements \ArrayAccess {
 	}
 
 	public static function get_dt_config(string $database = null) : ?array {
+		// return [
+		// 	'host' => 'localhost',
+		// 	'user' => 'root',
+		// 	'pass' => '',
+		// 	'database' => 'positive_discipline',
+		// ];
+		$conf = parse_url(getenv("CLEARDB_DATABASE_URL"));
 		return [
-			'host' => 'localhost',
-			'user' => 'root',
-			'pass' => '',
-			'database' => 'positive_discipline',
+			'host' => $conf['host'],
+			'port' => $conf['port'] ?? null,
+			'user' => $conf['user'],
+			'password' => $conf['pass'],
+			'database' => substr($conf["path"],1),
 		];
 	}
 

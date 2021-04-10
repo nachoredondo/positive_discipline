@@ -76,7 +76,7 @@ class User {
 					VALUES ('$name', '$surnames', '$user', '$email', '$pwd', '$educator', '$image', $age)";
 			$res = self::query($sql);
 
-			$result = self::get_user('user', $user_child);
+			$result = self::get_user('user', $user);
 			if ($result) {
 				$id_tutor = $result->id();
 				$sql =  "INSERT INTO `".self::TABLE_STOP."` (`id_user`, `type`, `name`, `link`, `position`) VALUES

@@ -73,7 +73,7 @@ $size_wheel = count($wheel);
                 </div>
                 <!-- Wheel Section -->
                 <div class="row justify-content-center">
-                    <h7 class="text-uppercase text-center text-secondary">Pincha en la rueda para sacar una opción</h7>
+                    <h7 class="text-center text-info">Pincha en la rueda para sacar una opción</h7>
                     <i class="ml-3 fas fa-spinner fa-lg fa-pulse" id="path-load" style="display:none"></i>
                 </div>
                 <div class="row justify-content-center mt-1 mb-3">
@@ -81,7 +81,7 @@ $size_wheel = count($wheel);
                         <img class="mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/files/img/wheel.png" width="200"/>
                     </a>
                 </div>
-                <h5 class="text-uppercase text-center text-secondary mb-1 mr-5">Listado de opciones:</h5>
+                <h5 class="text-uppercase text-center text-info mb-1 mr-5">Listado de opciones:</h5>
                 <div class="row justify-content-center">
                     <div class="col-auto">
                         <div class="table-responsive">

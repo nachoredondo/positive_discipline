@@ -256,8 +256,8 @@ $user = User::get_user_from_user($_SESSION['user']);
                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                         <div class="divider-custom-line"></div>
                     </div>
-                    <h5 class="text-uppercase text-secondary mb-3 ml-4">
-                        1. Ordenar y escoger elementos.
+                    <h5 class="text-uppercase text-info mb-3 ml-4">
+                        1. Ordenar y escoger elementos
                     </h5>
                     <div id="content-div" class="col-11 mx-auto mb-5">
                         <div class="mb-2 col-3">
@@ -354,8 +354,8 @@ $user = User::get_user_from_user($_SESSION['user']);
                             </div>
                         </div>
                     </div>
-                    <h5 class="text-uppercase text-secondary mt-2 ml-4">
-                        2. Cuadro a dibujar.
+                    <h5 class="text-uppercase text-info mt-2 ml-4">
+                        2. Cuadro a dibujar
                     </h5>
                     <div id="draw" class="row mt-4 col-xs-10 col-sm-9 col-md-8 col-lg-8 mx-auto">
                         <canvas class="mx-auto" id="paint" width="400" height="400" class=""></canvas>

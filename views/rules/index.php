@@ -45,8 +45,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <section class="page-section" id="contact">
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
-                <h2 class="text-white">.</h2>
-                <h2 class="text-center text-uppercase text-secondary">Normas</h2>
+                <h2 class="text-center text-uppercase text-secondary mt-4">Normas</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -56,6 +55,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                 <!-- Rules Section -->
                 <div class="row">
                     <div class="col-lg-9 mx-auto">
+                        <h4 class="row mt-2 mb-3 text-info">Lista de normas:</h4>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>

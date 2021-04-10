@@ -18,7 +18,7 @@ $user_child = User::get_user_from_user($_SESSION['user'])
             <div class="mr-1">
             <?php  if ($_SESSION['type']) :  ?>
                 <a class="ml-5" href="../stop/">
-                    <img id="img-user" src="../../assets/img/stop.png" height="70" width="90"/>
+                    <img id="img-user" src="../../assets/img/stop.png" height="80" width="90"/>
                 </a>
             <?php  else:;  ?>
                 <img id="img-user" src="../../assets/img/user_child/<?php  echo $user_child->image();  ?>" height="85" width="83"/>

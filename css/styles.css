@@ -163,6 +163,11 @@ a {
   text-decoration: none;
   background-color: transparent;
 }
+
+li a {
+  padding-left: 0.5em;
+}
+
 a:hover {
   color: #117964;
   text-decoration: underline;

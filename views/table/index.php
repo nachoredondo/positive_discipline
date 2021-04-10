@@ -260,20 +260,20 @@ $user = User::get_user_from_user($_SESSION['user']);
                         1. Ordenar y escoger elementos
                     </h5>
                     <div id="content-div" class="col-11 mx-auto mb-5">
-                        <div class="mb-2 col-3">
-                            <div class="row ml-1">
+                        <div class="mb-2">
+                            <div class="ml-1">
                                 <label>Tipo de fondo</label>
+                                <select id="responsable_act" name="responsable_act" style="width:180px;" onchange="background(this.value)" class="form-control mb-1">
+                                    <option value="night.jpg">Noche</option>
+                                    <option value="beach.jpg">Playa</option>
+                                    <option value="beach2.png">Playa infantil</option>
+                                    <option value="planet.jpg">Montañas</option>
+                                    <option value="sun.jpg">Ficción</option>
+                                    <option value="sun2.jpg">Puesta de sol</option>
+                                    <option value="tree_house.jpg">Bosque encantado</option>
+                                    <option value="wolf.jpg">Lobo</option>
+                                </select>
                             </div>
-                            <select id="responsable_act" name="responsable_act" style="width:180px;" onchange="background(this.value)" class="form-control mt-1">
-                                <option value="night.jpg">Noche</option>
-                                <option value="beach.jpg">Playa</option>
-                                <option value="beach2.png">Playa infantil</option>
-                                <option value="planet.jpg">Montañas</option>
-                                <option value="sun.jpg">Ficción</option>
-                                <option value="sun2.jpg">Puesta de sol</option>
-                                <option value="tree_house.jpg">Bosque encantado</option>
-                                <option value="wolf.jpg">Lobo</option>
-                            </select>
                         </div>
                         <div class="control-group">
                             <div class="row mb-2">

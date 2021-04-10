@@ -63,103 +63,116 @@ if (isset($_GET['error'])) {
             <h1 class="text-uppercase text-secondary mt-4">Crear usuario <?php echo $name_type; ?></h1>
             <div class="mt-4 container d-flex align-items-center flex-column">
                 <div class="card-header">
-                    <div class="flex-group">
-                        <?php
-                        if (isset($_GET['success'])):
-                            if ($_GET['success'] == 'false'):
-                                if (isset($_GET['error'])):
-                                        ?>
-                                    <span class="badge badge-danger mb-2"><?php echo $text_error; ?></span>
-                                    <?php
-                                endif;
+                    <?php
+                    if (isset($_GET['success'])):
+                        if ($_GET['success'] == 'false'):
+                            if (isset($_GET['error'])):
+                                    ?>
+                                <span class="badge badge-danger mb-2"><?php echo $text_error; ?></span>
+                                <?php
                             endif;
                         endif;
+                    endif;
+                    ?>
+                    <form class="form" method="post" action="create_user.php" role="form" id="the-form">
+                        <input type="hidden" class="form-control ml-3" name="type" required value="<?php echo $type;?>"/>
+                        <?php
+                            if ($type == "adult"):
                         ?>
-                        <form class="form" method="post" action="create_user.php" role="form" id="the-form">
-                            <input type="hidden" class="form-control ml-3" name="type" required value="<?php echo $type;?>"/>
-                            <?php
-                                if ($type == "adult"):
-                            ?>
-                            <div class="row">
-                                <div class="input-group no-border">
-                                    <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" id="user" required size="25"/>
-                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-user"></i>
-                                    <input type="email" placeholder="Correo" class="form-control ml-4" name="email" id="email" required/>
-                                    <i class="fas fa-microphone ml-1 mt-2 mr-3" id="audio-email" style="visibility: hidden"></i>
+                        <div class="row mt-1">
+                            <div class="input-group no-border mr-1">
+                                <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" id="user" required size="25"/>
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-user"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-1">
+                                <input type="email" placeholder="Correo" class="form-control ml-3" name="email" id="email" required/>
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-email" style="visibility: hidden"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-1">
+                                <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" id="name" required/>
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-name"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-1">
+                                <input type="text" placeholder="Apellidos" class="form-control ml-3" name="surnames" id="surnames"/>
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-surnames"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-1">
+                                <input type="password" placeholder="Contraseña" class="form-control ml-3" name="password" maxLength="128" id="password">
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-password" style="visibility: hidden"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-1">
+                                <input type="password" placeholder="Confirmar contraseña" maxLength="128" class="form-control ml-3" name="password-confirm" id="confirm-password" required/>
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-confirm-password" style="visibility: hidden"></i>
+                            </div>
+                        </div>
+                        <?php
+                            else:
+                        ?>
+                        <div class="row mt-1">
+                            <div class="input-group no-border mr-2">
+                                <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" required id="name-child" size="25"/>
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-name-child"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-2">
+                                <input type="text" placeholder="Usuario tutor..." class="form-control ml-3" name="user-tutor" required id="user-tutor-child"/>
+                                <i class="fas fa-microphone ml-1 mt-2" id="audio-user-tutor-child"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-2">
+                                <input type="password" placeholder="Contraseña tutor..." class="form-control ml-3 mr-3" name="password-tutor" required/>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="row mt-2">
+                                <div class="ml-3 mt-2" style="width:auto;">
+                                    <select id="age" name="age" class="form-control mt-0">
+                                        <option value="">Edad</option>
+                                        <?php
+                                            for ($i = 6; $i <= 18; $i++) {
+                                                echo '<option value="', $i, '">', $i, '</option>';
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="mt-2 col-2 mr-5">
+                                    <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
+                                        <option value="">Elegir foto</option>
+                                        <option value="robot.png">Robot</option>
+                                        <option value="bear.png">Oso</option>
+                                        <option value="dog.jpeg">Perro</option>
+                                        <option value="ball.jpg">Pelota</option>
+                                        <option value="unicorn.png">Unicornio</option>
+                                        <option value="whale.png">Ballena</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="input-group no-border">
-                                    <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" id="name" required/>
-                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-name"></i>
-                                    <input type="text" placeholder="Apellidos" class="form-control ml-4" name="surnames" id="surnames"/>
-                                    <i class="fas fa-microphone ml-1 mt-2 mr-3" id="audio-surnames"></i>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="input-group no-border">
-                                    <input type="password" placeholder="Contraseña" class="form-control ml-3" name="password" maxLength="128" id="password">
-                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-password" style="visibility: hidden"></i>
-                                    <input type="password" placeholder="Confirmar contraseña" maxLength="128" class="form-control ml-4 mr-3" name="password-confirm" id="confirm-password" required/>
-                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-confirm-password" style="visibility: hidden"></i>
-                                </div>
-                            </div>
-                            <?php
-                                else:
-                            ?>
-                            <div class="row">
-                                <div class="input-group no-border">
-                                    <input type="text" placeholder="Nombre" class="form-control ml-3 col-lg-6" name="name" required id="name-child"/>
-                                    <i class="fas fa-microphone ml-1 mt-2" id="audio-name-child"></i>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="input-group no-border">
-                                    <input type="text" placeholder="Usuario tutor..." class="form-control ml-3" name="user-tutor" required id="user-tutor-child"/>
-                                    <i class="fas fa-microphone ml-1 mt-2 mr-2" id="audio-user-tutor-child"></i>
-                                    <input type="password" placeholder="Contraseña tutor..." class="form-control ml-3 mr-3" name="password-tutor" required/>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="row mt-2">
-                                    <div class="ml-3 mt-2" style="width:auto;">
-                                        <select id="age" name="age" class="form-control mt-0">
-                                            <option value="">Edad</option>
-                                            <?php
-                                                for ($i = 6; $i <= 18; $i++) {
-                                                    echo '<option value="', $i, '">', $i, '</option>';
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="mt-2 col-2 mr-5">
-                                        <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
-                                            <option value="">Elegir foto</option>
-                                            <option value="robot.png">Robot</option>
-                                            <option value="bear.png">Oso</option>
-                                            <option value="dog.jpeg">Perro</option>
-                                            <option value="ball.jpg">Pelota</option>
-                                            <option value="unicorn.png">Unicornio</option>
-                                            <option value="whale.png">Ballena</option>
-                                        </select>
-                                    </div>
-                                    <div class="ml-5">
-                                        <img id="img-user" src="../../assets/img/user_child/robot.png" height="150" width="140" style="display:none"/>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <?php
-                                endif;
-                            ?>
-                            <div class="text-center mt-4 ml-5 mr-5">
-                                <button type="submit" class="btn btn-primary mr-2" name="login">Crear</button>
-                                <a href="login.php?type=<?php echo $type;?>">
-                                    <input type="button" class="btn btn-primary ml-2" value="Volver"/>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="mt-2">
+                            <img id="img-user" src="../../assets/img/user_child/robot.png" height="130" width="125" style="display:none"/>
+                        </div>
+                        <?php
+                            endif;
+                        ?>
+                        <div class="text-center mt-3 ml-5 mr-5">
+                            <button type="submit" class="btn btn-primary mr-2" name="login">Crear</button>
+                            <a href="login.php?type=<?php echo $type;?>">
+                                <input type="button" class="btn btn-primary ml-2" value="Volver"/>
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         <?php include '../general/footer.php'; ?>

@@ -36,7 +36,7 @@
             <h1 class="text-uppercase text-secondary mt-4">Elegir usuario</h1>
             <div class="mt-3 container d-flex align-items-center flex-column">
                 <div class="flex-group">
-                     <div class="text-center row">
+                     <div class="text-center row mt-3">
                         <a href="login.php?type=adult">
                         	<h5>Tutor@</h5>
                             <img src="../../assets/img/adult2.jpg" width="160">

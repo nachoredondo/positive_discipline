@@ -152,8 +152,8 @@ if (isset($_GET['error'])) {
                                         <option value="">Elegir foto</option>
                                         <option value="robot.png">Robot</option>
                                         <option value="bear.png">Oso</option>
-                                        <option value="dog.jpeg">Perro</option>
-                                        <option value="ball.jpg">Pelota</option>
+                                        <option value="dog.png">Perro</option>
+                                        <option value="ball.png">Pelota</option>
                                         <option value="unicorn.png">Unicornio</option>
                                         <option value="whale.png">Ballena</option>
                                     </select>

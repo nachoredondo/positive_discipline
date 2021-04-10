@@ -90,8 +90,8 @@ if (!$_SESSION['type']) {
                                             <option value="no_image.png">Elegir foto</option>
                                             <option value="robot.png"<?php echo ($user->image() == "robot.png") ? "selected ": "";?>>Robot</option>
                                             <option value="bear.png" <?php echo ($user->image() == "bear.png") ? "selected ": "";?>>Oso</option>
-                                            <option value="dog.jpeg" <?php echo ($user->image() == "dog.jpeg") ? "selected ": "";?>>Perro</option>
-                                            <option value="ball.jpg" <?php echo ($user->image() == "ball.jpg") ? "selected ": "";?>>Pelota</option>
+                                            <option value="dog.png" <?php echo ($user->image() == "dog.jpeg") ? "selected ": "";?>>Perro</option>
+                                            <option value="ball.png" <?php echo ($user->image() == "ball.jpg") ? "selected ": "";?>>Pelota</option>
                                             <option value="unicorn.png" <?php echo ($user->image() == "unicorn.png") ? "selected ": "";?>>Unicornio</option>
                                             <option value="whale.png" <?php echo ($user->image() == "whale.png") ? "selected ": "";?>>Ballena</option>
                                         </select>

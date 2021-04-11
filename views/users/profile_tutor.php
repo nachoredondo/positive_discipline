@@ -37,10 +37,9 @@ $user = User::get_user_from_user($_SESSION['user']);
         <?php include '../general/headerbar.php' ?>
         <!-- Contact Section-->
         <section class="page-section" id="contact">
-            <div class="container mb-5">
+            <div class="container">
                 <!-- Contact Section Heading-->
-                <h2 class="text-white">.</h2>
-                <h2 class="text-center text-uppercase text-secondary">Datos de usuario</h2>
+                <h2 class="text-center text-uppercase text-secondary mt-4">Datos de usuario</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -50,14 +49,16 @@ $user = User::get_user_from_user($_SESSION['user']);
                 <!-- Contact Section Form-->
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
+                        <h3 class="row mt-2 mb-3 ml-1 text-info">Tabla de hijos:</h3>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
                             </table>
                         </div>
                         <a href="profile_child.php">
-                            <button class="btn btn-primary btn-lg ml-1" id="create_child" type="button">Crear usuario hijo</button>
+                            <button class="btn btn-primary btn-lg ml-1 mb-2" id="create_child" type="button">Crear usuario hijo</button>
                         </a>
+                        <h3 class="row mt-5 ml-1 text-info">Datos perfil:</h3>
                         <form id="contactForm" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">
                             <input class="form-control" id="type" name="type" type="hidden" required="required" value="<?php echo $_SESSION['type']?>" />
                             <input class="form-control" id="id-user" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />
@@ -104,9 +105,10 @@ $user = User::get_user_from_user($_SESSION['user']);
                             <br />
                             <div id="success"></div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-lg ml-2" id="sendMessageButton" name="form" value="data" type="submit">Actualizar datos</button>
+                                <button class="btn btn-primary btn-lg ml-2 mb-2" id="sendMessageButton" name="form" value="data" type="submit">Actualizar datos</button>
                             </div>
                         </form>
+                        <h3 class="row mt-5 ml-1 text-info">Cambiar contraseña:</h3>
                         <form id="update-pwd" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">
                             <input class="form-control" id="type-pwd" name="type" type="hidden" required="required" value="<?php echo $_SESSION['type']?>" />
                             <input class="form-control" id="id-user-pwd" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />

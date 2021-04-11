@@ -55,7 +55,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                 <!-- Rules Section -->
                 <div class="row">
                     <div class="col-lg-9 mx-auto">
-                        <h4 class="row mt-2 mb-3 text-info">Lista de normas:</h4>
+                        <h4 class="row mt-2 mb-4 text-info">Lista de normas:</h4>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>

@@ -39,7 +39,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <script src="../../assets/sweetalert/sweetalert.min.js"></script>
         <style>
             #the-table_length {
-                margin-left:65px;
+                margin-left:75px;
             }
         </style>
     </head>
@@ -48,10 +48,9 @@ $user = User::get_user_from_user($_SESSION['user']);
         <?php include '../general/headerbar.php' ?>
         <!-- Contact Section-->
         <section class="page-section" id="contact">
+            <!-- Rules Section Heading-->
             <div class="container mb-5">
-                <!-- Rules Section Heading-->
-                <h2 class="text-white">.</h2>
-                <h2 class="text-center text-uppercase text-secondary">Gestor de turnos</h2>
+                <h2 class="text-center text-uppercase text-secondary mt-4">Gestor de turnos</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -61,6 +60,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                 <!-- Rules Section -->
                 <div class="row">
                     <div class="col-lg-9 mx-auto">
+                        <h4 class="row mt-2 mb-3 ml-1 text-info">Lista de turnos:</h4>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
@@ -345,7 +345,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                     columns: [
                         {
                             data: 't_name',
-                            title: 'Name',
+                            title: 'Nombre',
                         },
                         // {
                         //     data: 'description',

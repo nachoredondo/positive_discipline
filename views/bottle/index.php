@@ -56,9 +56,8 @@ $user = User::get_user_from_user($_SESSION['user']);
         <section class="page-section" id="contact">
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
-                <h2 class="text-white">.</h2>
                 <div class="mr-5">
-                    <h2 class="text-center text-uppercase text-secondary mt-5">Botella de la calma</h2>
+                    <h2 class="text-center text-uppercase text-secondary mt-4">Botella de la calma</h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>
@@ -66,25 +65,30 @@ $user = User::get_user_from_user($_SESSION['user']);
                         <div class="divider-custom-line"></div>
                     </div>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h5 class="row">Tutorial según se indica en el canal de el Bosque de las Fantasías de Youtube</h5>
-                        <h5 class="row mt-3 text-info ">Los materiales que se necesitan son:</h5>
+                        <h5 class="row">Tutorial según se indica en el canal "El Bosque de las Fantasías" de Youtube</h5>
+                        <h5 class="row mt-3 text-info">Los materiales que se necesitan son:</h5>
                         <ul>
                             <li class="mb-1">Bote de cristal o de plástico</li>
-                            <li class="mb-1">Agua caliente</li>
-                            <li class="mb-1">Jabón líquido</li>
-                            <li class="mb-1">Purpurina de colores y/o pequeños elementos decorativos permeables</li>
-                            <li class="mb-1">Silicona o cola blanca</li>
+                            <img class="ml-4" id="profile" src="../../assets/img/bottle/bottle.png" width="45" height="65">
+                            <li class="mt-2 mb-1">Agua caliente</li>
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/water.jpg" width="80" height="50">
+                            <li class="mt-2 mb-1">Jabón líquido</li>
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/jabon.jpg" width="80" height="50">
+                            <li class="mt-2 mb-1">Purpurina de colores y/o pequeños elementos decorativos permeables</li>
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/purpurina.jpg" width="80" height="50">
+                            <li class="mt-2">Silicona o cola blanca</li>
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/pegamento.png" width="60" height="70">
                         </ul>
                         <h5 class="row text-info ">Los pasos a seguir son:</h5>
                         <ol>
-                            <li class="mb-1">&nbsp;Rellenar agua caliente al bote.</li>
-                            <li class="mb-1">&nbsp;Echar y mezclar jabón líquido transparente, la mezcla se podrá hacer con una cuchara por ejemplo.</li>
-                            <li class="mb-1">&nbsp;Echar y mezclar purpurina de colores a nuestro gusto.</li>
-                            <li class="mb-1">&nbsp;Echar y mezclar elementos decorativos a nuestro gusto.</li>
-                            <li class="mb-1">&nbsp;Cerrar el bote bien con silicona o cola blanca.</li>
-                            <li class="mb-1">&nbsp;Agita el bote y disfruta.</li>
+                            <li class="mb-2">&nbsp;Rellenar agua caliente al bote.</li>
+                            <li class="mb-2">&nbsp;Echar y mezclar jabón líquido transparente, la mezcla se podrá hacer con una cuchara por ejemplo.</li>
+                            <li class="mb-2">&nbsp;Echar y mezclar purpurina de colores a nuestro gusto.</li>
+                            <li class="mb-2">&nbsp;Echar y mezclar elementos decorativos a nuestro gusto.</li>
+                            <li class="mb-2">&nbsp;Cerrar el bote bien con silicona o cola blanca.</li>
+                            <li class="mb-2">&nbsp;Agita el bote y disfruta.</li>
                         </ol>
-                        <h5 class="row text-uppercase text-info mt-2 mb-2">Video de youtube</h5>
+                        <h5 class="row text-info mt-4 mb-3">Video de youtube</h5>
                         <div class="responsiveContent">
                             <iframe src="https://www.youtube.com/embed/YARHS1gFDuM"
                                     allowfullscreen="" frameborder="0"></iframe>

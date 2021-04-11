@@ -73,11 +73,11 @@ $user = User::get_user_from_user($_SESSION['user']);
                             <li class="mt-2 mb-1">Agua caliente</li>
                             <img class="ml-3" id="profile" src="../../assets/img/bottle/water.jpg" width="80" height="50">
                             <li class="mt-2 mb-1">Jabón líquido</li>
-                            <img class="ml-3" id="profile" src="../../assets/img/bottle/jabon.jpg" width="80" height="50">
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/soap.jpg" width="80" height="50">
                             <li class="mt-2 mb-1">Purpurina de colores y/o pequeños elementos decorativos permeables</li>
-                            <img class="ml-3" id="profile" src="../../assets/img/bottle/purpurina.jpg" width="80" height="50">
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/purpurin.jpg" width="80" height="50">
                             <li class="mt-2">Silicona o cola blanca</li>
-                            <img class="ml-3" id="profile" src="../../assets/img/bottle/pegamento.png" width="60" height="70">
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/glue.png" width="60" height="70">
                         </ul>
                         <h5 class="row text-info ">Los pasos a seguir son:</h5>
                         <ol>

@@ -74,7 +74,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                             <img class="ml-3" id="profile" src="../../assets/img/bottle/water.jpg" width="80" height="50">
                             <li class="mt-2 mb-1">Jabón líquido</li>
                             <img class="ml-3" id="profile" src="../../assets/img/bottle/soap.jpg" width="80" height="50">
-                            <li class="mt-2 mb-1">Purpurina de colores y/o pequeños elementos decorativos permeables</li>
+                            <li class="mt-2 mb-1">Purpurina de colores y/o pequeños elementos decorativos</li>
                             <img class="ml-3" id="profile" src="../../assets/img/bottle/purpurin.jpg" width="80" height="50">
                             <li class="mt-2">Silicona o cola blanca</li>
                             <img class="ml-3" id="profile" src="../../assets/img/bottle/glue.png" width="60" height="70">
@@ -82,7 +82,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                         <h5 class="row text-info ">Los pasos a seguir son:</h5>
                         <ol>
                             <li class="mb-2">&nbsp;Rellenar agua caliente al bote.</li>
-                            <li class="mb-2">&nbsp;Echar y mezclar jabón líquido transparente, la mezcla se podrá hacer con una cuchara por ejemplo.</li>
+                            <li class="mb-2">&nbsp;Echar y mezclar jabón líquido transparente, la mezcla se puede hacer con una cuchara.</li>
                             <li class="mb-2">&nbsp;Echar y mezclar purpurina de colores a nuestro gusto.</li>
                             <li class="mb-2">&nbsp;Echar y mezclar elementos decorativos a nuestro gusto.</li>
                             <li class="mb-2">&nbsp;Cerrar el bote bien con silicona o cola blanca.</li>

@@ -97,8 +97,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <section class="page-section" id="contact">
             <div class="container mb-5">
                 <!-- Meeting Section Heading-->
-                <h2 class="text-white">.</h2>
-                <h2 class="text-center text-uppercase text-secondary">Juntas</h2>
+                <h2 class="text-center text-uppercase text-secondary mt-4">Juntas</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>

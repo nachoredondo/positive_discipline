@@ -226,7 +226,7 @@ if ($video_stop) {
                                         <button class="btn btn-primary btn-lg ml-3" id="deleteButtonYoutube" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>
                                     <a href="index.php">
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver</button>
+                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>
@@ -292,7 +292,7 @@ if ($video_stop) {
                                     <?php } ?>
                                     <a href="index.php">
 
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver</button>
+                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>
@@ -362,7 +362,7 @@ if ($video_stop) {
                                         <button class="btn btn-primary btn-lg ml-3" id="deleteButtonAudio" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>
                                     <a href="index.php">
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver</button>
+                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>
@@ -432,7 +432,7 @@ if ($video_stop) {
                                         <button class="btn btn-primary btn-lg ml-3" id="deleteButtonVideo" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>
                                     <a href="index.php">
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver</button>
+                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>

@@ -58,9 +58,8 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
         <section class="page-section" id="contact">
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
-                <h2 class="text-white">.</h2>
-                <div class="mr-5">
-                    <h2 class="text-center text-uppercase text-secondary">Stop</h2>
+                <div class="container mb-5">
+                    <h2 class="text-center text-uppercase text-secondary mt-4">Stop</h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>
@@ -68,12 +67,19 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
                         <div class="divider-custom-line"></div>
                     </div>
                     <?php
+                        if (empty($stop)) {
+                    ?>
+                     <div class="col-lg-9 mx-auto mb-4 mt-2">
+                        <h5 class="text-secondary ml-5">Stop sin personalizar</h5>
+                    </div>
+                    <?php
+                        }
                         foreach ($stop as $key => $value) {
                             if ($value->type == "youtube") {
                     ?>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h4 class="text-uppercase text-secondary ml-4 mb-2">Video youtube</h4>
-                        <h6 class="text-uppercase text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
+                        <h4 class="text-uppercase text-info ml-4 mb-2">Video youtube</h4>
+                        <h6 class="text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
                         <div class="responsiveContent">
                             <iframe src="https://www.youtube.com/embed/<?php echo $value->link?>"
                                     allowfullscreen="" frameborder="0"></iframe>
@@ -83,15 +89,15 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
                             } elseif ($value->type == "image") {
                     ?>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h4 class="text-uppercase text-secondary ml-4 mb-2">Imagen</h4>
-                        <h6 class="text-uppercase text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
+                        <h4 class="text-uppercase text-info ml-4 mb-2">Imagen</h4>
+                        <h6 class="text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
                         <img class="img-thumbnail mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/files/stop/img/<?php echo $value->link?>" />
                     </div>
                     <?php
                             } elseif ($value->type == "audio") {
                     ?>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h4 class="text-uppercase text-secondary ml-4 mb-2">Audio</h4>
+                        <h4 class="text-uppercase text-info ml-4 mb-2">Audio</h4>
                         <h6 class="text-uppercase text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
                         <audio controls style="width: 100%" controlsList="nodownload">
                             <source src="<?php echo APP_ROOT; ?>/files/stop/audio/<?php echo $value->link?>">
@@ -101,8 +107,8 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
                             } elseif ($value->type == "video") {
                     ?>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h4 class="text-uppercase text-secondary ml-4 mb-2">Video</h4>
-                        <h6 class="text-uppercase text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
+                        <h4 class="text-uppercase text-info ml-4 mb-2">Video</h4>
+                        <h6 class="text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
                         <video controls style="width: 100%" controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg">
                             <source src="<?php echo APP_ROOT; ?>/files/stop/video/wake_me_up.mp4">
                             Tu navegador no soporta el formato del video.
@@ -112,7 +118,7 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
                             }
                         }
                     ?>
-                    <div class="ml-5">
+                    <div class="col-lg-9 mx-auto ml-5">
                         <a href="edit_create.php" class="ml-5 mt-2">
                             <button class="btn btn-primary btn-lg" id="create_child" type="button">Personalizar</button>
                         </a>

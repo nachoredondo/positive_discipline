@@ -4,6 +4,7 @@ require '../../classes/user.php';
 
 Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
+$action = $_REQUEST['action'] ?? '';
 
 ?>
 
@@ -119,7 +120,7 @@ $user = User::get_user_from_user($_SESSION['user']);
             function not_realized(){
                 return "<span class='text-danger'>" +
                             "<i class='fas fa-circle'></i> Sin realizar" +
-                            "<button type='button' title='Relizar' class='check-btn btn btn-success btn-sm ml-2'><i class='fas fa-check'></i>" +
+                            "<button type='button' title='Realizar' class='check-btn btn btn-success btn-sm ml-2'><i class='fas fa-check'></i>" +
                             "</button>" +
                         "</span>";
             }
@@ -127,14 +128,14 @@ $user = User::get_user_from_user($_SESSION['user']);
             function pending(){
                 return "<span class='text-warning'>" +
                             "<i class='fas fa-circle'></i> Pendiente" +
-                            "<button type='button' title='Relizar' class='check-btn btn btn-success btn-sm ml-2'><i class='fas fa-check'></i>" +
+                            "<button type='button' title='Realizar' class='check-btn btn btn-success btn-sm ml-2'><i class='fas fa-check'></i>" +
                             "</button>" +
                         "</span>";
             }
 
             function success(){
                 return "<span class='text-success'>" +
-                            "<i class='fas fa-circle'></i> Realizada" +
+                            "<i class='fas fa-circle'></i> Realizado" +
                         "</span>";
             }
 
@@ -347,12 +348,6 @@ $user = User::get_user_from_user($_SESSION['user']);
                             data: 't_name',
                             title: 'Nombre',
                         },
-                        // {
-                        //     data: 'description',
-                        //     title: 'Descripción',
-                        //     render: function (_, _, row) { return control_description(row.description) },
-                        //     "searchable": false,
-                        // },
                         {
                             data: 'first_child_name',
                             title: 'Siguiente turno',
@@ -405,6 +400,40 @@ $user = User::get_user_from_user($_SESSION['user']);
                     }
                 });
             });
+
+            <?php if ($action === 'update_task'): ?>
+                swal({
+                    title: "Turno actualizado correctamente",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'create_option'): ?>
+                swal({
+                    title: "Turno creado correctamente",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_task'): ?>
+                swal({
+                    title: "Turno borrado correctamente",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'next_turn'): ?>
+                swal({
+                    title: "Turno realizado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
 
         </script>
     </body>

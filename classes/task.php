@@ -203,6 +203,7 @@ class Task {
 			FROM `".self::TABLE."`
 			WHERE `id_task` = '$id_task'";
 		$res = self::query($sql);
+		return $res;
 	}
 
 	public static function get_children(string $id_task) {

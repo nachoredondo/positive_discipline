@@ -12,7 +12,7 @@ if (isset($_POST['id'])) {
     $user = new User();
 }
 
-if (!$_SESSION['type']) {
+if (!$_SESSION['type'] && !isset($_POST['id'])) {
     $tutor_child = explode("_", $_SESSION['user'])[0];
 }
 
@@ -55,26 +55,26 @@ if (!$_SESSION['type']) {
                 </div>
                 <!-- Contact Section Form-->
                 <div class="row">
-                    <div class="col-lg-8 mx-auto">
+                    <div class="col-lg-6 mx-auto">
                         <form id="update-pwd" method="post" action="edit_update_child.php" name="sentMessage" novalidate="novalidate">
                             <input class="form-control" id="id" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />
                             <input class="form-control" id="tutor" name="tutor" type="hidden" placeholder="Usuario tutor" required="required" data-validation-required-message="Introduzca el usuario tutor." value="<?php echo ($_SESSION['type']) ? $_SESSION['user'] : $tutor_child;?>" />
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                    <div class="row ml-1">
+                                    <div class="row ml-4">
                                         <label>Nombre</label>
                                         <i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
                                     </div>
-                                    <input class="form-control" id="name" name="name" type="text" placeholder="Nombre" required="required" data-validation-required-message="Introduzca el nombre."
+                                    <input class="form-control ml-4" id="name" name="name" type="text" placeholder="Nombre" required="required" data-validation-required-message="Introduzca el nombre."
                                     value="<?php echo ($_SESSION['type']) ? ($_SESSION['type']) ? $user->name() : '' : $_SESSION['name'];?>" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <div class="row mt-4">
-                                    <div class="ml-3 mt-2 col-4 mb-0 pb-2">
+                                <div class="floating-label-form-group">
+                                    <div class="col-8 col-sm-6">
+                                        <label>Edad</label>
                                         <select id="age" name="age" class="form-control mt-0" style="font-size: large">
-                                            <option value="">Edad</option>
                                             <?php
                                                 for ($i = 6; $i <= 17; $i++) {
                                                     echo '<option value="', $i,'" ';
@@ -85,9 +85,13 @@ if (!$_SESSION['type']) {
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="mt-2 col-4 mr-5 mb-0 pb-2">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            <div class="control-group">
+                                <div class="floating-label-form-group">
+                                    <div class="col-8 col-sm-6">
+                                            <label>Elegir foto</label>
                                         <select id="img-form" class="form-control mt-0" name="img" style="font-size: large">
-                                            <option value="no_image.png">Elegir foto</option>
                                             <option value="robot.png"<?php echo ($user->image() == "robot.png") ? "selected ": "";?>>Robot</option>
                                             <option value="bear.png" <?php echo ($user->image() == "bear.png") ? "selected ": "";?>>Oso</option>
                                             <option value="dog.png" <?php echo ($user->image() == "dog.jpeg") ? "selected ": "";?>>Perro</option>
@@ -102,21 +106,21 @@ if (!$_SESSION['type']) {
                                 </div>
                             </div>
                             <br />
-                            <div class="form-group ml-2">
-                                <button class="btn btn-primary btn-lg ml-2 mr-4" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type']) ? "create-child" : "update-user";?>" type="submit">
+                            <div class="form-group mt-2">
+                                <button class="btn btn-primary btn-lg ml-2 mb-2" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "create-child" : "update-user";?>" type="submit">
                                     <?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "Crear" : "Editar";?>
                                 </button>
                             <?php
                                 if ($_SESSION['type'] && (isset($_POST['id']))):
                             ?>
-                                    <button class="btn btn-primary btn-lg ml-2 mr-4" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
+                                    <button class="btn btn-primary btn-lg ml-2 mb-2" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
                                 </form>
                             <?php
                                 endif;
                                 if ($_SESSION['type']):
                             ?>
                                     <a href="profile_tutor.php">
-                                        <button class="btn btn-primary btn-lg ml-1" id="create_child" type="button">Volver</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" id="create_child" type="button">Volver</button>
                                     </a>
                             <?php
                                 endif;

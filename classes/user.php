@@ -313,7 +313,7 @@ class User {
 		}
 
 		$result_user = User::get_user_from_id($id);
-		if ($result_user->user() != $name){
+		if ($result_user->user() != $user){
 			$result = self::get_user('user', $user);
 			if ($result) {
 				throw new InvalidArgumentException('El usuario '. $user .' ya existe');
@@ -335,6 +335,21 @@ class User {
 				WHERE `id` = '$id'";
 		$res = self::query($sql);
 
+		if ($result_user->user() != $user){
+			$sql = "SELECT `child`, `us`.`password` as password_child
+				FROM `".self::TABLE_TUTORS."` as tutor
+				INNER JOIN `".self::TABLE."` as us ON us.id = tutor.child
+				WHERE `parent` = '$id'";
+			$result = self::query($sql);
+			foreach ($result->fetchAll() as $key => $value) {
+				$new_password = $user."_".$value['password_child'];
+				$sql = "UPDATE `".self::TABLE."`
+						SET `user` = '$new_password'
+						WHERE `id` = '".$value['child']."'";
+				$res = self::query($sql);
+			}
+		}
+
 		return $res;
 	}
 
@@ -354,7 +369,7 @@ class User {
 					`name` = '$name',
 					`age` = '$age',
 					`image` = '$image',
-					`password` = '$password'
+					`password` = '$image'
 				WHERE `id` = '$id'";
 		$res = self::query($sql);
 		return $res;

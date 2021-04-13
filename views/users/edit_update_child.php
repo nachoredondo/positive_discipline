@@ -13,12 +13,13 @@ $age = $_POST['age'] ?? 'NULL';
 $img = $_POST['img'] ?? 'NULL';
 
 try {
-	if ($_SESSION['type'] && $from != "delete-child") {
+	if ($_SESSION['type'] && $from != "delete_child" && $from != "update-user") {
 		$success = User::insert_user("child", 'NULL', 'NULL', $name, 'NULL', 'NULL', 'NULL', $tutor, $age, $img);
 	} else {
 		if ($from == "update-user"){
 			$success = User::update_user_child($id, $tutor, $name, $age, $img);
 		} else {
+
 			$success = User::delete_child($id);
 		}
 	}
@@ -32,7 +33,7 @@ try {
 }
 if (!$errors) {
 	if ($success) {
-		if ($_SESSION['type'] && $from != "delete-child") {
+		if ($_SESSION['type'] && $from != "delete_child") {
 			header('Location: ./profile_tutor.php?action=create_user');
 		} else {
 			if ($from == "update-user"){
@@ -41,7 +42,7 @@ if (!$errors) {
 				$_SESSION['name'] = $name;
 				header('Location: ./profile_child.php?action=update');
 			} else {
-				if ($from != "delete-child") {
+				if ($from != "delete_child") {
 					header('Location: ./logout.php');
 				} else {
 					header('Location: ./profile_tutor.php?action=delete_child');

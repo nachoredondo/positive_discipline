@@ -20,6 +20,12 @@ $fileTmpPath = $_FILES['file']['tmp_name'] ?? 'NULL';
 $fileName = $_FILES['file']['name'] ?? 'NULL';
 $fileSize = $_FILES['file']['size'] ?? 'NULL';
 $fileType = $_FILES['file']['type'] ?? 'NULL';
+
+if ($fileSize > 8000000) {
+	header('Location: ./edit_create.php?type='.$type.'&message=size-file-exceeded');
+	exit();
+}
+
 if ($type == "image") {
 	$folder = "img";
 } else if ($type == "audio") {

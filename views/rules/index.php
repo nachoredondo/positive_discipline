@@ -6,7 +6,6 @@ Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
 $action = $_REQUEST['action'] ?? '';
 
-
 ?>
 
 <!DOCTYPE html>
@@ -210,7 +209,15 @@ $action = $_REQUEST['action'] ?? '';
 
             <?php if ($action === 'update_rule'): ?>
                 swal({
-                    title: "Norma actualizada correctamente",
+                    title: "Norma actualizada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'create_option'): ?>
+                swal({
+                    title: "Norma creada",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -218,7 +225,7 @@ $action = $_REQUEST['action'] ?? '';
                 }).catch(swal.noop);
             <?php elseif ($action === 'delete_rule'): ?>
                 swal({
-                    title: "Norma borrada correctamente",
+                    title: "Norma borrada",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",

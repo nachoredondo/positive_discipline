@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-03-2021 a las 01:56:59
+-- Tiempo de generación: 14-04-2021 a las 06:13:09
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.3.20
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `meeting` (
   `id` int(11) NOT NULL,
+  `id_tutor` int(11) NOT NULL,
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT '',
   `topics` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -173,7 +174,7 @@ CREATE TABLE `wheel` (
 --
 ALTER TABLE `meeting`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `meting_user` (`responsable`);
+  ADD KEY `meeting_user` (`responsable`);
 
 --
 -- Indices de la tabla `rules`
@@ -300,7 +301,7 @@ ALTER TABLE `wheel`
 -- Filtros para la tabla `meeting`
 --
 ALTER TABLE `meeting`
-  ADD CONSTRAINT `meting_user` FOREIGN KEY (`responsable`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `meeting_user` FOREIGN KEY (`responsable`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Filtros para la tabla `rules`

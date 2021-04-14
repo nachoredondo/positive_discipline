@@ -4,7 +4,6 @@ require '../../classes/user.php';
 require '../../classes/meeting.php';
 
 Session::check_login_redirect();
-$user = User::get_user_from_user($_SESSION['user']);
 $responsable_age = User::get_responsable($_SESSION['user']);
 
 if (isset($_REQUEST['id'])) {
@@ -19,6 +18,14 @@ if (isset($_REQUEST['id'])) {
 	$meeting_start = "00:00";
 	$meeting_end = "00:00";
 	$value_submit = "Crear";
+}
+
+if ($_SESSION['type']) {
+	$user = User::get_user_from_user($_SESSION['user']);
+	$id_tutor = $user->id();
+} else {
+	$user_child = User::get_user_from_user($_SESSION['user']);
+	$id_tutor = User::get_parent($user_child->id());
 }
 
 ?>
@@ -78,6 +85,7 @@ if (isset($_REQUEST['id'])) {
 					<div class="col-lg-8 mx-auto">
 						<form id="contactForm" method="post" action="create_meeting.php" name="sentMessage" novalidate="novalidate" enctype="multipart/form-data">
 							<input name="id" type="hidden" value="<?php echo $_POST['id']; ?>"/>
+							<input name="id_tutor" type="hidden" value="<?php echo $id_tutor; ?>"/>
 							<input name="file_saved" type="hidden" value="<?php echo $meeting->file_act(); ?>"/>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">

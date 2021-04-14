@@ -10,6 +10,7 @@ class Meeting {
 		$this->responsable = null;
 
 		if (isset($data)) {
+			$this->id_tutor($data['id_tutor']);
 			$this->title($data['title']);
 			$this->description($data['description']);
 			$this->topics($data['topics']);
@@ -30,11 +31,11 @@ class Meeting {
 		}
 	}
 
-	public static function insert_meeting($title, $description, $topics, $date, $start, $end, $responsable, $file_act) {
+	public static function insert_meeting($id_tutor, $title, $description, $topics, $date, $start, $end, $responsable, $file_act) {
 		$date = inverse_date($date);
 		$sql = "INSERT INTO `".self::TABLE."`
-				(title, description, topics, date, start, end, responsable, file_act)
-				VALUES ('$title', '$description', '$topics', '$date', '$start', '$end', '$responsable', '$file_act')";
+				(id_tutor, title, description, topics, date, start, end, responsable, file_act)
+				VALUES ('$id_tutor', '$title', '$description', '$topics', '$date', '$start', '$end', '$responsable', '$file_act')";
 		$res = self::query($sql);
 		return $res;
 	}
@@ -78,6 +79,11 @@ class Meeting {
 
 	public function id() : int {
 		return $this->id;
+	}
+
+	public function id_tutor(?string $id_tutor = null) : string {
+		$this->id_tutor = $id_tutor;
+		return $this->id_tutor;
 	}
 
 	public function title(?string $title = null) : string {

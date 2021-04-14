@@ -8,6 +8,7 @@ $errors = [];
 
 $form = $_POST['form'];
 $id_meeting = $_POST['id'];
+$id_tutor = $_POST['id_tutor'];
 $title = $_POST['title'];
 if ($title == "") {
 	if ($form == "Crear") {
@@ -39,7 +40,7 @@ if ($fileName == null) {
 
 try {
 	if ($form == "Crear") {
-		$success = Meeting::insert_meeting($title, $description, $topics, $date, $date_start, $date_end, $responsable_act, $fileName);
+		$success = Meeting::insert_meeting($id_tutor, $title, $description, $topics, $date, $date_start, $date_end, $responsable_act, $fileName);
 	} else if ($form == "Editar") {
 		$success = Meeting::update_meeting($id_meeting, $title, $description, $topics, $date, $date_start, $date_end, $responsable_act, $fileName);
 	} else {

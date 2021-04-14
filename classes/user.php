@@ -353,7 +353,7 @@ class User {
 		return $res;
 	}
 
-	public function update_user_child($id, $tutor, $name, $age, $image) {
+	public static function update_user_child($id, $tutor, $name, $age, $image) {
 		$user_child = $tutor . "_" . $image;
 
 		$result_user = User::get_user_from_id($id);

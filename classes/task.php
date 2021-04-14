@@ -162,7 +162,7 @@ class Task {
 					break;
 				}
 			}
-			if (!$search) {
+			if ($search) {
 				$val = $value_children['id_user'];
 				$sql = "DELETE FROM `".self::TABLE_CHILD."` WHERE `id_user` = '$val' AND `id_task`= '$id_task'";
 				$result = self::query($sql);

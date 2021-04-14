@@ -436,7 +436,11 @@ if (isset($_REQUEST['id'])) {
 				if (position != null) {
 					element += '<select class="form-check-input child_selected" id="slcAutos" name="id_child_position[]" onchange="update_select(this)">';
 					for (var i = 1; i <= number_child; i++) {
-						element += '<option value="' + position + '">' + position + '</option>';
+						element += '<option value="' + i + '"';
+						if (i == position) {
+							element += 'selected';
+						}
+						element += '>' + i + '</option>';
 					}
 					element += '</select>';
 				} else {

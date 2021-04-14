@@ -403,7 +403,7 @@ $action = $_REQUEST['action'] ?? '';
 
             <?php if ($action === 'update_task'): ?>
                 swal({
-                    title: "Turno actualizado correctamente",
+                    title: "Turno actualizado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -411,7 +411,7 @@ $action = $_REQUEST['action'] ?? '';
                 }).catch(swal.noop);
             <?php elseif ($action === 'create_option'): ?>
                 swal({
-                    title: "Turno creado correctamente",
+                    title: "Turno creado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -419,7 +419,7 @@ $action = $_REQUEST['action'] ?? '';
                 }).catch(swal.noop);
             <?php elseif ($action === 'delete_task'): ?>
                 swal({
-                    title: "Turno borrado correctamente",
+                    title: "Turno borrado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -427,7 +427,7 @@ $action = $_REQUEST['action'] ?? '';
                 }).catch(swal.noop);
             <?php elseif ($action === 'next_turn'): ?>
                 swal({
-                    title: "Turno realizado",
+                    title: "Turno actualizado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",

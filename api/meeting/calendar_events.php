@@ -1,7 +1,17 @@
 <?php
 require_once("../../classes/session.php");
 require_once("../../classes/controller.php");
+require '../../classes/user.php';
+
 Session::check_login_redirect();
+
+if ($_SESSION['type']) {
+	$user = User::get_user_from_user($_SESSION['user']);
+	$id_tutor = $user->id();
+} else {
+	$user_child = User::get_user_from_user($_SESSION['user']);
+	$id_tutor = User::get_parent($user_child->id());
+}
 
 function get_db_connection($dbname = null) {
 	$conn = Controller::get_global_connection();
@@ -31,7 +41,8 @@ if (!$date_start || !$date_end) {
 
 $sql = "SELECT `id`, `title`, `date` as `start`
 	FROM `meeting`
-	WHERE `date` BETWEEN '$date_start' AND '$date_end'";
+	WHERE `date` BETWEEN '$date_start' AND '$date_end'
+		AND `id_tutor` = '$id_tutor'";
 
 $result = query($sql);
 

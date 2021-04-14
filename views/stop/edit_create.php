@@ -85,6 +85,9 @@ if ($video_stop) {
     $submit_video = "Crear";
 }
 
+$action = $_REQUEST['action'] ?? '';
+$type = $_REQUEST['type'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -120,12 +123,17 @@ if ($video_stop) {
               padding-bottom: 56.2%;
               margin-bottom: 20px;
             }
+
             .responsiveContent iframe {
               position: absolute;
               top: 0;
               left: 0;
               width: 100%;
               height: 100%;
+            }
+
+            input[type="file"] {
+                color: transparent;
             }
         </style>
     </head>
@@ -198,7 +206,7 @@ if ($video_stop) {
                                 <div class="control-group">
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
-                                            <label>Posición</label>
+                                            <label>Posición en Stop</label>
                                         </div>
                                         <select id="position-youtube" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -221,12 +229,12 @@ if ($video_stop) {
                                     </div>
                                 </div>
                                 <div class="form-group mt-4">
-                                    <button class="btn btn-primary btn-lg ml-3" id="createEditButtonYoutube" name="form" value="<?php echo $submit_youtube;?>" type="submit"><?php echo $submit_youtube;?></button>
+                                    <button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButtonYoutube" name="form" value="<?php echo $submit_youtube;?>" type="submit"><?php echo $submit_youtube;?></button>
                                     <?php if ($youtube_stop->id_user() != "0") { ?>
-                                        <button class="btn btn-primary btn-lg ml-3" id="deleteButtonYoutube" name="form" value="delete" type="submit">Eliminar</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButtonYoutube" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>
                                     <a href="index.php">
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>
@@ -257,13 +265,14 @@ if ($video_stop) {
                                             echo "<img class='mt-2 ml-2' src='" . APP_ROOT . "files/stop/img/" . $image_stop->link() . "' height='150'/>";
                                             echo "<label for='files'>Cambiar imagen</label>";
                                         } ?>
-                                        <input class="form-control mb-3" type="file" name="file" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
+                                        <input id="file_image" class="form-control mb-3" type="file" name="file" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
+                                        <span id="text_file_image">Ningún archivo seleccionado</span>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
-                                            <label>Posición</label>
+                                            <label>Posición en Stop</label>
                                         </div>
                                         <select id="position-image" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -286,13 +295,13 @@ if ($video_stop) {
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <button class="btn btn-primary btn-lg ml-3" id="createEditButtonImage" name="form" value="<?php echo $submit_image;?>" type="submit"><?php echo $submit_image;?></button>
+                                    <button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButtonImage" name="form" value="<?php echo $submit_image;?>" type="submit"><?php echo $submit_image;?></button>
                                     <?php if ($image_stop->id_user() != "0") { ?>
-                                        <button class="btn btn-primary btn-lg ml-3" id="deleteButtonImage" name="form" value="delete" type="submit">Eliminar</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButtonImage" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>
                                     <a href="index.php">
 
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>
@@ -319,7 +328,6 @@ if ($video_stop) {
                                 </div>
                                 <div class="control-group mt-3">
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
-
                                         <p class="help-block text-danger" required style="display:none;"></p>
                                         <?php if ($audio_stop->id_user() != "0") {
                                             echo "<audio controls height='200' controlsList='nodownload'>
@@ -328,13 +336,14 @@ if ($video_stop) {
                                                 </audio>";
                                             echo "<label for='files'>Cambiar audio</label>";
                                         } ?>
-                                        <input class="form-control mb-3" type="file" name="file" accept="audio/*" />
+                                        <input id="file_audio" class="form-control mb-3" type="file" name="file" accept="audio/*" style="font-size: large"/>
+                                        <span id="text_file_audio">Ningún archivo seleccionado</span>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
-                                            <label>Posición</label>
+                                            <label>Posición en Stop</label>
                                         </div>
                                         <select id="position-audio" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -357,12 +366,12 @@ if ($video_stop) {
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <button class="btn btn-primary btn-lg ml-3" id="createEditButtonAudio" name="form" value="<?php echo $submit_audio;?>" type="submit"><?php echo $submit_audio;?></button>
+                                    <button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButtonAudio" name="form" value="<?php echo $submit_audio;?>" type="submit"><?php echo $submit_audio;?></button>
                                     <?php if ($audio_stop->id_user() != "0") { ?>
-                                        <button class="btn btn-primary btn-lg ml-3" id="deleteButtonAudio" name="form" value="delete" type="submit">Eliminar</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButtonAudio" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>
                                     <a href="index.php">
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>
@@ -404,7 +413,7 @@ if ($video_stop) {
                                 <div class="control-group">
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
-                                            <label>Posición</label>
+                                            <label>Posición en Stop</label>
                                         </div>
                                         <select id="position-video" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -427,12 +436,12 @@ if ($video_stop) {
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <button class="btn btn-primary btn-lg ml-3" id="createEditButtonVideo" name="form" value="<?php echo $submit_video;?>" type="submit"><?php echo $submit_video;?></button>
+                                    <button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButtonVideo" name="form" value="<?php echo $submit_video;?>" type="submit"><?php echo $submit_video;?></button>
                                     <?php if ($video_stop->id_user() != "0") { ?>
-                                        <button class="btn btn-primary btn-lg ml-3" id="deleteButtonVideo" name="form" value="delete" type="submit">Eliminar</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButtonVideo" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>
                                     <a href="index.php">
-                                        <button class="btn btn-primary btn-lg ml-3" type="button">Volver stop</button>
+                                        <button class="btn btn-primary btn-lg ml-2 mb-2" type="button">Volver stop</button>
                                     </a>
                                 </div>
                             </form>
@@ -453,11 +462,22 @@ if ($video_stop) {
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
         <script type="text/javascript">
+            let file_image = document.getElementById("file_image");
+            let text_file_image = document.getElementById("text_file_image");
+            file_image.onchange = function () {
+                text_file_image.innerHTML = file_image.files[0].name;
+            };
+
+            let file_audio = document.getElementById("file_audio");
+            let text_file_audio = document.getElementById("text_file_audio");
+            file_audio.onchange = function () {
+                text_file_audio.innerHTML = file_image.files[0].name;
+            };
+
             let election = $("input[name = 'election']")
             election.click( function () {
                 if (this.getAttribute("checked") == null) {
                     let types = ['youtube', 'audio', 'image', 'video'];
-                    // let types = ['image', 'audio', 'video'];
                     for (var i = types.length - 1; i >= 0; i--) {
                         $("#form_" + types[i]).hide();
                     }
@@ -511,6 +531,109 @@ if ($video_stop) {
                     };
                 }
             });
+
+            <?php if ($action === 'update_option' && $type === "youtube"): ?>
+                swal({
+                    title: "Video de youtube actualizado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'create_option' && $type === "youtube"): ?>
+                console.log("dentro");
+                swal({
+                    title: "Video de youtube creado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_option' && $type === "youtube"): ?>
+                swal({
+                    title: "Video de youtube borrado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update_option' && $type === "image"): ?>
+                swal({
+                    title: "Imagen actualizada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'create_option' && $type === "image"): ?>
+                console.log("dentro");
+                swal({
+                    title: "Imagen creada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_option' && $type === "image"): ?>
+                swal({
+                    title: "Imagen borrada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update_option' && $type === "audio"): ?>
+                swal({
+                    title: "Audio actualizado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'create_option' && $type === "audio"): ?>
+                console.log("dentro");
+                swal({
+                    title: "Audio creado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_option' && $type === "audio"): ?>
+                swal({
+                    title: "Audio borrado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update_option' && $type === "video"): ?>
+                swal({
+                    title: "Video actualizado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'create_option' && $type === "video"): ?>
+                console.log("dentro");
+                swal({
+                    title: "Video creado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_option' && $type === "video"): ?>
+                swal({
+                    title: "Video borrado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
+
         </script>
     </body>
 </html>

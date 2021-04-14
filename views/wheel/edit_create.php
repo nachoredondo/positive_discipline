@@ -43,6 +43,11 @@ if (isset($_REQUEST['id'])) {
 		<!-- Third party plugin JS-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/js/moment.js" type="text/javascript"></script>
+		<style type="text/css">
+			input[type="file"] {
+                color: transparent;
+            }
+        </style>
 	</head>
 	<body id="page-top">
 		<!-- Navigation-->
@@ -86,15 +91,16 @@ if (isset($_REQUEST['id'])) {
 										echo "<label for='files'>Cambiar imagen</label>";
 									} ?>
 									<input id="files" class="mt-1 form-control mb-3" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
+									<span id="text_file_image">Ningún archivo seleccionado</span>
 								</div>
 							</div>
 							<div class="form-group mt-3">
-								<button class="btn btn-primary btn-lg ml-2" id="createEditButton" name="form" value="<?php echo $value_submit;?>" type="submit"><?php echo $value_submit;?></button>
+								<button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButton" name="form" value="<?php echo $value_submit;?>" type="submit"><?php echo $value_submit;?></button>
 								<?php if ($value_submit != "Crear") {
-									echo '<button class="btn btn-primary btn-lg ml-3" id="deleteButton" name="form" value="delete" type="submit">Eliminar</button>';
+									echo '<button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButton" name="form" value="delete" type="submit">Eliminar</button>';
 								}?>
 								<a href="index.php">
-									<button class="btn btn-primary btn-lg ml-3" id="create_child" type="button">Volver</button>
+									<button class="btn btn-primary btn-lg ml-2 mb-2" id="create_child" type="button">Volver</button>
 								</a>
 							</div>
 						</form>
@@ -113,6 +119,12 @@ if (isset($_REQUEST['id'])) {
 		<!-- Core theme JS-->
 		<script src="../../js/scripts.js"></script>
 		<script type="text/javascript">
+			let file_image = document.getElementById("files");
+            let text_file_image = document.getElementById("text_file_image");
+            file_image.onchange = function () {
+                text_file_image.innerHTML = file_image.files[0].name;
+            };
+
 			$(document).ready(function(){
 				let sr = new webkitSpeechRecognition();
 

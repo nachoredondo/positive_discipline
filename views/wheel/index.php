@@ -7,6 +7,7 @@ Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
 $wheel = Option_wheel::get_wheel_by_iduser($user->id());
 $size_wheel = count($wheel);
+$action = $_REQUEST['action'] ?? '';
 
 ?>
 
@@ -250,6 +251,31 @@ $size_wheel = count($wheel);
                 });
             });
 
+            <?php if ($action === 'create_option'): ?>
+                swal({
+                    title: "Opción creada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update_option'): ?>
+                swal({
+                    title: "Opción actualizada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_option'): ?>
+                swal({
+                    title: "Opción borrada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
         </script>
     </body>
 </html>

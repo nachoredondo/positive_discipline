@@ -1,7 +1,7 @@
 <?php
 require("../../classes/rule.php");
 require '../../classes/session.php';
-require '../../classes/Meeting.php';
+require '../../classes/meeting.php';
 
 Session::check_login_redirect();
 $errors = [];

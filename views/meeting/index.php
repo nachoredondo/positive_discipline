@@ -4,6 +4,7 @@ require '../../classes/user.php';
 
 Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
+$action = $_REQUEST['action'] ?? '';
 
 ?>
 
@@ -27,6 +28,7 @@ $user = User::get_user_from_user($_SESSION['user']);
 
         <link href='../../assets/fullcalendar/main.min.css' rel='stylesheet' />
         <script src='../../assets/fullcalendar/main.min.js'></script>
+        <script src="../../assets/sweetalert/sweetalert.min.js"></script>
         <script>
 
         function inverse_date(date) {
@@ -179,5 +181,32 @@ $user = User::get_user_from_user($_SESSION['user']);
         <script src="../../assets/mail/jqBootstrapValidation.js"></script>
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
+        <script type="text/javascript">
+            <?php if ($action === 'create_meeting'): ?>
+                swal({
+                    title: "Junta creada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update_meeting'): ?>
+                swal({
+                    title: "Junta actualizada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_meeting'): ?>
+                swal({
+                    title: "Junta borrada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
+        </script>
     </body>
 </html>

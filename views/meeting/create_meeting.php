@@ -60,12 +60,12 @@ if (!$errors) {
 		}
 		if(!move_uploaded_file($fileTmpPath, $destPath)) {
 			$message = 'Image is not saved';
-			header('Location: ./edit_create.php?action=create_rule&message='.$message);
+			header('Location: ./edit_create.php?action=create_meeting&message='.$message);
 		}
 		if ($form == "Crear") {
-			header('Location: ./index.php?action=create_rule');
+			header('Location: ./index.php?action=create_meeting');
 		} else {
-			header('Location: ./index.php?action=update_rule');
+			header('Location: ./index.php?action=update_meeting');
 		}
 
 	} else if ($form == "Editar") {

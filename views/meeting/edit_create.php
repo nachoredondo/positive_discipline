@@ -171,11 +171,11 @@ if (isset($_REQUEST['id'])) {
 								</div>
 							</div>
 							<div class="form-group mt-3">
-								<button class="btn btn-primary btn-lg ml-3" id="createEditButton" name="form" value="<?php echo $value_submit;?>" type="submit"><?php echo $value_submit;?></button>
+								<button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButton" name="form" value="<?php echo $value_submit;?>" type="submit"><?php echo $value_submit;?></button>
 								<a href="index.php">
-									<button class="btn btn-primary btn-lg ml-3" id="create_child" type="button">Volver</button>
+									<button class="btn btn-primary btn-lg ml-2 mb-2" id="create_child" type="button">Volver</button>
 								</a>
-								<button class="btn btn-primary btn-lg ml-3" id="deleteButton" name="form" value="delete" type="submit">Eliminar</button>
+								<button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButton" name="form" value="delete" type="submit">Eliminar</button>
 							</div>
 						</form>
 					</div>

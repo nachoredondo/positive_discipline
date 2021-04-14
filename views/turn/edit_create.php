@@ -65,8 +65,8 @@ if (isset($_REQUEST['id'])) {
 		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.css" />
 		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.css" />
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.css" />
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/standalone.css" />
+		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.css"/>
+		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/standalone.css"/>
 	</head>
 	<body id="page-top">
 		<!-- Navigation-->

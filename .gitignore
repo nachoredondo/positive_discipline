@@ -1,5 +1,13 @@
 # Ignore files folder. It's for application generated files and user interaction
-files/
+/files/
+
+# exception default image wheel
+!/files/img/wheel/count.jpg
+!/files/img/wheel/draw.jpg
+!/files/img/wheel/listen_music.jpg
+!/files/img/wheel/relax.png
+!/files/img/wheel/speak_feelings.png
+!/files/img/wheel/think.png
 
 # Ignore ini files which may store passwords
 *.ini

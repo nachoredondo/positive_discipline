@@ -77,7 +77,7 @@ $size_wheel = count($wheel);
                 </div>
                 <div class="row justify-content-center mt-1 mb-3">
                     <a href="#wheel" onclick="start_wheel();">
-                        <img class="mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/files/img/wheel.png" width="200"/>
+                        <img class="mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/assets/img/wheel.png" width="200"/>
                     </a>
                 </div>
                 <h5 class="text-uppercase text-center text-info mb-1 mr-5">Listado de opciones:</h5>
@@ -108,7 +108,7 @@ $size_wheel = count($wheel);
                 <div class="modal-content">
                     <div class="modal-header">
                         <a href="#wheel" data-dismiss="modal" onclick="start_wheel();">
-                            <img class="mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/files/img/wheel.png" width="70"/>
+                            <img class="mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/assets/img/wheel.png" width="70"/>
                         </a>
                         <h4 class="modal-title mt-2 ml-4" id="exampleModalLabel">Rueda</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

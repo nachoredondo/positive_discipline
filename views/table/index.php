@@ -198,7 +198,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                         cordY = e.clientY - canvas.getBoundingClientRect().top;
                     } else {
                         cordX = e.touches[0].pageX - canvas.getBoundingClientRect().left;
-                        cordY = e.touches[0].pageY - canvas.getBoundingClientRect().top;
+                        cordY = e.touches[0].pageY - canvas.getBoundingClientRect().top - 320;
                     }
 
                     flag = true;
@@ -223,7 +223,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                             cordY = e.clientY - canvas.getBoundingClientRect().top;
                         } else {
                             cordX = e.touches[0].pageX - canvas.getBoundingClientRect().left;
-                            cordY = e.touches[0].pageY - canvas.getBoundingClientRect().top;
+                            cordY = e.touches[0].pageY - canvas.getBoundingClientRect().top - 320;
                         }
                         draw();
                     }

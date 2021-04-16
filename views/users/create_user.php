@@ -16,8 +16,12 @@ $tutor = $_POST['user-tutor'] ?? 'NULL';
 $age = $_POST['age'] ?? 'NULL';
 $image = $_POST['img'] ?? 'NULL';
 
-if($type == "adult" && (strlen($password) < 8 || strlen($password)) > 128) {
+if($type == "adult" && (strlen($password) < 8 || strlen($password) > 128)) {
 	header('Location: ./registrer.php?type='.$type.'&success=false&error=password-length');
+	exit();
+}
+if($type == "adult" && $password != $password_confirm) {
+	header('Location: ./registrer.php?type='.$type.'&success=false&error=no-same-password');
 	exit();
 }
 
@@ -41,7 +45,7 @@ if($type == "child") {
 }
 
 try {
-	$success = User::insert_user($type, $user, $email, $name, $surnames, $password, $password_confirm, $tutor, $age, $image);
+	$success = User::insert_user($type, $user, $email, $name, $surnames, $password, $tutor, $age, $image);
 } catch(InvalidArgumentException $e) {
 	$errors[] = "incorrect_camp";
 	$message = $e->getMessage();
@@ -50,7 +54,7 @@ try {
 }
 if (!$errors) {
 	if ($success) {
-		header('Location: ./login.php?type='.$type.'&action=creating');
+		header('Location: ./login.php?type='.$type.'&action=created');
 	} else {
 		header('Location: ./registrer.php?type='.$type.'&success='.($success === false ? 'false' : 'true'));
 	}

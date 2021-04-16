@@ -15,6 +15,8 @@ if (isset($_POST['id'])) {
 if (!$_SESSION['type'] && !isset($_POST['id'])) {
     $tutor_child = explode("_", $_SESSION['user'])[0];
 }
+$success = $_REQUEST['success'] ?? '';
+$message = $_REQUEST['message'] ?? '';
 
 ?>
 
@@ -34,7 +36,8 @@ if (!$_SESSION['type'] && !isset($_POST['id'])) {
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet"/>
+        <script src="../../assets/sweetalert/sweetalert.min.js"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -60,7 +63,7 @@ if (!$_SESSION['type'] && !isset($_POST['id'])) {
                             <input class="form-control" id="id" name="id" type="hidden" required="required" value="<?php echo $user->id();?>" />
                             <input class="form-control" id="tutor" name="tutor" type="hidden" placeholder="Usuario tutor" required="required" data-validation-required-message="Introduzca el usuario tutor." value="<?php echo ($_SESSION['type']) ? $_SESSION['user'] : $tutor_child;?>" />
                             <div class="control-group">
-                                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                <div class="form-group floating-label-form-group controls">
                                     <div class="row ml-4">
                                         <label>Nombre</label>
                                         <i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
@@ -203,6 +206,16 @@ if (!$_SESSION['type'] && !isset($_POST['id'])) {
                     };
                 }
             });
+
+            <?php if ($success): ?>
+                swal({
+                    title: '<?php echo $message; ?>',
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
         </script>
     </body>
 </html>

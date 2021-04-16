@@ -41,7 +41,7 @@ class User {
 
 	}
 
-	public static function insert_user($type, $user=null, $email=null, $name=null, $surnames=null, $password=null, $password_confirm=null, $tutor=null, $age = null, $image = null) {
+	public static function insert_user($type, $user=null, $email=null, $name=null, $surnames=null, $password=null, $tutor=null, $age = null, $image = null) {
 
 		if (!self::validate_user_adult($user)) {
 			throw new InvalidArgumentException('Usuario no válido');
@@ -66,7 +66,7 @@ class User {
 			}
 			$result = self::get_user('email', $email);
 			if ($result) {
-				throw new InvalidArgumentException('El correo '. $user .' ya está registrado');
+				throw new InvalidArgumentException('El correo '. $email .' ya está registrado');
 			}
 
 			$pwd = self::hash($password);

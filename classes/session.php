@@ -43,7 +43,7 @@ class Session {
 		session_start();
 		$_SESSION['lasturl'] = $_SERVER['REQUEST_URI'];
 
-		header('Location: ../../views/users/select_user.php');
+		header('Location: ../../views/users/login.php?type=child');
 		exit();
 	}
 }

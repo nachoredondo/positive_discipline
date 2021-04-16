@@ -1,6 +1,7 @@
 <?php
 $type = $_REQUEST['type'];
 session_start();
+$action = $_REQUEST['action'] ?? '';
 
 ?>
 
@@ -21,6 +22,7 @@ session_start();
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="../../css/styles.css" rel="stylesheet" />
+        <script src="../../assets/sweetalert/sweetalert.min.js"></script>
         <style>
             #image {
                 background-color: rgba(0,0,0,0.8);
@@ -49,10 +51,21 @@ session_start();
                     Iniciar sesión
                     <?php
                         if ($type == "adult")
-                            echo "tutor@";
+                            echo "tutor/a";
                         else
                             echo "niñ@";
                     ?>
+                <button id="popoverId" class="popoverThis btn">
+                    <i class="fas fa-question-circle fa-lg" title="Sección de ayuda"></i>
+                </button>
+                <div id="popoverContent" class="hide d-none">
+                    <?php
+                        if ($type == "adult"):
+                    ?>
+                    <p>La web sobre Disciplina Positiva trata sobre el desarrollo del autocontrol, confianza y autoestima en los niños.</p>
+                <?php endif; ?>
+                    <p>Este icono pemitirá orientar las demás partes de la web, está situado siempre arriba.</p>
+                </div>
                 </h4>
                 <div class="card-header">
                     <div class="text-center">
@@ -109,7 +122,7 @@ session_start();
                                 <a href="registrer.php?type=<?php echo $type;?>">
                                     <input type="button" class="btn btn-primary ml-2 mb-2" value="Crear usuario"/>
                                 </a>
-                                <a href="../../">
+                                <a href="select_user.php">
                                     <input type="button" class="btn btn-primary ml-2 mb-2" value="Cambiar tipo usuario"/>
                                 </a>
                             </div>
@@ -141,6 +154,40 @@ session_start();
                     $('#img-user').show({ duration: 500 });
                 }
             });
+
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                }
+            });
+
+            <?php if ($action === 'created'): ?>
+                swal({
+                    title: "Usario creado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
         </script>
     </body>
 </html>

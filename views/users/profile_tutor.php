@@ -4,6 +4,7 @@ require '../../classes/user.php';
 
 Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
+$action = $_REQUEST['action'] ?? '';
 
 ?>
 
@@ -49,14 +50,14 @@ $user = User::get_user_from_user($_SESSION['user']);
                 <!-- Contact Section Form-->
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
-                        <h3 class="row mt-2 mb-3 ml-1 text-info">Tabla de hijos:</h3>
+                        <h3 class="row mt-2 mb-3 ml-1 text-info">Tabla de niños:</h3>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
                             </table>
                         </div>
                         <a href="profile_child.php">
-                            <button class="btn btn-primary btn-lg ml-1 mb-2" id="create_child" type="button">Crear usuario hijo</button>
+                            <button class="btn btn-primary btn-lg ml-1 mb-2" id="create_child" type="button">Crear niño</button>
                         </a>
                         <h3 class="row mt-5 ml-1 text-info">Datos perfil:</h3>
                         <form id="contactForm" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">
@@ -115,21 +116,21 @@ $user = User::get_user_from_user($_SESSION['user']);
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <label>Contraseña</label>
-                                    <input class="form-control" id="pwd" name="pwd" type="text" placeholder="Contraseña" required="required" data-validation-required-message="Por favor introduce la contraseña." />
+                                    <input class="form-control" id="pwd" name="pwd" type="password" placeholder="Contraseña" required="required" data-validation-required-message="Por favor introduce la contraseña." />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <label>Confirmar contraseña</label>
-                                    <input class="form-control" id="pwd-confirm" name="pwd-confirm" type="text" placeholder="Contraseña" required="required" data-validation-required-message="Por favor confirma la contraseña." />
+                                    <input class="form-control" id="pwd-confirm" name="pwd-confirm" type="password" placeholder="Contraseña" required="required" data-validation-required-message="Por favor confirma la contraseña." />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <br />
                             <div class="form-group">
-                                <button class="btn btn-primary btn-lg ml-2" id="button-update-pwd" name="form" value="pwd" type="submit">Cambiar contraseña</button>
-                                <button class="btn btn-primary btn-lg ml-3 mr-4" id="button-delete-tutor" name="form" value="delete-tutor" type="submit">Eliminar usuario</button>
+                                <button class="btn btn-primary btn-lg ml-2 mb-2" id="button-update-pwd" name="form" value="pwd" type="submit">Cambiar contraseña</button>
+                                <button class="btn btn-primary btn-lg ml-2 mb-2" id="button-delete-tutor" name="form" value="delete-tutor" type="submit">Eliminar usuario</button>
                             </div>
                         </form>
                     </div>
@@ -181,6 +182,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                 let table = $('#the-table').DataTable({
                     order: [[1, 'asc']],
                     serverSide: true,
+                    lengthMenu: [[5, 10, -1], [5, 10, 'Todos']],
                     language: {
                         url: "<?php echo APP_ROOT; ?>/assets/datatables/es.json",
                     },
@@ -289,6 +291,40 @@ $user = User::get_user_from_user($_SESSION['user']);
                     };
                 }
             });
+
+            <?php if ($action === 'create_user'): ?>
+                swal({
+                    title: "Usuario creado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update' || $action === 'data'): ?>
+                swal({
+                    title: "Usuario actualizado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'pwd'): ?>
+                swal({
+                    title: "Contraseña actualizada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_child'): ?>
+                swal({
+                    title: "Usuario borrado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
         </script>
     </body>
 </html>

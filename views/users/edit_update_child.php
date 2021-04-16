@@ -12,9 +12,14 @@ $tutor = $_POST['tutor'] ?? 'NULL';
 $age = $_POST['age'] ?? 'NULL';
 $img = $_POST['img'] ?? 'NULL';
 
+if (!$name){
+	header('Location: ./profile_child.php?success=false&error='.$error.'&message=Nombre vacío');
+	exit();
+}
+
 try {
 	if ($_SESSION['type'] && $from != "delete_child" && $from != "update-user") {
-		$success = User::insert_user("child", 'NULL', 'NULL', $name, 'NULL', 'NULL', 'NULL', $tutor, $age, $img);
+		$success = User::insert_user("child", 'NULL', 'NULL', $name, 'NULL', 'NULL', $tutor, $age, $img);
 	} else {
 		if ($from == "update-user"){
 			$success = User::update_user_child($id, $tutor, $name, $age, $img);
@@ -33,14 +38,18 @@ try {
 }
 if (!$errors) {
 	if ($success) {
-		if ($_SESSION['type'] && $from != "delete_child") {
+		if ($_SESSION['type'] && $from != "delete_child" && $from != "update-user") {
 			header('Location: ./profile_tutor.php?action=create_user');
 		} else {
 			if ($from == "update-user"){
-				$_SESSION['user'] = $tutor . "_" . $img;
-				$_SESSION['fullname'] = ($surnames == "") ? $name : $surnames . ', ' . $name;
-				$_SESSION['name'] = $name;
-				header('Location: ./profile_child.php?action=update');
+				if ($_SESSION['type']) {
+					header('Location: ./profile_tutor.php?action=update');
+				} else {
+					$_SESSION['user'] = $tutor . "_" . $img;
+					$_SESSION['fullname'] = ($surnames == "") ? $name : $surnames . ', ' . $name;
+					$_SESSION['name'] = $name;
+					header('Location: ./profile_child.php?action=update');
+				}
 			} else {
 				if ($from != "delete_child") {
 					header('Location: ./logout.php');

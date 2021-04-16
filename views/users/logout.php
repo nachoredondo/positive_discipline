@@ -3,5 +3,5 @@
 session_start();
 session_destroy();
 
-header('Location: ./select_user.php');
+header('Location: ./login.php?type=child');
 ?>

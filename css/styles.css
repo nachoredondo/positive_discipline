@@ -10247,3 +10247,11 @@ form .row:first-child .floating-label-form-group {
 .fc-toolbar-title::first-letter {
   text-transform:uppercase;
 }
+
+.hidden {
+  visibility:hidden;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

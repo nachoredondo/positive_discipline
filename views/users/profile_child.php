@@ -15,6 +15,7 @@ if (isset($_POST['id'])) {
 if (!$_SESSION['type'] && !isset($_POST['id'])) {
     $tutor_child = explode("_", $_SESSION['user'])[0];
 }
+$action = $_REQUEST['action'] ?? '';
 $success = $_REQUEST['success'] ?? '';
 $message = $_REQUEST['message'] ?? '';
 
@@ -213,6 +214,14 @@ $message = $_REQUEST['message'] ?? '';
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update'): ?>
+                swal({
+                    title: "Usuario actualizado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>

@@ -5,6 +5,7 @@ require '../../classes/rule.php';
 
 Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
+$message = $_REQUEST['message'] ?? '';
 
 if (isset($_REQUEST['id'])) {
     $rule = Rule::get_rule($_REQUEST['id']);
@@ -28,25 +29,26 @@ if (isset($_REQUEST['id'])) {
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Norma</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico"/>
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet"/>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
         <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="../../assets/sweetalert/sweetalert.min.js"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -73,6 +75,7 @@ if (isset($_REQUEST['id'])) {
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <div class="row ml-1">
                                         <label>Título</label>
+                                        <label class="text-danger ml-1">✱</label>
                                         <i class="fas fa-microphone ml-3 mt-4" id="audio-title"></i>
                                     </div>
                                     <input class="form-control mr-5" id="title" name="title" type="text" required="required" data-validation-required-message="Introduzca el título." placeholder="Título" value="<?php echo $rule->title; ?>"/>
@@ -84,6 +87,10 @@ if (isset($_REQUEST['id'])) {
                             ?>
                             <div class="control-group">
                                  <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                    <div class="row ml-1">
+                                        <label>Niñ@</label>
+                                        <label class="text-danger ml-1">✱</label>
+                                    </div>
                                     <div class="table-responsive">
                                         <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                             <thead><!-- Leave empty. Column titles are automatically generated --></thead>
@@ -117,7 +124,8 @@ if (isset($_REQUEST['id'])) {
                                         echo "<img class='mt-2 ml-2' src='" . APP_ROOT . "files/img/rules/" . $img_rule . "' height='80'/>";
                                         echo "<label for='files'>Cambiar imagen</label>";
                                     } ?>
-                                    <input class="form-control mb-3" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
+                                    <input id="file_image" class="form-control mb-3" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
+                                    <span id="text_file_image">Ningún archivo seleccionado</span>
                                     <p class="help-block text-danger" style="display:none;"></p>
                                 </div>
                             </div>
@@ -149,6 +157,12 @@ if (isset($_REQUEST['id'])) {
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
         <script type="text/javascript">
+            let file_image = document.getElementById("file_image");
+            let text_file_image = document.getElementById("text_file_image");
+            file_image.onchange = function () {
+                text_file_image.innerHTML = file_image.files[0].name;
+            };
+
             $(document).ready(function(){
                 let sr = new webkitSpeechRecognition();
 
@@ -210,7 +224,7 @@ if (isset($_REQUEST['id'])) {
                     columns: [
                         {
                             sorting: false,
-                            title:'Hijo escogido',
+                            title:'Niñ@ escogid@',
                             render: function (_, _, row) { return check_user(row.id_rule, row.id) },
                             "searchable": false,
                         },
@@ -254,6 +268,16 @@ if (isset($_REQUEST['id'])) {
                     },
                 });
             });
+
+            <?php if ($message): ?>
+                swal({
+                    title: '<?php echo $message; ?>',
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
 
         </script>
     </body>

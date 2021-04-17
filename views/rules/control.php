@@ -25,6 +25,15 @@ if ($fileName == null) {
 	$fileName = $img_saved;
 }
 
+// control errors
+if (!$title && $form != "delete"){
+	header('Location: ./edit_create.php?success=false&message=Nombre vacío');
+	exit();
+}
+if ($id_user_child == 'NULL' && $form != "delete"){
+	header('Location: ./edit_create.php?success=false&message=Sin asignar hijos');
+	exit();
+}
 
 try {
 	if ($form == "Crear") {

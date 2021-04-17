@@ -131,10 +131,6 @@ $type = $_REQUEST['type'] ?? '';
               width: 100%;
               height: 100%;
             }
-
-            input[type="file"] {
-                color: transparent;
-            }
         </style>
     </head>
     <body id="page-top">

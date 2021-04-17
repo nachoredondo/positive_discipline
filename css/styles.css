@@ -10255,3 +10255,7 @@ form .row:first-child .floating-label-form-group {
 .cursor-pointer {
   cursor: pointer;
 }
+
+input[type="file"] {
+    color: transparent;
+}

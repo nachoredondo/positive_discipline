@@ -129,6 +129,7 @@ $action = $_REQUEST['action'] ?? '';
                 let table = $('#the-table').DataTable({
                     order: [[1, 'asc']],
                     serverSide: true,
+                    lengthMenu: [[5, 10, -1], [5, 10, 'Todas']],
                     language: {
                         url: "<?php echo APP_ROOT; ?>/assets/datatables/es.json",
                     },

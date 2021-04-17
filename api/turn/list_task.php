@@ -92,7 +92,7 @@ class SSPTasks extends SSP {
 		$from = self::FROM;
 
 		$where = self::where_add($where, self::where_user($request['id_user'], $bindings));
-		$where_join = "";
+		$where_join = self::where_add("", self::where_user($request['id_user'], $bindings_join));
 
 		// Main query to actually get the data
 		$sql = "SELECT t.`id_task` as 't.id_task',
@@ -112,8 +112,7 @@ class SSPTasks extends SSP {
 		$resTotalLength = self::sql_exec($db, $bindings_join,
 			"SELECT COUNT(`t`.`id_task`)
 			 FROM $from
-			 $where_join
-			 $group"
+			 $where_join"
 		);
 		$recordsTotal = $resTotalLength[0][0];
 		// Data set length after filtering
@@ -122,8 +121,7 @@ class SSPTasks extends SSP {
 			$resFilterLength = self::sql_exec($db, $bindings_join,
 				"SELECT COUNT(`t`.`id_task`)
 				 FROM $from
-				 $where_join
-				 $group"
+				 $where_join"
 			);
 			$recordsFiltered = $resFilterLength[0][0];
 		}

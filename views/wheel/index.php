@@ -120,7 +120,7 @@ $action = $_REQUEST['action'] ?? '';
                     <table class="totals-table table-bordered m-0 w-100">
                         <tr>
                             <th colspan="2" class="text-center">
-                                <span>Opción escogida aletaoria</span>span
+                                <span>Opción escogida al azar</span>
                             </th>
                         </tr>
                         <tr>

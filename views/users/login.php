@@ -56,7 +56,7 @@ $action = $_REQUEST['action'] ?? '';
                             echo "niñ@";
                     ?>
                 <button id="popoverId" class="popoverThis btn">
-                    <i class="fas fa-question-circle fa-lg" title="Sección de ayuda"></i>
+                    <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                 </button>
                 <div id="popoverContent" class="hide d-none">
                     <?php

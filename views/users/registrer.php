@@ -69,7 +69,7 @@ if (isset($_GET['error'])) {
                     if ($type == "child"):
                 ?>
                 <button id="popoverId" class="popoverThis btn">
-                    <i class="fas fa-question-circle fa-lg" title="Sección de ayuda"></i>
+                    <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                 </button>
                 <div id="popoverContent" class="hide d-none">
                     <p>Para crear usuario se necesita la supervisón del tutor.</p>

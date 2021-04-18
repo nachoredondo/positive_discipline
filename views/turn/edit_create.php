@@ -6,6 +6,7 @@ require '../../classes/task.php';
 Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
 $responsable_age = User::get_responsable($_SESSION['user']);
+$message = $_REQUEST['error'] ?? '';
 
 if (isset($_REQUEST['id'])) {
 	$task = Task::get_task_by_id($_REQUEST['id']);
@@ -32,25 +33,25 @@ if (isset($_REQUEST['id'])) {
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 		<meta name="description" content="" />
 		<meta name="author" content="" />
 		<title>Crear tarea</title>
 		<!-- Favicon-->
-		<link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
+		<link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico"/>
 		<!-- Font Awesome icons (free version)-->
 		<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
 		<!-- Google fonts-->
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
 		<!-- Core theme CSS (includes Bootstrap)-->
-		<link href="../../css/styles.css" rel="stylesheet" />
+		<link href="../../css/styles.css" rel="stylesheet"/>
 				<!-- Bootstrap core JS-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 		<!-- Third party plugin JS-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
 		<script src="../../assets/datatables/jquery.dataTables.min.js"></script>
 		<script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
@@ -63,10 +64,11 @@ if (isset($_REQUEST['id'])) {
 		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.js" type="text/javascript"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.css" />
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.css" />
+		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.css"/>
+		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.css"/>
 		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.css"/>
 		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/standalone.css"/>
+		<script src="../../assets/sweetalert/sweetalert.min.js"></script>
 	</head>
 	<body id="page-top">
 		<!-- Navigation-->
@@ -94,9 +96,10 @@ if (isset($_REQUEST['id'])) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Nombre</label>
+										<label class="text-danger ml-2">✱</label>
 										<i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
 									</div>
-									<input class="form-control mr-5" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Título" value="<?php echo $task->name; ?>"/>
+									<input class="form-control mr-5" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Nombre" value="<?php echo $task->name; ?>"/>
 									<p class="help-block text-danger" required style="display:none;"></p>
 								</div>
 							</div>
@@ -112,6 +115,10 @@ if (isset($_REQUEST['id'])) {
 							</div>
 							<div class="control-group">
 								 <div class="form-group floating-label-form-group controls mb-0 pb-2">
+								 	<div class="row ml-1">
+                                        <label>Niñ@</label>
+                                        <label class="text-danger ml-2">✱</label>
+                                    </div>
 									<div class="table-responsive">
 										<table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
 											<thead><!-- Leave empty. Column titles are automatically generated --></thead>
@@ -124,6 +131,7 @@ if (isset($_REQUEST['id'])) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Fecha inicio</label>
+										<label class="text-danger ml-2">✱</label>
 									</div>
 									<input type="text" class="form-control monthpicker" name="date_start" autocomplete="off" value="<?php echo $date_start; ?>"/>
 								</div>
@@ -132,6 +140,7 @@ if (isset($_REQUEST['id'])) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Fecha fin</label>
+										<label class="text-danger ml-2">✱</label>
 									</div>
 									<input type="text" class="form-control monthpicker" name="date_end" autocomplete="off" value="<?php echo $date_end; ?>"/>
 								</div>
@@ -140,6 +149,7 @@ if (isset($_REQUEST['id'])) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Fecha modificación</label>
+										<label class="text-danger ml-2">✱</label>
 									</div>
 									<input type="text" class="form-control monthpicker" name="date_modification" autocomplete="off" value="<?php echo $date_modification; ?>"/>
 								</div>
@@ -172,8 +182,9 @@ if (isset($_REQUEST['id'])) {
 							</div> -->
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
-									<div class="row ml-1">
+									<div class="row ml-1 mb-1">
 										<label>Frecuencia</label>
+										<label class="text-danger ml-2">✱</label>
 									</div>
 									<div class="ml-3">
 										<div class="form-check">
@@ -465,7 +476,7 @@ if (isset($_REQUEST['id'])) {
 					columns: [
 						{
 							sorting: false,
-							title:'Hijo escogido',
+							title:'Niñ@ escogido',
 							render: function (_, _, row) { return check_user(row.id_task, row.id) },
 							"searchable": false,
 						},
@@ -515,6 +526,56 @@ if (isset($_REQUEST['id'])) {
 					},
 				});
 			});
+
+			<?php if ($message === 'no-tittle'): ?>
+                swal({
+                    title: "Sin nombre",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($message === 'no-child'): ?>
+                swal({
+                    title: "Sin niñ@",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($message === 'no-date-start'): ?>
+                swal({
+                    title: "Sin fecha inicio",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($message === 'no-date-end'): ?>
+                swal({
+                    title: "Sin fecha fin",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($message === 'no-date-modification'): ?>
+                swal({
+                    title: "Sin fecha modificación",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($message === 'no-frecuency'): ?>
+                swal({
+                    title: "Sin frecuencia",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
 
 		</script>
 	</body>

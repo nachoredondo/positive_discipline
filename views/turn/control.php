@@ -9,13 +9,6 @@ $form = $_POST['form'];
 $id = $_POST['id'] ?? 'NULL';
 $id_educator = $_POST['id_educator'] ?? 'NULL';
 $id_user_child = $_POST['id_user_child'] ?? 'NULL';
-if ($form == "Crear" and $id_user_child == 'NULL') {
-	header('Location: ./edit_create.php?success=false&error=no-child');
-	exit();
-} else if ($form == "Editar" and $id_user_child == 'NULL') {
-	header('Location: ./edit_create.php?id='.$id.'&success=false&error=no-child');
-	exit();
-}
 $id_child_position = $_POST['id_child_position'] ?? 'NULL';
 
 $name = $_POST['name'] ?? 'NULL';
@@ -41,6 +34,43 @@ foreach ($frecuency as $key => $value) {
 		$correct_frecuency = true;
 		break;
 	}
+}
+
+// form errors are controled
+if ($form == "Crear" and !$name) {
+	header('Location: ./edit_create.php?success=false&error=no-tittle');
+	exit();
+} else if ($form == "Editar" and !$name) {
+	header('Location: ./edit_create.php?id='.$id.'&success=false&error=no-tittle');
+	exit();
+}
+if ($form == "Crear" and $id_user_child == 'NULL') {
+	header('Location: ./edit_create.php?success=false&error=no-child');
+	exit();
+} else if ($form == "Editar" and $id_user_child == 'NULL') {
+	header('Location: ./edit_create.php?id='.$id.'&success=false&error=no-child');
+	exit();
+}
+if ($form == "Crear" and !$date_start) {
+	header('Location: ./edit_create.php?success=false&error=no-date-start');
+	exit();
+} else if ($form == "Editar" and !$date_start) {
+	header('Location: ./edit_create.php?id='.$id.'&success=false&error=no-date-start');
+	exit();
+}
+if ($form == "Crear" and !$date_end) {
+	header('Location: ./edit_create.php?success=false&error=no-date-end');
+	exit();
+} else if ($form == "Editar" and !$date_end) {
+	header('Location: ./edit_create.php?id='.$id.'&success=false&error=no-date-end');
+	exit();
+}
+if ($form == "Crear" and !$date_modification) {
+	header('Location: ./edit_create.php?success=false&error=no-date-modification');
+	exit();
+} else if ($form == "Editar" and !$date_modification) {
+	header('Location: ./edit_create.php?id='.$id.'&success=false&error=no-date-modification');
+	exit();
 }
 if ($form == "Crear" and !$correct_frecuency) {
 	header('Location: ./edit_create.php?success=false&error=no-frecuency');

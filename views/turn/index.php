@@ -31,8 +31,6 @@ $action = $_REQUEST['action'] ?? '';
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
@@ -51,7 +49,23 @@ $action = $_REQUEST['action'] ?? '';
         <section class="page-section" id="contact">
             <!-- Rules Section Heading-->
             <div class="container mb-5">
-                <h2 class="text-center text-uppercase text-secondary mt-4">Gestor de turnos</h2>
+                <h2 class="text-center text-uppercase text-secondary mt-4 ml-2">
+                    Gestor de turnos
+                    <button id="popoverId" class="popoverThis btn">
+                        <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                    </button>
+                    <div id="popoverContent" class="hide d-none">
+                        <p>Módulo para gestionar turnos.</p>
+                        <p> Los estados dependen de la fecha de modificación, inicio y fin:</p>
+                        <ol>
+                            <li><span class='text-success'><b>Realizado</b></span>: fecha modificación actualizado con respecto a la frecuencia actual</li>
+                            <li><span class='text-danger'><b>Sin realizar</b></span>: fecha modificación anterior a la actual</li>
+                            <li><span class='text-warning'><b>Pendiente</b></span>: fecha modificación sin actualizar con respecto a la frecuencia actual</li>
+                            <li><span class='text-dark'><b>Finalizado</b></span>: fecha fin anterior a la actual</li>
+                        </ol>
+                        A continuación un video a modo de ejemplo.</p>
+                    </div>
+                </h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -85,6 +99,30 @@ $action = $_REQUEST['action'] ?? '';
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
         <script type="text/javascript">
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                }
+            });
+
             function make_request(path, params, method) {
                 method = method || "post"; // Set method to post by default if not specified.
 
@@ -435,6 +473,7 @@ $action = $_REQUEST['action'] ?? '';
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>
+
 
         </script>
     </body>

@@ -93,6 +93,7 @@ if ($_SESSION['type']) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Título</label>
+										<label class="text-danger ml-2">✱</label>
 										<i class="fas fa-microphone ml-3 mt-4" id="audio-title"></i>
 									</div>
 									<input class="form-control mr-5" id="title" name="title" type="text" required="required" data-validation-required-message="Introduzca el título." placeholder="Título" value="<?php echo $meeting->title; ?>"/>
@@ -123,6 +124,7 @@ if ($_SESSION['type']) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Fecha</label>
+										<label class="text-danger ml-2">✱</label>
 									</div>
 									<input type="text" id="date" class="form-control monthpicker" name="date" autocomplete="off" value="<?php echo $meeting_date; ?>"/>
 								</div>

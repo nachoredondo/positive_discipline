@@ -49,6 +49,8 @@ if (isset($_REQUEST['id'])) {
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
         <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
         <script src="../../assets/sweetalert/sweetalert.min.js"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../../css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
         <!-- Navigation-->

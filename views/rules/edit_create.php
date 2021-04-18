@@ -126,7 +126,7 @@ if (isset($_REQUEST['id'])) {
                                         echo "<img class='mt-2 ml-2' src='" . APP_ROOT . "files/img/rules/" . $img_rule . "' height='80'/>";
                                         echo "<label for='files'>Cambiar imagen</label>";
                                     } ?>
-                                    <input id="file_image" class="form-control mb-3" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
+                                    <input id="file_image" class="form-control mb-3" type="file" name="fimagen" accept="image/gif, image/jpeg, image/jpg, image/png" style="font-size: large"/>
                                     <span id="text_file_image">Ningún archivo seleccionado</span>
                                     <p class="help-block text-danger" style="display:none;"></p>
                                 </div>

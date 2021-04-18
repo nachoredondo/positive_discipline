@@ -10,15 +10,6 @@ $form = $_POST['form'];
 $id_meeting = $_POST['id'];
 $id_tutor = $_POST['id_tutor'];
 $title = $_POST['title'];
-if ($title == "") {
-	if ($form == "Crear") {
-		header('Location: ./edit_create.php?message=not_title');
-		exit();
-	} else if ("Editar") {
-		header('Location: ./edit_create.php?id='.$id_meeting.'&message=not_title');
-		exit();
-	}
-}
 $description = $_POST['description'];
 $topics = $_POST['topics'];
 $date = $_POST['date'];
@@ -36,6 +27,26 @@ $destPath = $uploadFileDir . $fileName;
 
 if ($fileName == null) {
 	$fileName = $file_saved;
+}
+
+// errors form are controled
+if ($title == "") {
+	if ($form == "Crear") {
+		header('Location: ./edit_create.php?message=not_tittle');
+		exit();
+	} else if ("Editar") {
+		header('Location: ./edit_create.php?id='.$id_meeting.'&message=not_title');
+		exit();
+	}
+}
+if ($date == "") {
+	if ($form == "Crear") {
+		header('Location: ./edit_create.php?message=not_date');
+		exit();
+	} else if ("Editar") {
+		header('Location: ./edit_create.php?id='.$id_meeting.'&message=not_date');
+		exit();
+	}
 }
 
 try {

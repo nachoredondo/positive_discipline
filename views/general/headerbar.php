@@ -26,7 +26,7 @@ $user_child = User::get_user_from_user($_SESSION['user'])
             </div>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../rules/">Normas</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../meeting/">Juntas</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../meeting/">Agenda</a></li>
                 <?php  if ($_SESSION['type']){  ?>
 	                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-2 rounded js-scroll-trigger" href="../turn/">Turnos</a></li>
                 <?php } else {  ?>

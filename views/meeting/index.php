@@ -15,7 +15,7 @@ $action = $_REQUEST['action'] ?? '';
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>User</title>
+        <title>Agenda</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -99,7 +99,15 @@ $action = $_REQUEST['action'] ?? '';
         <section class="page-section" id="contact">
             <div class="container mb-5">
                 <!-- Meeting Section Heading-->
-                <h2 class="text-center text-uppercase text-secondary mt-4">Juntas</h2>
+                <h2 class="text-center text-uppercase text-secondary mt-4 ml-5">
+                    Agenda
+                    <button id="popoverId" class="popoverThis btn">
+                        <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                    </button>
+                    <div id="popoverContent" class="hide d-none">
+                        <p>Módulo para gestionar juntas, a continuación un video a modo de ejemplo.</p>
+                    </div>
+                </h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -207,6 +215,31 @@ $action = $_REQUEST['action'] ?? '';
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>
+
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                }
+            });
+
         </script>
     </body>
 </html>

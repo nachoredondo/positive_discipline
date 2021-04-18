@@ -5,6 +5,7 @@ require '../../classes/meeting.php';
 
 Session::check_login_redirect();
 $responsable_age = User::get_responsable($_SESSION['user']);
+$message = $_REQUEST['message'] ?? '';
 
 if (isset($_REQUEST['id'])) {
 	$meeting = Meeting::get_meeting_by_id($_REQUEST['id']);
@@ -34,19 +35,19 @@ if ($_SESSION['type']) {
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 		<meta name="description" content="" />
 		<meta name="author" content="" />
-		<title>Norma</title>
+		<title>Agenda</title>
 		<!-- Favicon-->
-		<link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
+		<link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico"/>
 		<!-- Font Awesome icons (free version)-->
 		<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
 		<!-- Google fonts-->
-		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
 		<!-- Core theme CSS (includes Bootstrap)-->
-		<link href="../../css/styles.css" rel="stylesheet" />
+		<link href="../../css/styles.css" rel="stylesheet"/>
 				<!-- Bootstrap core JS-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -59,10 +60,11 @@ if ($_SESSION['type']) {
 		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.js" type="text/javascript"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.css" />
+		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.css"/>
 		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.css" />
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.css" />
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/standalone.css" />
+		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.css"/>
+		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/standalone.css"/>
+		<script src="../../assets/sweetalert/sweetalert.min.js"></script>
 	</head>
 	<body id="page-top">
 		<!-- Navigation-->
@@ -153,28 +155,27 @@ if ($_SESSION['type']) {
 							</div>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls pb-4 d-flex align-items-center">
-									<div class="col-4">
-										<div class="row ml-1">
+									<div class="row ml-1 col-12 col-lg-4">
+										<div clas="row">
 											<label>Responsable acta</label>
-										</div>
-										<select id="responsable_act" name="responsable_act" class="form-control mt-1">
-											<!-- <option value="">Responable acta...</option> -->
-											<?php
-												foreach ($responsable_age as $responsable) {
-													echo '<option value="'.$responsable["id"];
-													if ($responsable['educator'] == "1") {
-														echo ' selected';
+											<select id="responsable_act" name="responsable_act" class="form-control mt-1">
+												<!-- <option value="">Responable acta...</option> -->
+												<?php
+													foreach ($responsable_age as $responsable) {
+														echo '<option value="'.$responsable["id"];
+														if ($responsable['educator'] == "1") {
+															echo ' selected';
+														}
+														echo '">'.$responsable["name"].'</option>';
 													}
-													echo '">'.$responsable["name"].'</option>';
-												}
-											?>
-										</select>
-									</div>
-									<div class="mt-1">
-										<div class="row ml-1">
-											<label>Acta</label>
+												?>
+											</select>
 										</div>
-										<input class="form-control" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.ms-excel, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, .docx" style="font-size: large"/>
+										<div clas="row">
+											<label>Acta</label>
+											<input type="file" class="form-control" name="fimagen" accept="image/gif, image/jpg, image/jpeg, image/png, application/pdf, application/vnd.ms-excel, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, .docx" style="font-size: large"/>
+											<span id="text_file_image">Ningún archivo seleccionado</span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -201,6 +202,12 @@ if ($_SESSION['type']) {
 		<!-- Core theme JS-->
 		<script src="../../js/scripts.js"></script>
 		<script type="text/javascript">
+			let file_image = document.getElementById("file_image");
+            let text_file_image = document.getElementById("text_file_image");
+            file_image.onchange = function () {
+                text_file_image.innerHTML = file_image.files[0].name;
+            };
+
 			$('.clockpicker').clockpicker({
 				donetext: 'Confirmar'
 			});
@@ -267,6 +274,24 @@ if ($_SESSION['type']) {
 					close: 'fas fa-times'
 				},
 			});
+
+			<?php if ($message === 'not_tittle'): ?>
+                swal({
+                    title: "Sin título",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($message === 'not_date'): ?>
+                swal({
+                    title: "Sin fecha",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
 
 		</script>
 	</body>

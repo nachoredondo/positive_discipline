@@ -22,7 +22,7 @@ function login_succeded() {
 
 session_start();
 
-if ($type == "adult") {
+if ($type == "tutor") {
 	$email = $_POST['email'];
 	$password = $_POST['password'];
 	$educator = true;
@@ -34,7 +34,7 @@ if ($type == "adult") {
 }
 
 try {
-	if ($type == "adult") {
+	if ($type == "tutor") {
 		$user = User::get_user_from_email($email);
 	} else {
 		$user = User::get_user_from_tutor_img($tutor, $img);

@@ -126,7 +126,7 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                                     <input type="button" class="btn btn-primary ml-2 mb-2" value="Crear usuario"/>
                                 </a>
                                 <a href="login.php?type=<?php echo $other_type;?>">
-                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Iniciar sesión <?php echo $other_user_translate;?>"/>
+                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Cambiar usuario <?php echo $other_user_translate;?>"/>
                                 </a>
                             </div>
                         </form>

@@ -68,8 +68,12 @@ $action = $_REQUEST['action'] ?? '';
                             <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                         </button>
                         <div id="popoverContent" class="hide d-none">
-                            <p>Módulo en el que se crea una rueda de la ira virtual.</p>
-                            <p>Para lanzar la rueda y sacar una opción al azar hay que pinchar en la rueda, dentro de la ventana emergente se puede volver a lanzar la rueda.</p>
+                            <p>
+                                Para lanzar la rueda y sacar una opción al azar hay que pinchar en la rueda, dentro de la ventana emergente se puede volver a lanzar la rueda.
+                            </p>
+                            <p>
+                                Las opciones se pueden crear, editar y eliminar.
+                            </p>
                         </div>
                     </h2>
                     <!-- Icon Divider-->

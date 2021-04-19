@@ -57,7 +57,7 @@ $action = $_REQUEST['action'] ?? '';
                             </table>
                         </div>
                         <a href="profile_child.php">
-                            <button class="btn btn-primary btn-lg ml-1 mb-2" id="create_child" type="button">Crear niño</button>
+                            <button class="btn btn-primary btn-lg ml-1 mb-2" id="create_child" type="button">Crear usuario niñ@</button>
                         </a>
                         <h3 class="row mt-5 ml-1 text-info">Datos perfil:</h3>
                         <form id="contactForm" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">

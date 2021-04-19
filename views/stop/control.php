@@ -21,8 +21,26 @@ $fileName = $_FILES['file']['name'] ?? 'NULL';
 $fileSize = $_FILES['file']['size'] ?? 'NULL';
 $fileType = $_FILES['file']['type'] ?? 'NULL';
 
+// control errors
+if (!$link_new && !$link_saved && $type=="youtube" && $form != "delete"){
+	header('Location: ./edit_create.php?action=err&type='.$type.'&message=Sin enlace');
+	exit();
+}
+if (!$fileName && !$file && $type=="image" && $form != "delete"){
+	header('Location: ./edit_create.php?action=err&type='.$type.'&message=Sin adjuntar imagen');
+	exit();
+}
+if (!$fileName && !$file && $type=="audio" && $form != "delete"){
+	header('Location: ./edit_create.php?action=err&type='.$type.'&message=Sin adjuntar audio');
+	exit();
+}
+if (!$fileName && !$file && $type=="video" && $form != "video"){
+	header('Location: ./edit_create.php?action=err&type='.$type.'&message=Sin adjuntar video');
+	exit();
+}
+
 if ($fileSize > 8000000) {
-	header('Location: ./edit_create.php?type='.$type.'&message=size-file-exceeded');
+	header('Location: ./edit_create.php?action=err&type='.$type.'&message=Tamaño máximo del archivo adjuntado sobrepasado (8 Megabytes)');
 	exit();
 }
 

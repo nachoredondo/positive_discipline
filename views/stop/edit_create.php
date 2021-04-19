@@ -87,6 +87,7 @@ if ($video_stop) {
 
 $action = $_REQUEST['action'] ?? '';
 $type = $_REQUEST['type'] ?? '';
+$message = $_REQUEST['message'] ?? '';
 
 ?>
 
@@ -140,9 +141,17 @@ $type = $_REQUEST['type'] ?? '';
         <section class="page-section" id="contact">
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
-                <h2 class="text-white">.</h2>
-                <div class="mr-5">
-                    <h2 class="text-center text-uppercase text-secondary">Personalizar stop</h2>
+                <div class="container mb-5">
+                    <h2 class="text-center text-uppercase text-secondary mt-4">
+                        Personalizar Stop
+                        <button id="popoverId" class="popoverThis btn">
+                            <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                        </button>
+                        <div id="popoverContent" class="hide d-none">
+                            <p> Se puede personalizar seleccionando Youtube, audio, imagen o vídeo.</p>
+                            <p> En cada uno de ellos se puede poner un título y la posición en la que aprecerá en el Stop.
+                        </div>
+                    </h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>
@@ -160,7 +169,7 @@ $type = $_REQUEST['type'] ?? '';
                             <input class="mr-1" type="radio" name="election" value="audio" <?php if ($audio_enabled) echo "checked"; ?>/>Audio
                         </div>
                         <div class="ml-4">
-                            <input class="mr-1" type="radio" name="election" value="video" <?php if ($video_enabled) echo "checked"; ?>/>Video
+                            <input class="mr-1" type="radio" name="election" value="video" <?php if ($video_enabled) echo "checked"; ?>/>Vídeo
                         </div>
                     </div>
                     <div class="row">
@@ -190,11 +199,12 @@ $type = $_REQUEST['type'] ?? '';
                                         <p class="help-block text-danger" required style="display:none;"></p>
                                         <?php if ($youtube_stop->id_user() != "0") {
                                             echo '<iframe src="https://www.youtube.com/embed/'.$youtube_stop->link.'" allowfullscreen="" frameborder="0"></iframe>';
-                                            echo "<label for='files'>Cambiar video de youtube</label>";
+                                            echo "<label for='files'>Cambiar vídeo de youtube</label>";
                                             }
                                         ?>
                                         <div class="row ml-1">
                                             <label>Enlace</label>
+                                            <label class="text-danger ml-2">✱</label>
                                         </div>
                                         <input class="form-control mb-3" type="text" name="link_new" placeholder="https://www.youtube.com/watch?v=..." value="<?php echo $link_saved; ?>"/>
                                     </div>
@@ -258,9 +268,15 @@ $type = $_REQUEST['type'] ?? '';
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <p class="help-block text-danger" required style="display:none;"></p>
                                         <?php if ($image_stop->id_user() != "0") {
-                                            echo "<img class='mt-2 ml-2' src='" . APP_ROOT . "files/stop/img/" . $image_stop->link() . "' height='150'/>";
-                                            echo "<label for='files'>Cambiar imagen</label>";
-                                        } ?>
+                                                echo "<img class='mt-2 ml-2' src='" . APP_ROOT . "files/stop/img/" . $image_stop->link() . "' height='150'/>";
+                                                echo "<label for='files'>Cambiar imagen</label>";
+                                            } else {
+                                                echo '<div class="row ml-1">
+                                                    <label>Adjuntar imagen</label>
+                                                    <label class="text-danger ml-2">✱</label>
+                                                </div>';
+                                            }
+                                        ?>
                                         <input id="file_image" class="form-control mb-3" type="file" name="file" accept="image/gif, image/jpeg, image/png" style="font-size: large"/>
                                         <span id="text_file_image">Ningún archivo seleccionado</span>
                                     </div>
@@ -326,12 +342,18 @@ $type = $_REQUEST['type'] ?? '';
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <p class="help-block text-danger" required style="display:none;"></p>
                                         <?php if ($audio_stop->id_user() != "0") {
-                                            echo "<audio controls height='200' controlsList='nodownload'>
-                                                    <source src='".APP_ROOT."files/stop/audio/".$audio_stop->link()."'>
-                                                    Tu navegador no soporta el formato del audio.
-                                                </audio>";
-                                            echo "<label for='files'>Cambiar audio</label>";
-                                        } ?>
+                                                echo "<audio controls height='200' controlsList='nodownload'>
+                                                        <source src='".APP_ROOT."files/stop/audio/".$audio_stop->link()."'>
+                                                        Tu navegador no soporta el formato del audio.
+                                                    </audio>";
+                                                echo "<label for='files'>Cambiar audio</label>";
+                                            } else {
+                                                echo '<div class="row ml-1">
+                                                    <label>Adjuntar audio</label>
+                                                    <label class="text-danger ml-2">✱</label>
+                                                </div>';
+                                            }
+                                        ?>
                                         <input id="file_audio" class="form-control mb-3" type="file" name="file" accept="audio/*" style="font-size: large"/>
                                         <span id="text_file_audio">Ningún archivo seleccionado</span>
                                     </div>
@@ -397,13 +419,20 @@ $type = $_REQUEST['type'] ?? '';
 
                                         <p class="help-block text-danger" required style="display:none;"></p>
                                         <?php if ($video_stop->id_user() != "0") {
-                                            echo "<video controls height='200' controlsList='nodownload' poster='".APP_ROOT."assets/img/video.jpg'>
-                                                    <source src='".APP_ROOT."files/stop/video/".$video_stop->link()."'>
-                                                    Tu navegador no soporta el formato del video.
-                                                </video>";
-                                            echo "<label for='files'>Cambiar video</label>";
-                                        } ?>
-                                        <input class="form-control mb-3" type="file" name="file" accept="video/mp4,video/x-m4v,video/*" style="font-size: large"/>
+                                                echo "<video controls height='200' controlsList='nodownload' poster='".APP_ROOT."assets/img/video.jpg'>
+                                                        <source src='".APP_ROOT."files/stop/video/".$video_stop->link()."'>
+                                                        Tu navegador no soporta el formato del vídeo.
+                                                    </video>";
+                                                echo "<label for='files'>Cambiar vídeo</label>";
+                                            } else {
+                                                echo '<div class="row ml-1">
+                                                    <label>Adjuntar video</label>
+                                                    <label class="text-danger ml-2">✱</label>
+                                                </div>';
+                                            }
+                                        ?>
+                                        <input id="file_video" class="form-control mb-3" type="file" name="file" accept="video/mp4,video/x-m4v,video/*" style="font-size: large"/>
+                                        <span id="text_file_video">Ningún archivo seleccionado</span>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -467,7 +496,13 @@ $type = $_REQUEST['type'] ?? '';
             let file_audio = document.getElementById("file_audio");
             let text_file_audio = document.getElementById("text_file_audio");
             file_audio.onchange = function () {
-                text_file_audio.innerHTML = file_image.files[0].name;
+                text_file_audio.innerHTML = file_audio.files[0].name;
+            };
+
+            let file_video = document.getElementById("file_video");
+            let text_file_video = document.getElementById("text_file_video");
+            file_video.onchange = function () {
+                text_file_video.innerHTML = file_video.files[0].name;
             };
 
             let election = $("input[name = 'election']")
@@ -530,7 +565,7 @@ $type = $_REQUEST['type'] ?? '';
 
             <?php if ($action === 'update_option' && $type === "youtube"): ?>
                 swal({
-                    title: "Video de youtube actualizado",
+                    title: "Vídeo de youtube actualizado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -539,7 +574,7 @@ $type = $_REQUEST['type'] ?? '';
             <?php elseif ($action === 'create_option' && $type === "youtube"): ?>
                 console.log("dentro");
                 swal({
-                    title: "Video de youtube creado",
+                    title: "Vídeo de youtube creado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -547,7 +582,7 @@ $type = $_REQUEST['type'] ?? '';
                 }).catch(swal.noop);
             <?php elseif ($action === 'delete_option' && $type === "youtube"): ?>
                 swal({
-                    title: "Video de youtube borrado",
+                    title: "Vídeo de youtube borrado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -605,7 +640,7 @@ $type = $_REQUEST['type'] ?? '';
                 }).catch(swal.noop);
             <?php elseif ($action === 'update_option' && $type === "video"): ?>
                 swal({
-                    title: "Video actualizado",
+                    title: "Vídeo actualizado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -614,7 +649,7 @@ $type = $_REQUEST['type'] ?? '';
             <?php elseif ($action === 'create_option' && $type === "video"): ?>
                 console.log("dentro");
                 swal({
-                    title: "Video creado",
+                    title: "Vídeo creado",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
@@ -622,13 +657,78 @@ $type = $_REQUEST['type'] ?? '';
                 }).catch(swal.noop);
             <?php elseif ($action === 'delete_option' && $type === "video"): ?>
                 swal({
-                    title: "Video borrado",
+                    title: "Vídeo borrado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_option' && $type === "audio"): ?>
+                swal({
+                    title: "Audio borrado",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'err' && $type === "image"): ?>
+                swal({
+                    title: '<?php echo $message; ?>',
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'err' && $type === "audio"): ?>
+                console.log("dentro");
+                swal({
+                    title: '<?php echo $message; ?>',
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'err' && $type === "video"): ?>
+                swal({
+                    title: '<?php echo $message; ?>',
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'err' && $type === "youtube"): ?>
+                swal({
+                    title: '<?php echo $message; ?>',
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>
+
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                }
+            });
 
         </script>
     </body>

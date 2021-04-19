@@ -473,8 +473,6 @@ $action = $_REQUEST['action'] ?? '';
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>
-
-
         </script>
     </body>
 </html>

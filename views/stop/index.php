@@ -59,7 +59,16 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
                 <div class="container mb-5">
-                    <h2 class="text-center text-uppercase text-secondary mt-4">Stop</h2>
+                    <h2 class="text-center text-uppercase text-secondary mt-4 ml-2">
+                        Stop
+                        <button id="popoverId" class="popoverThis btn">
+                            <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                        </button>
+                        <div id="popoverContent" class="hide d-none">
+                            <p>Módulo para Stop.</p>
+                            <p> Se puede personalizar con un vídeo de youtube, audio, imagen o vídeo normal.</p>
+                        </div>
+                    </h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>
@@ -78,7 +87,7 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
                             if ($value->type == "youtube") {
                     ?>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h4 class="text-uppercase text-info ml-4 mb-2">Video youtube</h4>
+                        <h4 class="text-uppercase text-info ml-4 mb-2">Vídeo youtube</h4>
                         <h6 class="text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
                         <div class="responsiveContent">
                             <iframe src="https://www.youtube.com/embed/<?php echo $value->link?>"
@@ -107,11 +116,11 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
                             } elseif ($value->type == "video") {
                     ?>
                     <div class="col-lg-9 mx-auto mb-5">
-                        <h4 class="text-uppercase text-info ml-4 mb-2">Video</h4>
+                        <h4 class="text-uppercase text-info ml-4 mb-2">Vídeo</h4>
                         <h6 class="text-secondary ml-5 mb-2"><?php echo $value->name?></h6>
                         <video controls style="width: 100%" controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg">
                             <source src="<?php echo APP_ROOT; ?>/files/stop/video/wake_me_up.mp4">
-                            Tu navegador no soporta el formato del video.
+                            Tu navegador no soporta el formato del vídeo.
                         </video>
                     </div>
                     <?php
@@ -137,5 +146,30 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
         <script src="../../assets/mail/jqBootstrapValidation.js"></script>
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                }
+            });
+        </script>
     </body>
 </html>

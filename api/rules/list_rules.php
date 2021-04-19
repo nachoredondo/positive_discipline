@@ -72,7 +72,7 @@ class SSPRules extends SSP {
 			$id_parent = User::get_parent($request['id_user']);
 		}
 		$where = self::where_add($where, self::where_user($id_parent, $bindings));
-		$where_join = "";
+		$where_join = self::where_add("", self::where_user($id_parent, $bindings_join));
 		if (!$_SESSION['type']) {
 			$from .= self::FROM_CHILD;
 			$where = self::where_add($where, self::where_user_child($request, $bindings));

@@ -1,6 +1,6 @@
 <?php
 $type = $_REQUEST['type'];
-if ($type == "adult") {
+if ($type == "tutor") {
     $name_type = "tutor/a";
 }else {
     $name_type = "niñ@";
@@ -91,7 +91,7 @@ if (isset($_GET['error'])) {
                     <form class="form" method="post" action="create_user.php" role="form" id="the-form">
                         <input type="hidden" class="form-control ml-3" name="type" required value="<?php echo $type;?>"/>
                         <?php
-                            if ($type == "adult"):
+                            if ($type == "tutor"):
                         ?>
                         <div class="row mt-1">
                             <div class="input-group no-border mr-2">

@@ -260,6 +260,10 @@ if ($_SESSION['type']) {
 				}
 			});
 
+			moment.updateLocale('en', {
+			  	week: { dow: 1 } // Monday is the first day of the week
+			});
+
 			$('.monthpicker').datetimepicker({
 				format: 'DD-MM-YYYY',
 				viewMode: 'months',

@@ -15,28 +15,27 @@ $action = $_REQUEST['action'] ?? '';
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
         <title>Rueda</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico"/>
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet"/>
 
         <!-- Bootstrap core JS-->
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
         <script src="<?php echo APP_ROOT ?>/assets/jquery/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 
-        <link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <script src="../../assets/datatables/jquery.dataTables.min.js"></script>
         <script src="../../assets/datatables/dataTables.bootstrap.min.js"></script>
@@ -63,7 +62,16 @@ $action = $_REQUEST['action'] ?? '';
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
                 <div class="mr-5">
-                    <h2 class="text-center text-uppercase text-secondary ml-3 mt-4">Rueda de la ira</h2>
+                    <h2 class="text-center text-uppercase text-secondary mt-4 ml-5">
+                        Rueda de la ira
+                        <button id="popoverId" class="popoverThis btn">
+                            <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                        </button>
+                        <div id="popoverContent" class="hide d-none">
+                            <p>Módulo en el que se crea una rueda de la ira virtual.</p>
+                            <p>Para lanzar la rueda y sacar una opción al azar hay que pinchar en la rueda, dentro de la ventana emergente se puede volver a lanzar la rueda.</p>
+                        </div>
+                    </h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>
@@ -276,6 +284,30 @@ $action = $_REQUEST['action'] ?? '';
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>
+
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                }
+            });
         </script>
     </body>
 </html>

@@ -18,6 +18,16 @@ $fileType = $_FILES['fimagen']['type'] ?? 'NULL';
 $uploadFileDir = '../../files/img/wheel/';
 $destPath = $uploadFileDir . $fileName;
 
+// control errors
+if ($form != "delete" && !$name) {
+	header('Location: ./edit_create.php?message=Sin título');
+	exit();
+}
+if (!$fileName && !$img_saved && $form != "delete"){
+	header('Location: ./edit_create.php?message=Sin adjuntar imagen');
+	exit();
+}
+
 if ($fileName == null) {
 	$fileName = $img_saved;
 }

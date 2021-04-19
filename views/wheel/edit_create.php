@@ -5,6 +5,7 @@ require '../../classes/option_wheel.php';
 
 Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
+$message = $_REQUEST['message'] ?? '';
 
 if (isset($_REQUEST['id'])) {
 	$option = Option_wheel::get_option_by_id($_REQUEST['id']);
@@ -43,11 +44,7 @@ if (isset($_REQUEST['id'])) {
 		<!-- Third party plugin JS-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/js/moment.js" type="text/javascript"></script>
-		<style type="text/css">
-			input[type="file"] {
-                color: transparent;
-            }
-        </style>
+		<script src="../../assets/sweetalert/sweetalert.min.js"></script>
 	</head>
 	<body id="page-top">
 		<!-- Navigation-->
@@ -75,6 +72,7 @@ if (isset($_REQUEST['id'])) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Nombre</label>
+										<label class="text-danger ml-2">✱</label>
 										<i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
 									</div>
 									<input class="form-control mr-5" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el título." placeholder="Título" value="<?php echo $option->name; ?>"/>
@@ -85,6 +83,7 @@ if (isset($_REQUEST['id'])) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Imagen</label>
+										<label class="text-danger ml-2">✱</label>
 									</div>
 									<?php if ($option->image() != "") {
 										echo "<img class='mt-2 ml-2' src='" . APP_ROOT . "files/img/wheel/" . $option->image() . "' height='80'/>";
@@ -154,6 +153,16 @@ if (isset($_REQUEST['id'])) {
 					};
 				}
 			});
+
+			<?php if ($message): ?>
+                swal({
+                    title: '<?php echo $message; ?>',
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php endif; ?>
 		</script>
 	</body>
 </html>

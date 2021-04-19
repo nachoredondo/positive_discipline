@@ -11,19 +11,19 @@ $user = User::get_user_from_user($_SESSION['user']);
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
         <title>Botella</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico"/>
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../../css/styles.css" rel="stylesheet" />
+        <link href="../../css/styles.css" rel="stylesheet"/>
 
         <!-- Bootstrap core JS-->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
@@ -57,7 +57,20 @@ $user = User::get_user_from_user($_SESSION['user']);
             <div class="container mb-5">
                 <!-- Rules Section Heading-->
                 <div class="mr-5">
-                    <h2 class="text-center text-uppercase text-secondary mt-4">Botella de la calma</h2>
+                    <h2 class="text-center text-uppercase text-secondary mt-4 ml-5">
+                        Botella de la calma
+                        <button id="popoverId" class="popoverThis btn">
+                            <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                        </button>
+                        <div id="popoverContent" class="hide d-none">
+                            <p>Tiene 3 partes:
+                            <ol>
+                                <li>los materiales necesarios</li>
+                                <li>Pasos a seguir</li>
+                                <li>Vídeo de youtube de ejemplo.</li>
+                            </ol>
+                        </div>
+                    </h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                         <div class="divider-custom-line"></div>
@@ -108,5 +121,30 @@ $user = User::get_user_from_user($_SESSION['user']);
         <script src="../../assets/mail/jqBootstrapValidation.js"></script>
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                }
+            });
+        </script>
     </body>
 </html>

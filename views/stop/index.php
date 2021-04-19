@@ -65,8 +65,7 @@ $stop = Option_Stop::get_stop_by_iduser($user->id());
                             <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                         </button>
                         <div id="popoverContent" class="hide d-none">
-                            <p>Módulo para Stop.</p>
-                            <p> Se puede personalizar con un vídeo de youtube, audio, imagen o vídeo normal.</p>
+                            <p>Se puede personalizar con un vídeo de youtube, audio, imagen o vídeo normal.</p>
                         </div>
                     </h2>
                     <!-- Icon Divider-->

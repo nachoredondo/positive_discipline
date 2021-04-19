@@ -676,7 +676,7 @@ $message = $_REQUEST['message'] ?? '';
                     title: '<?php echo $message; ?>',
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
-                    icon: "success",
+                    icon: "error",
                     button: "Vale",
                 }).catch(swal.noop);
             <?php elseif ($action === 'err' && $type === "audio"): ?>
@@ -685,7 +685,7 @@ $message = $_REQUEST['message'] ?? '';
                     title: '<?php echo $message; ?>',
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
-                    icon: "success",
+                    icon: "error",
                     button: "Vale",
                 }).catch(swal.noop);
             <?php elseif ($action === 'err' && $type === "video"): ?>
@@ -693,7 +693,7 @@ $message = $_REQUEST['message'] ?? '';
                     title: '<?php echo $message; ?>',
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
-                    icon: "success",
+                    icon: "error",
                     button: "Vale",
                 }).catch(swal.noop);
             <?php elseif ($action === 'err' && $type === "youtube"): ?>
@@ -701,7 +701,7 @@ $message = $_REQUEST['message'] ?? '';
                     title: '<?php echo $message; ?>',
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
-                    icon: "success",
+                    icon: "error",
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>

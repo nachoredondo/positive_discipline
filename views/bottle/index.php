@@ -47,6 +47,13 @@ $user = User::get_user_from_user($_SESSION['user']);
               width: 100%;
               height: 100%;
             }
+
+            video {
+              width: 100%;
+              height: auto;
+              margin-left: 10px;
+              margin-right: 10px;
+            }
         </style>
     </head>
     <body id="page-top">
@@ -78,6 +85,10 @@ $user = User::get_user_from_user($_SESSION['user']);
                         <div class="divider-custom-line"></div>
                     </div>
                     <div class="col-lg-9 mx-auto mb-5">
+                        <video class="mb-4" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" loop autoplay muted>
+                            <source src="<?php echo APP_ROOT; ?>/assets/video/bottle_example.mp4">
+                            Tu navegador no soporta el formato del vídeo.
+                        </video>
                         <h5 class="row">Tutorial según se indica en el canal "El Bosque de las Fantasías" de Youtube</h5>
                         <h5 class="row mt-3 text-info">Los materiales que se necesitan son:</h5>
                         <ul>

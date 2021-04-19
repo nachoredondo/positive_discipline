@@ -39,7 +39,7 @@ if (!$fileName && !$file && $type=="video" && $form != "video"){
 	exit();
 }
 
-if ($fileSize > 8000000) {
+if ($fileSize > 8000000 && $type!="youtube") {
 	header('Location: ./edit_create.php?action=err&type='.$type.'&message=Tamaño máximo del archivo adjuntado sobrepasado (8 Megabytes)');
 	exit();
 }

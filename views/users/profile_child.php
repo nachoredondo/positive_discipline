@@ -104,8 +104,8 @@ $message = $_REQUEST['message'] ?? '';
                                             <option value="whale.png" <?php echo ($user->image() == "whale.png") ? "selected ": "";?>>Ballena</option>
                                         </select>
                                         <?php if ($_SESSION['type']): ?>
-                                            <div class="ml-5 mt-3">
-                                                <img id="img-user-tutor" src="../../assets/img/user_child/robot.png" height="150" width="140"/>
+                                            <div class="ml-5 mt-2 mb-2">
+                                                <img id="img-user-tutor" src="../../assets/img/user_child/robot.png" height="110" width="102"/>
                                             </div>
                                         <?php endif; ?>
                                     </div>

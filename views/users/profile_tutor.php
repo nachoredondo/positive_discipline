@@ -17,7 +17,7 @@ $action = $_REQUEST['action'] ?? '';
         <meta name="author" content="" />
         <title>User</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="<?php echo APP_ROOT; ?>/assets/img/logo.png"/>
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->

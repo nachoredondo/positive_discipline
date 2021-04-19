@@ -103,9 +103,11 @@ $message = $_REQUEST['message'] ?? '';
                                             <option value="unicorn.png" <?php echo ($user->image() == "unicorn.png") ? "selected ": "";?>>Unicornio</option>
                                             <option value="whale.png" <?php echo ($user->image() == "whale.png") ? "selected ": "";?>>Ballena</option>
                                         </select>
-                                        <div class="ml-5 mt-3">
-                                            <img id="img-user" src="../../assets/img/user_child/robot.png" height="150" width="140" style="display:none"/>
-                                        </div>
+                                        <?php if ($_SESSION['type']): ?>
+                                            <div class="ml-5 mt-3">
+                                                <img id="img-user-tutor" src="../../assets/img/user_child/robot.png" height="150" width="140"/>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -151,33 +153,17 @@ $message = $_REQUEST['message'] ?? '';
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
         <script type="text/javascript">
-            $(document).ready(
-                function cambio() {
-                    let img_select =document.getElementById("img-form");
-                    let option = img_select.options[img_select.selectedIndex].value;
-                    if (option == "no_image.png") {
-                        $('#img-user').hide({ duration: 500 });
-                        let img = document.getElementById('img-user');
-                        img.src = "../../assets/img/user_child/" + option;
-                    } else {
-                        let img = document.getElementById('img-user');
-                        img.src = "../../assets/img/user_child/" + option;
-                        $('#img-user').show({ duration: 500 });
-                    }
-                }
-            );
-
             $('#img-form').on('change', function () {
                 let option = this.options[this.selectedIndex].value;
-                if (option == "no_image.png") {
-                    $('#img-user').hide({ duration: 500 });
-                    let img = document.getElementById('img-user');
-                    img.src = "../../assets/img/user_child/" + option;
+                let type = "<?php echo $_SESSION['type']; ?>";
+                if (type) {
+                    id_img = "img-user-tutor";
                 } else {
-                    let img = document.getElementById('img-user');
-                    img.src = "../../assets/img/user_child/" + option;
-                    $('#img-user').show({ duration: 500 });
+                    id_img = "img-user";
                 }
+                let img = document.getElementById(id_img);
+                img.src = "../../assets/img/user_child/" + option;
+                $('#'+id_img).show({ duration: 500 });
             });
 
             $(document).ready(function(){

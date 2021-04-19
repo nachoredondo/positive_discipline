@@ -464,7 +464,7 @@ class User {
 	}
 
 	private static function educator(string $type) : bool {
-		if ($type == "adult") {
+		if ($type == "tutor") {
 			return 1;
 		} else {
 			return 0;

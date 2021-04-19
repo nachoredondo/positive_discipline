@@ -16,11 +16,11 @@ $tutor = $_POST['user-tutor'] ?? 'NULL';
 $age = $_POST['age'] ?? 'NULL';
 $image = $_POST['img'] ?? 'NULL';
 
-if($type == "adult" && (strlen($password) < 8 || strlen($password) > 128)) {
+if($type == "tutor" && (strlen($password) < 8 || strlen($password) > 128)) {
 	header('Location: ./registrer.php?type='.$type.'&success=false&error=password-length');
 	exit();
 }
-if($type == "adult" && $password != $password_confirm) {
+if($type == "tutor" && $password != $password_confirm) {
 	header('Location: ./registrer.php?type='.$type.'&success=false&error=no-same-password');
 	exit();
 }

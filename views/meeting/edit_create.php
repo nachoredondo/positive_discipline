@@ -74,7 +74,7 @@ if ($_SESSION['type']) {
 			<div class="container mb-3">
 				<!-- Contact Section Heading-->
 				<h2 class="text-white">.</h2>
-				<h2 class="text-center text-uppercase text-secondary"><?php echo $value_submit;?> norma
+				<h2 class="text-center text-uppercase text-secondary"><?php echo $value_submit;?> junta
 				</h2>
 				<!-- Icon Divider-->
 				<div class="divider-custom">
@@ -175,7 +175,7 @@ if ($_SESSION['type']) {
 										</div>
 										<div clas="row">
 											<label>Acta</label>
-											<input type="file" class="form-control" name="fimagen" accept="image/gif, image/jpg, image/jpeg, image/png, application/pdf, application/vnd.ms-excel, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, .docx" style="font-size: large"/>
+											<input id="file_image" type="file" class="form-control" name="fimagen" accept="image/gif, image/jpg, image/jpeg, image/png, application/pdf, application/vnd.ms-excel, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, .docx" style="font-size: large"/>
 											<span id="text_file_image">Ningún archivo seleccionado</span>
 										</div>
 									</div>

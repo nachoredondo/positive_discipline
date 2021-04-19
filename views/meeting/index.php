@@ -105,7 +105,8 @@ $action = $_REQUEST['action'] ?? '';
                         <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                     </button>
                     <div id="popoverContent" class="hide d-none">
-                        <p>Módulo para gestionar juntas, a continuación un video a modo de ejemplo.</p>
+                        <p>Agenda familiar para gestionar juntas por medio de un calendario.</p>
+                        <p>Estas juntas se podrán editar, crear y eliminar por tutores y/o niños de más de 10 años.</p>
                     </div>
                 </h2>
                 <!-- Icon Divider-->

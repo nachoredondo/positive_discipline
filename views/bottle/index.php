@@ -70,11 +70,11 @@ $user = User::get_user_from_user($_SESSION['user']);
                             <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                         </button>
                         <div id="popoverContent" class="hide d-none">
-                            <p>Tiene 3 partes:
+                            Tutorial con 3 partes:
                             <ol>
-                                <li>los materiales necesarios</li>
+                                <li>Materiales necesarios</li>
                                 <li>Pasos a seguir</li>
-                                <li>Vídeo de youtube de ejemplo.</li>
+                                <li>Vídeo de youtube</li>
                             </ol>
                         </div>
                     </h2>
@@ -93,15 +93,15 @@ $user = User::get_user_from_user($_SESSION['user']);
                         <h5 class="row mt-3 text-info">Los materiales que se necesitan son:</h5>
                         <ul>
                             <li class="mb-1">Bote de cristal o de plástico</li>
-                            <img class="ml-4" id="profile" src="../../assets/img/bottle/bottle.png" width="45" height="65">
+                            <img class="ml-4" id="profile" src="../../assets/img/bottle/bottle.png" width="55" height="75">
                             <li class="mt-2 mb-1">Agua caliente</li>
-                            <img class="ml-3" id="profile" src="../../assets/img/bottle/water.jpg" width="80" height="50">
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/water.jpg" width="95" height="65">
                             <li class="mt-2 mb-1">Jabón líquido</li>
-                            <img class="ml-3" id="profile" src="../../assets/img/bottle/soap.jpg" width="80" height="50">
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/soap.jpg" width="95" height="65">
                             <li class="mt-2 mb-1">Purpurina de colores y/o pequeños elementos decorativos</li>
-                            <img class="ml-3" id="profile" src="../../assets/img/bottle/purpurin.jpg" width="80" height="50">
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/purpurin.jpg" width="95" height="65">
                             <li class="mt-2">Silicona o cola blanca</li>
-                            <img class="ml-3" id="profile" src="../../assets/img/bottle/glue.png" width="60" height="70">
+                            <img class="ml-3" id="profile" src="../../assets/img/bottle/glue.png" width="75" height="85">
                         </ul>
                         <h5 class="row text-info ">Los pasos a seguir son:</h5>
                         <ol>

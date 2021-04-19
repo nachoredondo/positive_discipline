@@ -2,6 +2,9 @@
 $type = $_REQUEST['type'];
 session_start();
 $action = $_REQUEST['action'] ?? '';
+$type_translate = $type == "child" ? 'niñ@' : 'tutor';
+$other_type = $type == "child" ? 'tutor' : 'child';
+$other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
 
 ?>
 
@@ -50,7 +53,7 @@ $action = $_REQUEST['action'] ?? '';
                 <h4 class="text-uppercase text-secondary">
                     Iniciar sesión
                     <?php
-                        if ($type == "adult")
+                        if ($type == "tutor")
                             echo "tutor/a";
                         else
                             echo "niñ@";
@@ -60,7 +63,7 @@ $action = $_REQUEST['action'] ?? '';
                 </button>
                 <div id="popoverContent" class="hide d-none">
                     <?php
-                        if ($type == "adult"):
+                        if ($type == "tutor"):
                     ?>
                     <p>La web sobre Disciplina Positiva trata sobre el desarrollo del autocontrol, confianza y autoestima en los niños.</p>
                 <?php endif; ?>
@@ -70,14 +73,14 @@ $action = $_REQUEST['action'] ?? '';
                 <div class="card-header">
                     <div class="text-center">
                     <?php if (isset($_SESSION['login-error'])): unset($_SESSION['login-error']) ?>
-                        <span class="badge badge-danger mb-0"><?php echo ($type == "adult") ? "Contraseña o correo incorrecto" : "Tutor o imagen seleccionada incorrecta";?></span>
+                        <span class="badge badge-danger mb-0"><?php echo ($type == "tutor") ? "Contraseña o correo incorrecto" : "Tutor o imagen seleccionada incorrecta";?></span>
                     <?php endif ?>
                     </div>
                     <div class="flex-group">
                         <form class="form" method="post" action="checklogin.php" role="form" id="the-form">
                             <input type="hidden" name="type" value="<?php echo $type;?>">
                             <?php
-                                if ($type == "adult"):
+                                if ($type == "tutor"):
                             ?>
                                 <div class="row">
                                     <div class="input-group no-border">
@@ -122,8 +125,8 @@ $action = $_REQUEST['action'] ?? '';
                                 <a href="registrer.php?type=<?php echo $type;?>">
                                     <input type="button" class="btn btn-primary ml-2 mb-2" value="Crear usuario"/>
                                 </a>
-                                <a href="select_user.php">
-                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Cambiar tipo usuario"/>
+                                <a href="login.php?type=<?php echo $other_type;?>">
+                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Iniciar sesión <?php echo $other_user_translate;?>"/>
                                 </a>
                             </div>
                         </form>

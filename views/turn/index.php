@@ -55,7 +55,7 @@ $action = $_REQUEST['action'] ?? '';
                         <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                     </button>
                     <div id="popoverContent" class="hide d-none">
-                        <p>Módulo para gestionar turnos.</p>
+                        <p>Tabla para gestionar turnos.</p>
                         <p> Los estados dependen de la fecha de modificación, inicio y fin:</p>
                         <ol>
                             <li><span class='text-success'><b>Realizado</b></span>: fecha modificación actualizado con respecto a la frecuencia actual</li>

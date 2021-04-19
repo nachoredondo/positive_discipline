@@ -50,7 +50,8 @@ $action = $_REQUEST['action'] ?? '';
                         <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                     </button>
                     <div id="popoverContent" class="hide d-none">
-                        <p>Módulo para gestionar normas, a continuación un video a modo de ejemplo.</p>
+                        <p>Tabla para gestionar normas</p>
+                        <p>Solo los tutores pueden crear, editar y eliminar las normas.</p>
                     </div>
                 </h2>
                 <!-- Icon Divider-->

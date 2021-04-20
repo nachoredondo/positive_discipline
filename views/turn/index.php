@@ -55,15 +55,14 @@ $action = $_REQUEST['action'] ?? '';
                         <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                     </button>
                     <div id="popoverContent" class="hide d-none">
-                        <p>Tabla para gestionar turnos.</p>
+                        <p>Tabla para gestionar turnos</p>
                         <p> Los estados dependen de la fecha de modificación, inicio y fin:</p>
-                        <ol>
+                        <ul>
                             <li><span class='text-success'><b>Realizado</b></span>: fecha modificación actualizado con respecto a la frecuencia actual</li>
                             <li><span class='text-danger'><b>Sin realizar</b></span>: fecha modificación anterior a la actual</li>
                             <li><span class='text-warning'><b>Pendiente</b></span>: fecha modificación sin actualizar con respecto a la frecuencia actual</li>
                             <li><span class='text-dark'><b>Finalizado</b></span>: fecha fin anterior a la actual</li>
-                        </ol>
-                        A continuación un video a modo de ejemplo.</p>
+                        </ul>
                     </div>
                 </h2>
                 <!-- Icon Divider-->

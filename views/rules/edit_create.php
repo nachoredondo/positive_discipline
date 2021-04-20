@@ -78,7 +78,7 @@ if (isset($_REQUEST['id'])) {
                                     <div class="row ml-1">
                                         <label>Título</label>
                                         <label class="text-danger ml-1">✱</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-title"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-title"></i>
                                     </div>
                                     <input class="form-control mr-5" id="title" name="title" type="text" required="required" data-validation-required-message="Introduzca el título." placeholder="Título" value="<?php echo $rule->title; ?>"/>
                                     <p class="help-block text-danger" style="display:none;"></p>
@@ -109,7 +109,7 @@ if (isset($_REQUEST['id'])) {
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <div class="row ml-1">
                                         <label>Descripción</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-description"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-description"></i>
                                     </div>
                                     <input class="form-control" id="description" name="description" type="textarea" placeholder="Descripción..." required="required" data-validation-required-message="Introduzca la descripción." value="<?php echo $rule->description; ?>"/>
                                     <p class="help-block text-danger" style="display:none;"></p>
@@ -119,7 +119,7 @@ if (isset($_REQUEST['id'])) {
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <div class="row ml-1">
                                         <label>Consecuencias</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-consequences"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-consequences"></i>
                                     </div>
                                     <input class="ml-1 form-control" id="consequences" name="consequences" type="text" placeholder="Consecuencias..." required="required" data-validation-required-message="Por favor introduce el nombre" value="<?php echo $rule->consequences; ?>"/>
                                     <?php if ($img_rule != "") {

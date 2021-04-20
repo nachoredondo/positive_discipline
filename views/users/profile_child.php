@@ -67,7 +67,7 @@ $message = $_REQUEST['message'] ?? '';
                                 <div class="form-group floating-label-form-group controls">
                                     <div class="row ml-4">
                                         <label>Nombre</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name"></i>
                                     </div>
                                     <input class="form-control ml-4" id="name" name="name" type="text" placeholder="Nombre" required="required" data-validation-required-message="Introduzca el nombre."
                                     value="<?php echo ($_SESSION['type']) ? ($_SESSION['type']) ? $user->name() : '' : $_SESSION['name'];?>" />

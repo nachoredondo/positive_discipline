@@ -73,7 +73,7 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Nombre</label>
 										<label class="text-danger ml-2">✱</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
+										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name"></i>
 									</div>
 									<input class="form-control mr-5" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el título." placeholder="Título" value="<?php echo $option->name; ?>"/>
 									<p class="help-block text-danger" required style="display:none;"></p>

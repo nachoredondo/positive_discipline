@@ -94,7 +94,7 @@ if ($_SESSION['type']) {
 									<div class="row ml-1">
 										<label>Título</label>
 										<label class="text-danger ml-2">✱</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-title"></i>
+										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-title"></i>
 									</div>
 									<input class="form-control mr-5" id="title" name="title" type="text" required="required" data-validation-required-message="Introduzca el título." placeholder="Título" value="<?php echo $meeting->title; ?>"/>
 									<p class="help-block text-danger" required style="display:none;"></p>
@@ -104,7 +104,7 @@ if ($_SESSION['type']) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Descripción</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-description"></i>
+										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-description"></i>
 									</div>
 									<input class="form-control" id="description" name="description" type="textarea" placeholder="Descripción..." required="required" data-validation-required-message="Introduzca la descripción."value="<?php echo $meeting->description; ?>"/>
 									<p class="help-block text-danger" style="display:none;"></p>
@@ -114,7 +114,7 @@ if ($_SESSION['type']) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Listado de temas a tratar</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-topics"></i>
+										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-topics"></i>
 									</div>
 									<textarea class="form-control" id="topics" name="topics"  placeholder="Temas..." rows="3" required="required" data-validation-required-message="Introduzca la descripción."><?php echo $meeting->topics; ?></textarea>
 									<p class="help-block text-danger" style="display:none;"></p>
@@ -205,10 +205,10 @@ if ($_SESSION['type']) {
 		<script src="../../js/scripts.js"></script>
 		<script type="text/javascript">
 			let file_image = document.getElementById("file_image");
-            let text_file_image = document.getElementById("text_file_image");
-            file_image.onchange = function () {
-                text_file_image.innerHTML = file_image.files[0].name;
-            };
+			let text_file_image = document.getElementById("text_file_image");
+			file_image.onchange = function () {
+				text_file_image.innerHTML = file_image.files[0].name;
+			};
 
 			$('.clockpicker').clockpicker({
 				donetext: 'Confirmar'
@@ -261,7 +261,7 @@ if ($_SESSION['type']) {
 			});
 
 			moment.updateLocale('en', {
-			  	week: { dow: 1 } // Monday is the first day of the week
+				week: { dow: 1 } // Monday is the first day of the week
 			});
 
 			$('.monthpicker').datetimepicker({
@@ -282,22 +282,22 @@ if ($_SESSION['type']) {
 			});
 
 			<?php if ($message === 'not_tittle'): ?>
-                swal({
-                    title: "Sin título",
-                    buttonsStyling: false,
-                    confirmButtonClass: "btn btn-success",
-                    icon: "error",
-                    button: "Vale",
-                }).catch(swal.noop);
-            <?php elseif ($message === 'not_date'): ?>
-                swal({
-                    title: "Sin fecha",
-                    buttonsStyling: false,
-                    confirmButtonClass: "btn btn-success",
-                    icon: "error",
-                    button: "Vale",
-                }).catch(swal.noop);
-            <?php endif; ?>
+				swal({
+					title: "Sin título",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success",
+					icon: "error",
+					button: "Vale",
+				}).catch(swal.noop);
+			<?php elseif ($message === 'not_date'): ?>
+				swal({
+					title: "Sin fecha",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success",
+					icon: "error",
+					button: "Vale",
+				}).catch(swal.noop);
+			<?php endif; ?>
 
 		</script>
 	</body>

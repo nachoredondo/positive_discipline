@@ -189,7 +189,7 @@ $message = $_REQUEST['message'] ?? '';
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Título</label>
-                                            <i class="fas fa-microphone ml-3 mt-4" id="audio-name-youtube"></i>
+                                            <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name-youtube"></i>
                                         </div>
                                         <input class="form-control mr-5" id="name-youtube" name="title" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Título" value="<?php echo $youtube_stop->name(); ?>"/>
                                     </div>
@@ -259,7 +259,7 @@ $message = $_REQUEST['message'] ?? '';
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Título</label>
-                                            <i class="fas fa-microphone ml-3 mt-4" id="audio-name-image"></i>
+                                            <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name-image"></i>
                                         </div>
                                         <input class="form-control mr-5" id="name-image" name="title" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Título" value="<?php echo $image_stop->name(); ?>"/>
                                     </div>
@@ -333,7 +333,7 @@ $message = $_REQUEST['message'] ?? '';
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Título</label>
-                                            <i class="fas fa-microphone ml-3 mt-4" id="audio-name-audio"></i>
+                                            <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name-audio"></i>
                                         </div>
                                         <input class="form-control mr-5" id="name-audio" name="title" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Título" value="<?php echo $audio_stop->name(); ?>"/>
                                     </div>
@@ -409,7 +409,7 @@ $message = $_REQUEST['message'] ?? '';
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Título</label>
-                                            <i class="fas fa-microphone ml-3 mt-4" id="audio-name-video"></i>
+                                            <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name-video"></i>
                                         </div>
                                         <input class="form-control mr-5" id="name-video" name="title" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Título" value="<?php echo $video_stop->name(); ?>"/>
                                     </div>

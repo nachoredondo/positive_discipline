@@ -97,42 +97,42 @@ if (isset($_GET['error'])) {
                             <div class="input-group no-border mr-2">
                                 <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" id="user" required size="25"/>
                                 <label class="text-danger mt-1">✱</label>
-                                <i class="fas fa-microphone ml-1 mt-2" id="audio-user"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-user"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
                                 <input type="email" placeholder="Correo" class="form-control ml-3" name="email" id="email" required/>
                                 <label class="text-danger mt-1">✱</label>
-                                <i class="fas fa-microphone ml-1 mt-2 hidden" id="audio-email"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-email"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
                                 <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" id="name" required/>
                                 <label class="text-danger mt-1">✱</label>
-                                <i class="fas fa-microphone ml-1 mt-2" id="audio-name"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-name"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
                                 <input type="text" placeholder="Apellidos" class="form-control ml-3" name="surnames" id="surnames"/>
                                 <label class="text-danger hidden mt-1">✱</label>
-                                <i class="fas fa-microphone ml-1 mt-2" id="audio-surnames"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-surnames"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
                                 <input type="password" placeholder="Contraseña" class="form-control ml-3" name="password" maxLength="128" id="password">
                                 <label class="text-danger mt-1">✱</label>
-                                <i class="fas fa-microphone ml-1 mt-2 hidden" id="audio-password"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-password"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
                                 <input type="password" placeholder="Confirmar contraseña" maxLength="128" class="form-control ml-3" name="password-confirm" id="confirm-password" required/>
                                 <label class="text-danger mt-1">✱</label>
-                                <i class="fas fa-microphone ml-1 mt-2 hidden" id="audio-confirm-password"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-confirm-password"></i>
                             </div>
                         </div>
                         <?php
@@ -141,18 +141,19 @@ if (isset($_GET['error'])) {
                         <div class="row mt-1">
                             <div class="input-group no-border mr-4">
                                 <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" required id="name-child" size="25"/>
-                                <i class="fas fa-microphone ml-1 mt-2" id="audio-name-child"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-name-child"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-4">
                                 <input type="text" placeholder="Usuario tutor/ padre/ madre..." class="form-control ml-3" name="user-tutor" required id="user-tutor-child"/>
-                                <i class="fas fa-microphone ml-1 mt-2" id="audio-user-tutor-child"></i>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-user-tutor-child"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-4">
-                                <input type="password" placeholder="Contraseña tutor..." class="form-control ml-3 mr-3" name="password-tutor" required/>
+                                <input type="password" placeholder="Contraseña tutor..." class="form-control ml-3" name="password-tutor" required/>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-email"></i>
                             </div>
                         </div>
                         <div class="d-flex align-items-center">

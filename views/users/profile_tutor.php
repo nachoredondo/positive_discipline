@@ -67,7 +67,7 @@ $action = $_REQUEST['action'] ?? '';
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <div class="row ml-1">
                                         <label>Usuario</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-user"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-user"></i>
                                     </div>
                                     <input class="form-control" id="user" name="user" type="text" required="required" value="<?php echo $user->user();?>"data-validation-required-message="Por favor introduce el usuario." placeholder="Usuario" />
                                     <p class="help-block text-danger"></p>
@@ -77,7 +77,7 @@ $action = $_REQUEST['action'] ?? '';
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <div class="row ml-1">
                                         <label>Correo</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-email"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-email"></i>
                                     </div>
                                     <input class="form-control" id="email" name="email" type="email" placeholder="Correo" required="required" value="<?php echo $user->email();?>"data-validation-required-message="Por favor introduce el correo." />
                                     <p class="help-block text-danger"></p>
@@ -87,7 +87,7 @@ $action = $_REQUEST['action'] ?? '';
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <div class="row ml-1">
                                         <label>Nombre</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name"></i>
                                     </div>
                                     <input class="form-control" id="name" name="name" type="text" placeholder="Nombre" required="required" value="<?php echo $user->name();?>"data-validation-required-message="Por favor introduce el nombre" />
                                     <p class="help-block text-danger"></p>
@@ -97,7 +97,7 @@ $action = $_REQUEST['action'] ?? '';
                                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                     <div class="row ml-1">
                                         <label>Apellidos</label>
-                                        <i class="fas fa-microphone ml-3 mt-4" id="audio-surnames"></i>
+                                        <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-surnames"></i>
                                     </div>
                                     <input class="form-control" id="surnames" name="surnames" type="text" placeholder="Apellidos" required="required" value="<?php echo $user->surnames();?>"data-validation-required-message="Por favor introduce los apellidos" />
                                     <p class="help-block text-danger"></p>

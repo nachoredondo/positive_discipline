@@ -97,7 +97,7 @@ if (isset($_REQUEST['id'])) {
 									<div class="row ml-1">
 										<label>Nombre</label>
 										<label class="text-danger ml-2">✱</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-name"></i>
+										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name"></i>
 									</div>
 									<input class="form-control mr-5" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Nombre" value="<?php echo $task->name; ?>"/>
 									<p class="help-block text-danger" required style="display:none;"></p>
@@ -107,7 +107,7 @@ if (isset($_REQUEST['id'])) {
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Descripción</label>
-										<i class="fas fa-microphone ml-3 mt-4" id="audio-description"></i>
+										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-description"></i>
 									</div>
 									<input class="form-control" id="description" name="description" type="textarea" placeholder="Descripción..." required="required" data-validation-required-message="Introduzca la descripción."value="<?php echo $task->description; ?>"/>
 									<p class="help-block text-danger" style="display:none;"></p>

@@ -121,11 +121,14 @@ $action = $_REQUEST['action'] ?? '';
                         <div id='calendar'></div>
                     </div>
                 </div>
-                <div class="text-center">
-                    <a href="edit_create.php">
-                        <button class="btn btn-primary btn-xl mt-4" id="create_child" type="button">Crear junta</button>
-                    </a>
-                </div>
+
+                <?php if ($user->age() > 10 || $_SESSION['type']): ?>
+                    <div class="text-center">
+                        <a href="edit_create.php">
+                            <button class="btn btn-primary btn-xl mt-4" id="create_child" type="button">Crear junta</button>
+                        </a>
+                    </div>
+                <?php endif; ?>
             </div>
         </section>
         <!-- Footer-->
@@ -175,7 +178,9 @@ $action = $_REQUEST['action'] ?? '';
                         <div class="modal-footer justify-content-between mb-3">
                             <input type="hidden" name="id"/>
                             <button type="button" class="btn btn-secondary my-0 ml-4" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary my-0 mr-4">Editar junta</button>
+                            <?php if ($user->age() > 10 || $_SESSION['type']): ?>
+                                <button type="submit" class="btn btn-primary my-0 mr-4">Editar junta</button>
+                            <?php endif; ?>
                         </div>
                     </form>
                 </div>

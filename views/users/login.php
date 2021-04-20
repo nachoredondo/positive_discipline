@@ -51,6 +51,11 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                 <!-- Contact Section Form-->
             <div class="container d-flex align-items-center flex-column">
                 <h4 class="text-uppercase text-secondary">
+                    <?php
+                        if ($type == "tutor") {
+                            echo "<img class='mx-auto d-none d-md-block' src='../../assets/img/adult2.jpg' width='80'>";
+                        }
+                    ?>
                     Iniciar sesión
                     <?php
                         if ($type == "tutor")
@@ -58,17 +63,17 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                         else
                             echo "niñ@";
                     ?>
-                <button id="popoverId" class="popoverThis btn">
-                    <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
-                </button>
-                <div id="popoverContent" class="hide d-none">
-                    <?php
-                        if ($type == "tutor"):
-                    ?>
-                    <p>La web sobre Disciplina Positiva trata sobre el desarrollo del autocontrol, confianza y autoestima en los niños.</p>
-                <?php endif; ?>
-                    <p>Este icono pemitirá orientar las demás partes de la web, está situado siempre arriba.</p>
-                </div>
+                    <button id="popoverId" class="popoverThis btn">
+                        <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                    </button>
+                    <div id="popoverContent" class="hide d-none">
+                        <?php
+                            if ($type == "tutor"):
+                        ?>
+                        <p>La web sobre Disciplina Positiva trata sobre el desarrollo del autocontrol, confianza y autoestima en los niños.</p>
+                    <?php endif; ?>
+                        <p>Este icono pemitirá orientar las demás partes de la web, está situado siempre arriba.</p>
+                    </div>
                 </h4>
                 <div class="card-header">
                     <div class="text-center">
@@ -115,7 +120,7 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                                     </div>
                                 </div>
                                 <div class="row d-flex justify-content-center">
-                                    <img id="img-user" src="../../assets/img/user_child/robot.png" height="130" width="125" style="display:none"/>
+                                    <img class="mt-1" id="img-user" src="../../assets/img/user_child/robot.png" height="130" width="125" style="display:none"/>
                                 </div>
                             <?php
                                 endif;

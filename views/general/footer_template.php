@@ -22,8 +22,7 @@
             <div class="col-lg-4">
                 <h4 class="text-uppercase mb-4">Página recomendada</h4>
                 <p class="lead mb-0">
-                    Página oficial de España de disciplina positiva, para ir pincha
-                    <a href="http://disciplinapositivaespana.com/">aquí</a>
+                    Página oficial de España de <a href="http://disciplinapositivaespana.com/">disciplina positiva</a>
                 </p>
             </div>
         </div>

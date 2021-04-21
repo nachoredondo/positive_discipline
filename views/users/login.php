@@ -70,7 +70,7 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                         <?php
                             if ($type == "tutor"):
                         ?>
-                        <p>La web sobre Disciplina Positiva trata sobre el desarrollo del autocontrol, confianza y autoestima en los niños.</p>
+                        <p>Se permite iniciar sesión a un tutor/a, padre o madre.</p>
                     <?php endif; ?>
                         <p>Este icono pemitirá orientar las demás partes de la web, está situado siempre arriba.</p>
                     </div>

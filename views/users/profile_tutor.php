@@ -50,14 +50,15 @@ $action = $_REQUEST['action'] ?? '';
                 <!-- Contact Section Form-->
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
-                        <h3 class="row mt-2 mb-3 ml-1 text-info">Tabla de niños:</h3>
+                        <h3 class="row mt-2 mb-3 ml-1 text-info">Niños:</h3>
+                        <p>Estos niños están asociados al tutor</p>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
                             </table>
                         </div>
                         <a href="profile_child.php">
-                            <button class="btn btn-primary btn-lg ml-1 mb-2" id="create_child" type="button">Crear usuario niñ@</button>
+                            <button class="btn btn-primary btn-lg ml-3 mb-2" id="create_child" type="button">Crear usuario niñ@</button>
                         </a>
                         <h3 class="row mt-5 ml-1 text-info">Datos perfil:</h3>
                         <form id="contactForm" method="post" action="update_user.php" name="sentMessage" novalidate="novalidate">

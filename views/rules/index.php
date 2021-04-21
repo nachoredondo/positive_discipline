@@ -124,12 +124,12 @@ $action = $_REQUEST['action'] ?? '';
             }
 
             function edit_rules(){
-                let prueba = "<?php if ($_SESSION['type']){ echo '<button type=\"button\" title=\"Detalles\" class=\"edit-btn btn btn-success btn-sm mr-2\"><i class=\"fas fa-edit\"></i></button><button type=\"button\" title=\"Informe\" class=\"remove-btn btn btn-info btn-sm\"><i class=\"fas fa-trash-alt\"></i></button>';
+                let icons = "<?php if ($_SESSION['type']){ echo '<button type=\"button\" title=\"Editar\" class=\"edit-btn btn btn-success btn-sm mr-2\"><i class=\"fas fa-edit\"></i></button><button type=\"button\" title=\"Informe\" class=\"remove-btn btn btn-info btn-sm\"><i class=\"fas fa-trash-alt\"></i></button>';
                         } else  {
                             echo '';
                         }
                     ?>";
-                return prueba;
+                return icons;
             }
 
             window.addEventListener('load', function () {

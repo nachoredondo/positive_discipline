@@ -16,12 +16,18 @@ $tutor = $_POST['user-tutor'] ?? 'NULL';
 $age = $_POST['age'] ?? 'NULL';
 $image = $_POST['img'] ?? 'NULL';
 
+if($type == "child") {
+	$parameter = "";
+} else {
+	$parameter = "&user=".$user."&name=".$name."&email=".$email."&surnames=".$surnames;
+}
+
 if($type == "tutor" && (strlen($password) < 8 || strlen($password) > 128)) {
-	header('Location: ./registrer.php?type='.$type.'&success=false&error=password-length');
+	header('Location: ./registrer.php?type='.$type.'&success=false&error=password-length'.$parameter);
 	exit();
 }
 if($type == "tutor" && $password != $password_confirm) {
-	header('Location: ./registrer.php?type='.$type.'&success=false&error=no-same-password');
+	header('Location: ./registrer.php?type='.$type.'&success=false&error=no-same-password'.$parameter);
 	exit();
 }
 
@@ -50,7 +56,7 @@ try {
 	$errors[] = "incorrect_camp";
 	$message = $e->getMessage();
 	$error = implode(',', $errors);
-	header('Location: ./registrer.php?type='.$type.'&success=false&error='.$error.'&message='.$message);
+	header('Location: ./registrer.php?type='.$type.'&success=false&error='.$error.'&message='.$message.$parameter);
 }
 if (!$errors) {
 	if ($success) {

@@ -30,6 +30,11 @@ if (isset($_GET['error'])) {
     }
 }
 
+$user = $_REQUEST['user'] ?? '';
+$name = $_REQUEST['name'] ?? '';
+$email = $_REQUEST['email'] ?? '';
+$surnames = $_REQUEST['surnames'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -95,35 +100,35 @@ if (isset($_GET['error'])) {
                         ?>
                         <div class="row mt-1">
                             <div class="input-group no-border mr-2">
-                                <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" id="user" required size="25"/>
+                                <input type="text" placeholder="Usuario" class="form-control ml-3" name="user" id="user" value="<?php echo $user; ?>" required size="25"/>
                                 <label class="text-danger mt-1">✱</label>
                                 <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-user"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
-                                <input type="email" placeholder="Correo" class="form-control ml-3" name="email" id="email" required/>
+                                <input type="email" placeholder="Correo" class="form-control ml-3" name="email" id="email" value="<?php echo $email; ?>" required/>
                                 <label class="text-danger mt-1">✱</label>
                                 <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-email"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
-                                <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" id="name" required/>
+                                <input type="text" placeholder="Nombre" class="form-control ml-3" name="name" id="name" value="<?php echo $name; ?>" required/>
                                 <label class="text-danger mt-1">✱</label>
                                 <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-name"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
-                                <input type="text" placeholder="Apellidos" class="form-control ml-3" name="surnames" id="surnames"/>
+                                <input type="text" placeholder="Apellidos" class="form-control ml-3" name="surnames" value="<?php echo $surnames; ?>" id="surnames"/>
                                 <label class="text-danger hidden mt-1">✱</label>
                                 <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-surnames"></i>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="input-group no-border mr-2">
-                                <input type="password" placeholder="Contraseña" class="form-control ml-3" name="password" maxLength="128" id="password">
+                                <input type="password" placeholder="Contraseña" class="form-control ml-3" name="password" maxLength="128" id="password" required/>
                                 <label class="text-danger mt-1">✱</label>
                                 <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-password"></i>
                             </div>

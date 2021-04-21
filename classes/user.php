@@ -53,8 +53,10 @@ class User {
 			if (!self::validate_string_with_especial_characters($name)) {
 				throw new InvalidArgumentException('Nombre no válido');
 			}
-			if (!self::validate_string_with_especial_characters($surnames)) {
-				throw new InvalidArgumentException('Apellidos no válidos');
+			if ($surnames != "") {
+				if (!self::validate_string_with_especial_characters($surnames)) {
+					throw new InvalidArgumentException('Apellidos no válidos');
+				}
 			}
 			if (!self::validate_email($email)) {
 				throw new InvalidArgumentException('Correo no válido');

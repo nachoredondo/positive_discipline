@@ -58,7 +58,11 @@ $surnames = $_REQUEST['surnames'] ?? '';
         <style>
             #image {
                 background-color: rgba(0,0,0,0.8);
-                background-image:url(../../assets/img/main.jpg);
+                <?php  if($type == "tutor"){
+                    echo "background-image:url(../../assets/img/main_tutor.jpg);";
+                } else {
+                    echo "background-image:url(../../assets/img/main_child.jpg);";
+                } ?>
                 height: 100%;
                 max-width: 100%;
                 filter:brightness(0.95);
@@ -67,9 +71,11 @@ $surnames = $_REQUEST['surnames'] ?? '';
     </head>
     <body id="image">
         <div class="text-secondary text-center">
+            <div class='mt-5 mb-5'>
             <h1 class="text-uppercase text-secondary mt-4">
                 Crear usuario <?php echo $name_type; ?>
             </h1>
+            <div class='mt-5 mb-5'>
                 <?php
                     if ($type == "child"):
                 ?>

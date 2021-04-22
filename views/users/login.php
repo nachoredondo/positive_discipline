@@ -29,10 +29,14 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
         <style>
             #image {
                 background-color: rgba(0,0,0,0.8);
-                background-image:url(../../assets/img/main.jpg);
+                <?php  if($type == "tutor"){
+                    echo "background-image:url(../../assets/img/main_tutor.jpg);";
+                } else {
+                    echo "background-image:url(../../assets/img/main_child.jpg);";
+                } ?>
                 height: 100%;
                 max-width: 100%;
-                filter:brightness(0.97);
+                filter:brightness(0.95);
             }
         </style>
     </head>
@@ -40,8 +44,20 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
         <div class="container">
         </div>
         <div class="mt-3 text-secondary text-center">
+            <?php
+                if ($type == "tutor")
+                    echo "<div class='mt-5 mb-5'>";
+                else
+                    echo "<div class='mt-4 mb-4'>";
+            ?>
              <!-- Contact Section Heading-->
                 <h1 class="page-section-heading text-center text-uppercase text-secondary mb-0">Disciplina positiva</h1>
+                <?php
+                    if ($type == "tutor")
+                        echo "<div class='mt-4 mb-4'>";
+                    else
+                        echo "<div class='mt-3 mb-3'>";
+                ?>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -49,13 +65,14 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Contact Section Form-->
+            <?php
+                if ($type == "tutor")
+                    echo "<div class='mt-5 mb-5'>";
+                else
+                    echo "<div class='mt-4 mb-4'>";
+            ?>
             <div class="container d-flex align-items-center flex-column">
                 <h4 class="text-uppercase text-secondary">
-                    <?php
-                        if ($type == "tutor") {
-                            echo "<img class='mx-auto d-none d-md-block' src='../../assets/img/adult2.jpg' width='80'>";
-                        }
-                    ?>
                     Iniciar sesión
                     <?php
                         if ($type == "tutor")

@@ -51,7 +51,7 @@ $action = $_REQUEST['action'] ?? '';
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <h3 class="row mt-2 mb-3 ml-1 text-info">Niños:</h3>
-                        <p>Estos niños están asociados al tutor</p>
+                        <p>Los niños que están asociados a <em><?php echo $user->user(); ?></em> son los siguientes</p>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>

@@ -71,11 +71,9 @@ $surnames = $_REQUEST['surnames'] ?? '';
     </head>
     <body id="image">
         <div class="text-secondary text-center">
-            <div class='mt-5 mb-5'>
             <h1 class="text-uppercase text-secondary mt-4">
                 Crear usuario <?php echo $name_type; ?>
             </h1>
-            <div class='mt-5 mb-5'>
                 <?php
                     if ($type == "child"):
                 ?>

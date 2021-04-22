@@ -58,10 +58,10 @@ $action = $_REQUEST['action'] ?? '';
                         <p>Tabla para gestionar turnos</p>
                         <p> Los estados dependen de la fecha de modificación, inicio y fin:</p>
                         <ul>
-                            <li><span class='text-success'><b>Realizado</b></span>: fecha modificación actualizado con respecto a la frecuencia actual</li>
-                            <li><span class='text-danger'><b>Sin realizar</b></span>: fecha modificación anterior a la actual</li>
-                            <li><span class='text-warning'><b>Pendiente</b></span>: fecha modificación sin actualizar con respecto a la frecuencia actual</li>
-                            <li><span class='text-dark'><b>Finalizado</b></span>: fecha fin anterior a la actual</li>
+                            <li><span class='text-success'><b>Realizado</b></span>: fecha modificación actualizada en el periodo actual de la frecuencia escogida.</li>
+                            <li><span class='text-danger'><b>Sin realizar</b></span>: turno sin registrar en periodo actual y anterior de la frecuencia escogida.</li>
+                            <li><span class='text-warning'><b>Pendiente</b></span>: fecha modificación sin actualizar con respecto al periodo actual de la frecuencia escogida, el anterior periodo si ha sido realizado.</li>
+                            <li><span class='text-dark'><b>Finalizado</b></span>: fecha fin anterior a la fecha actual.</li>
                         </ul>
                     </div>
                 </h2>

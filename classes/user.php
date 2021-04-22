@@ -355,7 +355,7 @@ class User {
 		return $res;
 	}
 
-	public static function update_user_child($id, $tutor, $name, $age, $image) {
+	public static function update_user_child($id, $tutor, $name, $age, $image, $user) {
 		$user_child = $tutor . "_" . $image;
 
 		$result_user = User::get_user_from_id($id);
@@ -366,13 +366,23 @@ class User {
 			}
 		}
 
-		$sql = "UPDATE `".self::TABLE."`
+		if ($user) {
+			$sql = "UPDATE `".self::TABLE."`
 				SET `user` = '$user_child',
 					`name` = '$name',
 					`age` = '$age',
 					`image` = '$image',
 					`password` = '$image'
 				WHERE `id` = '$id'";
+		} else {
+			$sql = "UPDATE `".self::TABLE."`
+				SET `user` = '$user_child',
+					`name` = '$name',
+					`image` = '$image',
+					`password` = '$image'
+				WHERE `id` = '$id'";
+		}
+
 		$res = self::query($sql);
 		return $res;
 	}

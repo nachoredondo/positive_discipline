@@ -74,6 +74,7 @@ $message = $_REQUEST['message'] ?? '';
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
+                            <?php if ($_SESSION['type']): ?>
                             <div class="control-group">
                                 <div class="floating-label-form-group">
                                     <div class="col-8 col-sm-6">
@@ -91,11 +92,13 @@ $message = $_REQUEST['message'] ?? '';
                                     </div>
                                     <p class="help-block text-danger"></p>
                                 </div>
+                            </div>
+                            <?php endif; ?>
                             <div class="control-group">
                                 <div class="floating-label-form-group">
                                     <div class="col-8 col-sm-6">
                                             <label>Elegir foto</label>
-                                        <select id="img-form" class="form-control mt-0" name="img" style="font-size: large">
+                                        <select id="img-form" class="form-control mb-2" name="img" style="font-size: large">
                                             <option value="robot.png"<?php echo ($user->image() == "robot.png") ? "selected ": "";?>>Robot</option>
                                             <option value="bear.png" <?php echo ($user->image() == "bear.png") ? "selected ": "";?>>Oso</option>
                                             <option value="dog.png" <?php echo ($user->image() == "dog.jpeg") ? "selected ": "";?>>Perro</option>
@@ -113,7 +116,7 @@ $message = $_REQUEST['message'] ?? '';
                             </div>
                             <br />
                             <div class="form-group mt-2">
-                                <button class="btn btn-primary btn-lg ml-2 mb-2" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "create-child" : "update-user";?>" type="submit">
+                                <button class="btn btn-primary btn-lg ml-3 mb-2" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "create-child" : "update-user";?>" type="submit">
                                     <?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "Crear" : "Editar";?>
                                 </button>
                             <?php

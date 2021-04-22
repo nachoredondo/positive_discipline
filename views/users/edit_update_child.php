@@ -22,7 +22,7 @@ try {
 		$success = User::insert_user("child", 'NULL', 'NULL', $name, 'NULL', 'NULL', $tutor, $age, $img);
 	} else {
 		if ($from == "update-user"){
-			$success = User::update_user_child($id, $tutor, $name, $age, $img);
+			$success = User::update_user_child($id, $tutor, $name, $age, $img, $_SESSION['type']);
 		} else {
 
 			$success = User::delete_child($id);

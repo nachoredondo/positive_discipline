@@ -77,7 +77,7 @@ $surnames = $_REQUEST['surnames'] ?? '';
                     <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                 </button>
                 <div id="popoverContent" class="hide d-none">
-                    <p>Para crear usuario se necesita la supervisón del tutor.</p>
+                    <p>Al crear el usuario se necesita la supervisón del tutor para introducir su usuario y contraseña.</p>
                 </div>
                 <?php endif; ?>
             <div class="mt-4 container d-flex align-items-center flex-column">
@@ -149,18 +149,6 @@ $surnames = $_REQUEST['surnames'] ?? '';
                                 <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-name-child"></i>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="input-group no-border mr-4">
-                                <input type="text" placeholder="Usuario tutor/ padre/ madre..." class="form-control ml-3" name="user-tutor" required id="user-tutor-child"/>
-                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-user-tutor-child"></i>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="input-group no-border mr-4">
-                                <input type="password" placeholder="Contraseña tutor..." class="form-control ml-3" name="password-tutor" required/>
-                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-email"></i>
-                            </div>
-                        </div>
                         <div class="d-flex align-items-center">
                             <div class="row mt-2">
                                 <div class="ml-3 mt-2" style="width:auto;">
@@ -188,6 +176,18 @@ $surnames = $_REQUEST['surnames'] ?? '';
                         </div>
                         <div class="mt-2">
                             <img id="img-user" src="../../assets/img/user_child/robot.png" height="130" width="125" style="display:none"/>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-4">
+                                <input type="text" placeholder="Usuario tutor/ padre/ madre..." class="form-control ml-3" name="user-tutor" required id="user-tutor-child"/>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2" id="audio-user-tutor-child"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="input-group no-border mr-4">
+                                <input type="password" placeholder="Contraseña tutor..." class="form-control ml-3" name="password-tutor" required/>
+                                <i class="d-none d-sm-none d-md-block fas fa-microphone ml-1 mt-2 hidden" id="audio-email"></i>
+                            </div>
                         </div>
                         <?php
                             endif;

@@ -122,6 +122,11 @@ if (isset($_REQUEST['id'])) {
                                         <i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-consequences"></i>
                                     </div>
                                     <input class="ml-1 form-control" id="consequences" name="consequences" type="text" placeholder="Consecuencias..." required="required" data-validation-required-message="Por favor introduce el nombre" value="<?php echo $rule->consequences; ?>"/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                    <label>Imagen consecuencias</label>
                                     <?php if ($img_rule != "") {
                                         echo "<img class='mt-2 ml-2' src='" . APP_ROOT . "files/img/rules/" . $img_rule . "' height='80'/>";
                                         echo "<label for='files'>Cambiar imagen</label>";

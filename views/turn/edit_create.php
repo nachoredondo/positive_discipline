@@ -487,6 +487,7 @@ if (isset($_REQUEST['id'])) {
 						{
 							data: 'name',
 							title: 'Nombre',
+							render: function (_, _, row) { return max_text(row.name) },
 						},
 						{
 							sorting: false,

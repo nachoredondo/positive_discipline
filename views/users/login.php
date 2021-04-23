@@ -72,11 +72,11 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                     echo "<div class='mt-4 mb-4'>";
             ?>
             <div class="container d-flex align-items-center flex-column">
-                <h4 class="text-uppercase text-secondary">
+                <h4 class="text-uppercase text-secondary col-lg-6">
                     Iniciar sesión
                     <?php
                         if ($type == "tutor")
-                            echo "tutor/a";
+                            echo "tutor/a, madre o padre";
                         else
                             echo "niñ@";
                     ?>
@@ -84,12 +84,7 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                         <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                     </button>
                     <div id="popoverContent" class="hide d-none">
-                        <?php
-                            if ($type == "tutor"):
-                        ?>
-                        <p>Se permite iniciar sesión a un tutor/a, padre o madre.</p>
-                    <?php endif; ?>
-                        <p>Este icono pemitirá orientar las demás partes de la web, está situado siempre arriba.</p>
+                        <p>Este icono pemitirá orientar las demás partes de la web</p>
                     </div>
                 </h4>
                 <div class="card-header">
@@ -119,12 +114,12 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                             ?>
                                 <div class="row">
                                     <div class="input-group no-border">
-                                        <div class="form-control-lg">
+                                        <div class="form-control-lg ml-2">
                                             <input type="text" placeholder="Usuario tutor" class="form-control" name="tutor" required/>
                                         </div>
                                         <!-- <div class="mt-2 mr-3"> -->
-                                        <div class="mt-2 ml-3">
-                                            <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
+                                        <div class="mt-2 ml-4">
+                                            <select id="img-form" class="form-control" name="img" style="width:auto;">
                                                 <option value="">Elegir foto</option>
                                                 <option value="robot.png">Robot</option>
                                                 <option value="bear.png">Oso</option>
@@ -143,12 +138,16 @@ $other_user_translate = $type == "child" ? 'tutor' : 'niñ@';
                                 endif;
                             ?>
                             <div class="mt-4">
-                                <button type="submit" class="btn btn-primary ml-2 mb-2" name="login">Entrar</button>
+                                <button type="submit" class="btn btn-primary ml-3 mb-2" name="login">Entrar</button>
                                 <a href="registrer.php?type=<?php echo $type;?>">
-                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Crear usuario"/>
+                                    <input type="button" class="btn btn-primary ml-3 mb-2" value="Crear usuario"/>
                                 </a>
                                 <a href="login.php?type=<?php echo $other_type;?>">
-                                    <input type="button" class="btn btn-primary ml-2 mb-2" value="Cambiar usuario <?php echo $other_user_translate;?>"/>
+                                    <input type="button" class="btn btn-primary ml-3 mb-2" value="Cambiar usuario <?php echo $other_user_translate;?>"
+                                    <?php
+                                        if ($type == "child")
+                                            echo 'title="Cambiar usuario tutor/a, madre o padre"';
+                                    ?>/>
                                 </a>
                             </div>
                         </form>

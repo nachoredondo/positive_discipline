@@ -168,12 +168,16 @@ $surnames = $_REQUEST['surnames'] ?? '';
                                 <div class="mt-2 col-2 mr-5">
                                     <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
                                         <option value="">Elegir foto</option>
-                                        <option value="robot.png">Robot</option>
                                         <option value="bear.png">Oso</option>
                                         <option value="dog.png">Perro</option>
-                                        <option value="ball.png">Pelota</option>
-                                        <option value="unicorn.png">Unicornio</option>
                                         <option value="whale.png">Ballena</option>
+                                        <option value="pig.png">Cerdo</option>
+                                        <option value="panda.png">Panda</option>
+                                        <option value="unicorn.png">Unicornio</option>
+                                        <option value="captain.png">Capitán américa</option>
+                                        <option value="ball.png">Pelota</option>
+                                        <option value="robot.png">Robot</option>
+                                        <option value="rocket.png">Cohete</option>
                                     </select>
                                 </div>
                             </div>

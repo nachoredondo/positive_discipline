@@ -55,13 +55,13 @@ $action = $_REQUEST['action'] ?? '';
                         <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                     </button>
                     <div id="popoverContent" class="hide d-none">
-                        <p>Tabla para gestionar turnos</p>
-                        <p> Los estados dependen de la fecha de modificación, inicio y fin:</p>
+                        <p>Tabla para gestionar turnos de tareas.</p>
+                        <p> Los estados dependen de la fecha última modificación turno y fecha fin tarea:</p>
                         <ul>
-                            <li><span class='text-success'><b>Realizado</b></span>: fecha modificación actualizada en el periodo actual de la frecuencia escogida.</li>
-                            <li><span class='text-danger'><b>Sin realizar</b></span>: turno sin registrar en periodo actual y anterior de la frecuencia escogida.</li>
-                            <li><span class='text-warning'><b>Pendiente</b></span>: fecha modificación sin actualizar con respecto al periodo actual de la frecuencia escogida, el anterior periodo si ha sido realizado.</li>
-                            <li><span class='text-dark'><b>Finalizado</b></span>: fecha fin anterior a la fecha actual.</li>
+                            <li><span class='text-success'><b>Realizado</b></span>: turno actualizado en el periodo actual de la frecuencia escogida.</li>
+                            <li><span class='text-warning'><b>Pendiente</b></span>: turno sin actualizar en el periodo actual de la frecuencia escogida, el anterior periodo si ha sido realizado.</li>
+                            <li><span class='text-danger'><b>Sin realizar</b></span>: turno sin actualizar en periodo actual y anterior de la frecuencia escogida.</li>
+                            <li><span class='text-dark'><b>Finalizado</b></span>: fecha finalización tarea anterior a la fecha actual.</li>
                         </ul>
                     </div>
                 </h2>
@@ -73,8 +73,9 @@ $action = $_REQUEST['action'] ?? '';
                 </div>
                 <!-- Rules Section -->
                 <div class="row">
-                    <div class="col-lg-9 mx-auto">
-                        <h4 class="row mt-2 mb-3 ml-1 text-info">Lista de turnos:</h4>
+                    <!-- <div class="col-lg-9 mx-auto"> -->
+                    <div class="col-lg-9 col-xl-8 mx-auto">
+                        <h4 class="row mt-2 mb-3 ml-1 text-info">Lista de tareas:</h4>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>

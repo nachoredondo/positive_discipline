@@ -10,20 +10,17 @@ $message = $_REQUEST['error'] ?? '';
 
 if (isset($_REQUEST['id'])) {
 	$task = Task::get_task_by_id($_REQUEST['id']);
-	$date_start = inverse_date($task->date_start());
+	// $date_start = inverse_date($task->date_start());
 	$date_end = inverse_date($task->date_end());
 	$date_modification = inverse_date($task->date_modification());
-	// $time_start = $task->time_start();
-	// $time_end = $task->time_end();
 	$value_submit = "Editar";
 } else {
 	$task = new Task();
-	$date_start = date("d-m-Y");
-	$date_end = strtotime ('1 year' , strtotime($date_start)); // year is added
+	// $date_start = date("d-m-Y");
+	$date_now = date("d-m-Y");
+	$date_end = strtotime ('1 year' , strtotime($date_now)); // year is added
 	$date_end = date ('d-m-Y', $date_end);
 	$date_modification = date("d-m-Y", time());
-	// $time_start = date("G:i", time());
-	// $time_end = date("G:i", time());
 	$value_submit = "Crear";
 }
 
@@ -50,7 +47,6 @@ if (isset($_REQUEST['id'])) {
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 		<!-- Third party plugin JS-->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../assets/datatables/dataTables.bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
 		<script src="../../assets/datatables/jquery.dataTables.min.js"></script>
@@ -60,14 +56,6 @@ if (isset($_REQUEST['id'])) {
 		<script src="<?php echo APP_ROOT ?>/assets/js/moment.js" type="text/javascript"></script>
 		<script src="<?php echo APP_ROOT ?>/assets/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/css/bootstrap-datetimepicker.min.css" />
-
-		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.js" type="text/javascript"></script>
-		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.js" type="text/javascript"></script>
-		<script src="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/bootstrap-clockpicker.min.css"/>
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/jquery-clockpicker.min.css"/>
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/clockpicker.css"/>
-		<link rel="stylesheet" href="<?php echo APP_ROOT ?>/assets/clockpicker/standalone.css"/>
 		<script src="../../assets/sweetalert/sweetalert.min.js"></script>
 	</head>
 	<body id="page-top">
@@ -75,15 +63,31 @@ if (isset($_REQUEST['id'])) {
 		<?php include '../general/headerbar.php' ?>
 		<!-- Contact Section-->
 		<section class="page-section" id="contact">
-			<div class="container mb-3">
+			<div class="container">
 				<!-- Contact Section Heading-->
-				<h2 class="text-white">.</h2>
-				<h2 class="text-center text-uppercase text-secondary"><?php echo $value_submit;?> tarea
+				<h2 class="text-center text-uppercase text-secondary mt-4">
+					<?php echo $value_submit;?> tarea
+					<button id="popoverId" class="popoverThis btn">
+                        <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
+                    </button>
+                    <div id="popoverContent" class="hide d-none">
+                        <p>Formulario para <?php echo strtolower ($value_submit);?> tareas.</p>
+                        <p>Los estados del turno dependen de la fecha última modificación turno y fecha fin tarea:</p>
+                        <ul>
+                            <li><span class='text-success'><b>Realizado</b></span>: turno actualizado en el periodo actual de la frecuencia escogida.</li>
+                            <li><span class='text-warning'><b>Pendiente</b></span>: turno sin actualizar en el periodo actual de la frecuencia escogida, el anterior periodo si ha sido realizado.</li>
+                            <li><span class='text-danger'><b>Sin realizar</b></span>: turno sin actualizar en periodo actual y anterior de la frecuencia escogida.</li>
+                            <li><span class='text-dark'><b>Finalizado</b></span>: fecha finalización tarea anterior a la fecha actual.</li>
+                        </ul>
+                    </div>
 				</h2>
+
 				<!-- Icon Divider-->
 				<div class="divider-custom">
 					<div class="divider-custom-line"></div>
-					<div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+					<div class="divider-custom-icon">
+						<i class="fas fa-star"></i>
+					</div>
 					<div class="divider-custom-line"></div>
 				</div>
 				<!-- Contact Section Form-->
@@ -93,30 +97,30 @@ if (isset($_REQUEST['id'])) {
 							<input name="id" type="hidden" value="<?php echo $_REQUEST['id']; ?>"/>
 							<input name="id_educator" type="hidden" value="<?php echo $user->id(); ?>"/>
 							<div class="control-group">
-								<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<div class="form-group floating-label-form-group controls pb-2">
 									<div class="row ml-1">
-										<label>Nombre</label>
+										<label class="ml-3">Nombre</label>
 										<label class="text-danger ml-2">✱</label>
 										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-name"></i>
 									</div>
-									<input class="form-control mr-5" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Nombre" value="<?php echo $task->name; ?>"/>
+									<input class="form-control mr-5 ml-3" id="name" name="name" type="text" required="required" data-validation-required-message="Introduzca el nombre." placeholder="Nombre" value="<?php echo $task->name; ?>"/>
 									<p class="help-block text-danger" required style="display:none;"></p>
 								</div>
 							</div>
 							<div class="control-group">
-								<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<div class="form-group floating-label-form-group controls pb-2">
 									<div class="row ml-1">
-										<label>Descripción</label>
+										<label class="ml-3">Descripción</label>
 										<i class="d-none d-sm-none d-md-block fas fa-microphone ml-3 mt-4" id="audio-description"></i>
 									</div>
-									<input class="form-control" id="description" name="description" type="textarea" placeholder="Descripción..." required="required" data-validation-required-message="Introduzca la descripción."value="<?php echo $task->description; ?>"/>
+									<input class="form-control ml-3" id="description" name="description" type="textarea" placeholder="Descripción..." required="required" data-validation-required-message="Introduzca la descripción."value="<?php echo $task->description; ?>"/>
 									<p class="help-block text-danger" style="display:none;"></p>
 								</div>
 							</div>
 							<div class="control-group">
-								 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-								 	<div class="row ml-1">
-                                        <label>Niñ@</label>
+								 <div class="form-group floating-label-form-group controls pb-2">
+								 	<div class="row ml-3 mb-1">
+                                        <label>Niñ@ escogid@</label>
                                         <label class="text-danger ml-2">✱</label>
                                     </div>
 									<div class="table-responsive">
@@ -129,110 +133,99 @@ if (isset($_REQUEST['id'])) {
 							</div>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
+									<div class="row ml-1 mb-2">
+										<label class="ml-3">Frecuencia</label>
+										<label class="text-danger ml-2">✱</label>
+									</div>
+									<div class="ml-5">
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="daily" type="checkbox" onclick="frecuency_not_day(this)" id="daily" <?php if ($task->daily) echo "checked"; ?>
+											/> Diariamente
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="weekly" type="checkbox" onclick="frecuency_not_day(this)" id="weekly" <?php if ($task->weekly) echo "checked"; ?>
+											/> Semanalmente
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="monthly" type="checkbox" onclick="frecuency_not_day(this)" id="monthly" <?php if ($task->monthly) echo "checked"; ?>
+											/> Mensualmente
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="monday" type="checkbox" onclick="frecuency_day(this)" id="monday" <?php if ($task->monday) echo "checked"; ?>
+											/> Lunes
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="thursday" type="checkbox" onclick="frecuency_day(this)" id="thursday" <?php if ($task->thursday) echo "checked"; ?>
+											/> Martes
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="wenesday" type="checkbox" onclick="frecuency_day(this)" id="wenesday" <?php if ($task->wenesday) echo "checked"; ?>
+											/> Miércoles
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="tuesday" type="checkbox" onclick="frecuency_day(this)" id="tuesday" <?php if ($task->tuesday) echo "checked"; ?>
+											/> Jueves
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="friday" type="checkbox" onclick="frecuency_day(this)" id="friday" <?php if ($task->friday) echo "checked"; ?>
+											/> Viernes
+										</div>
+										<div class="form-check mb-1">
+											<input class="form-check-input check_child" name="saturday" type="checkbox" onclick="frecuency_day(this)" id="saturday" <?php if ($task->saturday) echo "checked"; ?>
+											/> Sábado
+										</div>
+										<div class="form-check mb-3">
+											<input class="form-check-input check_child" name="sunday" type="checkbox" onclick="frecuency_day(this)" id="sunday" <?php if ($task->sunday) echo "checked"; ?>
+											/> Domingo
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- <div class="control-group">
+								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
 										<label>Fecha inicio</label>
 										<label class="text-danger ml-2">✱</label>
 									</div>
 									<input type="text" class="form-control monthpicker" name="date_start" autocomplete="off" value="<?php echo $date_start; ?>"/>
 								</div>
-							</div>
-							<div class="control-group">
-								<div class="form-group floating-label-form-group controls mb-0 pb-2">
-									<div class="row ml-1">
-										<label>Fecha fin</label>
-										<label class="text-danger ml-2">✱</label>
-									</div>
-									<input type="text" class="form-control monthpicker" name="date_end" autocomplete="off" value="<?php echo $date_end; ?>"/>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="form-group floating-label-form-group controls mb-0 pb-2">
-									<div class="row ml-1">
-										<label>Fecha modificación</label>
-										<label class="text-danger ml-2">✱</label>
-									</div>
-									<input type="text" class="form-control monthpicker" name="date_modification" autocomplete="off" value="<?php echo $date_modification; ?>"/>
-								</div>
-							</div>
-							<!-- <div class="control-group">
-								<div class="form-group floating-label-form-group controls mb-0 pb-2 d-flex align-items-center">
-									<div class="col">
-										<div class="row ml-1">
-											<label>Hora desde</label>
-										</div>
-										<div class="input-group clockpicker">
-											<input type="text" class="form-control" name="time_start" value="<?php echo $time_start; ?>"/>
-											<span class="input-group-addon">
-												<span class="glyphicon glyphicon-time"></span>
-											</span>
-										</div>
-									</div>
-									<div class="col">
-										<div class="row ml-1">
-											<label>Hora hasta</label>
-										</div>
-										<div class="input-group clockpicker">
-											<input type="text" class="form-control" name="time_end"  value="<?php echo $time_end; ?>"/>
-											<span class="input-group-addon">
-												<span class="glyphicon glyphicon-time"></span>
-											</span>
-										</div>
-									</div>
-								</div>
 							</div> -->
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
-									<div class="row ml-1 mb-1">
-										<label>Frecuencia</label>
+									<div class="row ml-1">
+										<label class="ml-3">Fecha última modificación</label>
 										<label class="text-danger ml-2">✱</label>
+										<button type="button" id="popoverModification" class="popoverThis btn">
+                                            <i class="fas fa-question-circle fa-lg mt-3" title="Sección de ayuda"></i>
+                                        </button>
+                                        <div id="popoverContentModification" class="hide d-none">
+                                           	<p>Los estados de los turnos Realizado, Pendiente y Sin realizar dependen de esta fecha:</p>
+					                        <ul>
+					                            <li><span class='text-success'><b>Realizado</b></span>: esta fecha se encuentra en el periodo actual de la frecuencia escogida.</li>
+					                            <li><span class='text-warning'><b>Pendiente</b></span>: esta fecha se encuentra en el periodo anterior de la frecuecnia escogida.</li>
+					                            <li><span class='text-danger'><b>Sin realizar</b></span>: esta fecha se encuentra en mínimo dos periodos anteriores de la frecuencia escogida.</li>
+					                        </ul>
+                                        </div>
 									</div>
-									<div class="ml-3">
-										<div class="form-check">
-											<input class="form-check-input check_child" name="daily" type="checkbox" onclick="frecuency_not_day(this)" id="daily" <?php if ($task->daily) echo "checked"; ?>
-											/> Diariamente
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="weekly" type="checkbox" onclick="frecuency_not_day(this)" id="weekly" <?php if ($task->weekly) echo "checked"; ?>
-											/> Semanalmente
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="monthly" type="checkbox" onclick="frecuency_not_day(this)" id="monthly" <?php if ($task->monthly) echo "checked"; ?>
-											/> Mensualmente
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="monday" type="checkbox" onclick="frecuency_day(this)" id="monday" <?php if ($task->monday) echo "checked"; ?>
-											/> Lunes
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="thursday" type="checkbox" onclick="frecuency_day(this)" id="thursday" <?php if ($task->thursday) echo "checked"; ?>
-											/> Martes
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="wenesday" type="checkbox" onclick="frecuency_day(this)" id="wenesday" <?php if ($task->wenesday) echo "checked"; ?>
-											/> Miércoles
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="tuesday" type="checkbox" onclick="frecuency_day(this)" id="tuesday" <?php if ($task->tuesday) echo "checked"; ?>
-											/> Jueves
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="friday" type="checkbox" onclick="frecuency_day(this)" id="friday" <?php if ($task->friday) echo "checked"; ?>
-											/> Viernes
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="saturday" type="checkbox" onclick="frecuency_day(this)" id="saturday" <?php if ($task->saturday) echo "checked"; ?>
-											/> Sábado
-										</div>
-										<div class="form-check">
-											<input class="form-check-input check_child" name="sunday" type="checkbox" onclick="frecuency_day(this)" id="sunday" <?php if ($task->sunday) echo "checked"; ?>
-											/> Domingo
-										</div>
-									</div>
-
+									<input type="text" class="form-control monthpicker ml-3" name="date_modification" autocomplete="off" value="<?php echo $date_modification; ?>"/>
 								</div>
-
 							</div>
-							<div class="form-group mt-3">
+							<div class="control-group">
+								<div class="form-group floating-label-form-group controls mb-0 pb-2">
+									<div class="row ml-1">
+										<label class="ml-3">Fecha fin tarea</label>
+										<label class="text-danger ml-2">✱</label>
+										<button type="button" id="popoverFin" class="popoverThis btn">
+                                            <i class="fas fa-question-circle fa-lg mt-3" title="Sección de ayuda"></i>
+                                        </button>
+                                        <div id="popoverContentFin" class="hide d-none">
+                                            <p>El estado del turno <span class='text-dark'><b>Finalizado</b> depende de esta fecha si es posterior a la fecha actual</p>
+                                        </div>
+									</div>
+									<input type="text" class="form-control monthpicker ml-3" name="date_end" autocomplete="off" value="<?php echo $date_end; ?>"/>
+								</div>
+							</div>
+							<div class="form-group mt-3 ml-2">
 								<button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButton" name="form" value="<?php echo $value_submit;?>" type="submit"><?php echo $value_submit;?></button>
 								<a href="index.php">
 									<button class="btn btn-primary btn-lg ml-2 mb-2" id="create_child" type="button">Volver</button>
@@ -279,10 +272,6 @@ if (isset($_REQUEST['id'])) {
 					}
 				}
 			}
-
-			$('.clockpicker').clockpicker({
-				donetext: 'Confirmar'
-			});
 
 			$(document).ready(function(){
 				let sr = new webkitSpeechRecognition();
@@ -480,7 +469,7 @@ if (isset($_REQUEST['id'])) {
 					columns: [
 						{
 							sorting: false,
-							title:'Niñ@ escogido',
+							title:'Niñ@',
 							render: function (_, _, row) { return check_user(row.id_task, row.id) },
 							"searchable": false,
 						},
@@ -495,17 +484,17 @@ if (isset($_REQUEST['id'])) {
 							render: function (_, _, row) { return position_user(row.position, row.number_child) },
 							"searchable": false,
 						},
-						{
-							data: 'age',
-							title: 'Edad',
-							"searchable": false,
-						},
-						{
-							data: 'image',
-							title: 'Contraseña',
-							render: function (_, _, row) { return img_user(row.password) },
-							defaultContent: ' - ',
-						},
+						// {
+						// 	data: 'age',
+						// 	title: 'Edad',
+						// 	"searchable": false,
+						// },
+						// {
+						// 	data: 'image',
+						// 	title: 'Contraseña',
+						// 	render: function (_, _, row) { return img_user(row.password) },
+						// 	defaultContent: ' - ',
+						// },
 					],
 					ajax: {
 						method: 'POST',
@@ -548,14 +537,14 @@ if (isset($_REQUEST['id'])) {
                     icon: "error",
                     button: "Vale",
                 }).catch(swal.noop);
-            <?php elseif ($message === 'no-date-start'): ?>
-                swal({
-                    title: "Sin fecha inicio",
-                    buttonsStyling: false,
-                    confirmButtonClass: "btn btn-success",
-                    icon: "error",
-                    button: "Vale",
-                }).catch(swal.noop);
+            // <?php elseif ($message === 'no-date-start'): ?>
+            //     swal({
+            //         title: "Sin fecha inicio",
+            //         buttonsStyling: false,
+            //         confirmButtonClass: "btn btn-success",
+            //         icon: "error",
+            //         button: "Vale",
+            //     }).catch(swal.noop);
             <?php elseif ($message === 'no-date-end'): ?>
                 swal({
                     title: "Sin fecha fin",
@@ -566,7 +555,7 @@ if (isset($_REQUEST['id'])) {
                 }).catch(swal.noop);
             <?php elseif ($message === 'no-date-modification'): ?>
                 swal({
-                    title: "Sin fecha modificación",
+                    title: "Sin fecha última modificación",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "error",
@@ -581,6 +570,54 @@ if (isset($_REQUEST['id'])) {
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>
+
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom',
+                    html: true,
+                })
+            });
+
+            $('#popoverId').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContent').html(),
+            });
+
+            $('#popoverModification').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContentModification').html(),
+            });
+
+            $('#popoverFin').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContentFin').html(),
+            });
+
+            $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('#popoverModification').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('#popoverFin').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#popoverId').popover('hide');
+                    $('#popoverModification').popover('hide');
+                    $('#popoverFin').popover('hide');
+                }
+            });
 
 		</script>
 	</body>

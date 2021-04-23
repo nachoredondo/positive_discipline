@@ -93,7 +93,7 @@ $action = $_REQUEST['action'] ?? '';
                         <img class="mr-4" id="img_wheel" src="<?php echo APP_ROOT; ?>/assets/img/wheel.png" width="200"/>
                     </a>
                 </div>
-                <h5 class="text-uppercase text-center text-info mb-1 mr-5">Listado de opciones:</h5>
+                <h5 class="text-uppercase text-center text-info mb-1 mr-5">Lista de opciones:</h5>
                 <div class="row justify-content-center">
                     <div class="col-auto">
                         <div class="table-responsive">

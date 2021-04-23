@@ -119,16 +119,12 @@ $action = $_REQUEST['action'] ?? '';
                 if (image == "") {
                     return "<em>Sin imagen</em>";
                 } else {
-                    return '<img class="mx-auto d-block" src="<?php echo APP_ROOT; ?>/files/img/rules/' + image + '" height="80">'
+                    return '<img class="mx-auto d-block" src="<?php echo APP_ROOT; ?>/files/img/rules/' + image + '" height="65">'
                 }
             }
 
             function edit_rules(){
-                let icons = "<?php if ($_SESSION['type']){ echo '<button type=\"button\" title=\"Editar\" class=\"edit-btn btn btn-success btn-sm mr-2\"><i class=\"fas fa-edit\"></i></button><button type=\"button\" title=\"Informe\" class=\"remove-btn btn btn-info btn-sm\"><i class=\"fas fa-trash-alt\"></i></button>';
-                        } else  {
-                            echo '';
-                        }
-                    ?>";
+                let icons = "<button type='button' title='Editar' class='edit-btn btn btn-success btn-sm mr-2'><i class='fas fa-edit'></i></button><button type='button' title='Informe' class='remove-btn btn btn-info btn-sm'><i class='fas fa-trash-alt'></i></button>";
                 return icons;
             }
 
@@ -144,15 +140,17 @@ $action = $_REQUEST['action'] ?? '';
                         {
                             data: 'title',
                             title: 'Título',
+                            render: function (_, _, row) { return max_text(row.title) },
                         },
-                        {
-                            data: 'description',
-                            title: 'Descripción',
-                            "searchable": false,
-                        },
+                        // {
+                        //     data: 'description',
+                        //     title: 'Descripción',
+                        //     "searchable": false,
+                        // },
                         {
                             data: 'consequences',
                             title: 'Consequencias',
+                            render: function (_, _, row) { return max_text(row.consequences) },
                         },
                         {
                             data: 'img_consequences',
@@ -161,11 +159,13 @@ $action = $_REQUEST['action'] ?? '';
                             render: function (_, _, row) { return push_image(row.img_consequences) },
                             defaultContent: ' Sin imagen ',
                         },
+                        <?php if ($_SESSION['type']): ?>
                         {
                             sorting: false,
                             defaultContent: edit_rules(),
                             "searchable": false,
                         },
+                        <?php endif; ?>
                     ],
                     ajax: {
                         method: 'POST',

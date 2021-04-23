@@ -385,10 +385,12 @@ $action = $_REQUEST['action'] ?? '';
                         {
                             data: 't_name',
                             title: 'Nombre',
+                            render: function (_, _, row) { return max_text(row.t_name) },
                         },
                         {
                             data: 'first_child_name',
                             title: 'Siguiente turno',
+                            render: function (_, _, row) { return max_text(row.first_child_name) },
                         },
                         {
                             data: 'last_child_name',
@@ -399,6 +401,7 @@ $action = $_REQUEST['action'] ?? '';
                         {
                             data: 'last_child_name',
                             title: 'Anterior turno',
+                            render: function (_, _, row) { return max_text(row.last_child_name) },
                         },
                         {
                             sorting: false,

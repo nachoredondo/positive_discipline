@@ -139,9 +139,9 @@ $message = $_REQUEST['message'] ?? '';
         <?php include '../general/headerbar.php' ?>
         <!-- Contact Section-->
         <section class="page-section" id="contact">
-            <div class="container mb-5">
+            <div class="container">
                 <!-- Rules Section Heading-->
-                <div class="container mb-5">
+                <div class="container">
                     <h2 class="text-center text-uppercase text-secondary mt-4">
                         Personalizar Stop
                         <button id="popoverId" class="popoverThis btn">
@@ -198,7 +198,7 @@ $message = $_REQUEST['message'] ?? '';
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <p class="help-block text-danger" required style="display:none;"></p>
                                         <?php if ($youtube_stop->id_user() != "0") {
-                                            echo '<iframe src="https://www.youtube.com/embed/'.$youtube_stop->link.'" allowfullscreen="" frameborder="0"></iframe>';
+                                            echo '<iframe class="mt-2" src="https://www.youtube.com/embed/'.$youtube_stop->link.'" allowfullscreen="" frameborder="0"></iframe>';
                                             echo "<label for='files'>Cambiar vídeo de youtube</label>";
                                             }
                                         ?>
@@ -247,7 +247,15 @@ $message = $_REQUEST['message'] ?? '';
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButtonYoutube" name="form" value="<?php echo $submit_youtube;?>" type="submit"><?php echo $submit_youtube;?></button>
+                                    <button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButtonYoutube" name="form" value="<?php echo $submit_youtube;?>" type="submit">
+                                        <?php
+                                            if ($submit_youtube == "Editar") {
+                                                echo "Modificar";
+                                            } else {
+                                                echo "Crear";
+                                            }
+                                        ;?>
+                                    </button>
                                     <?php if ($youtube_stop->id_user() != "0") { ?>
                                         <button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButtonYoutube" name="form" value="delete" type="submit">Eliminar</button>
                                     <?php } ?>

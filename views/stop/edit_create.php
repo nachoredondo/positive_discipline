@@ -148,8 +148,8 @@ $message = $_REQUEST['message'] ?? '';
                             <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                         </button>
                         <div id="popoverContent" class="hide d-none">
-                            <p> Se puede personalizar seleccionando Youtube, audio, imagen o vídeo.</p>
-                            <p> En cada uno de ellos se puede poner un título y la posición en la que aprecerá en el Stop.
+                            <p>Se puede personalizar seleccionando Youtube, audio, imagen o vídeo.</p>
+                            <p>En cada uno de ellos se puede poner un título y la posición en la que aprecerá en el Stop.</p>
                         </div>
                     </h2>
                     <!-- Icon Divider-->
@@ -160,10 +160,10 @@ $message = $_REQUEST['message'] ?? '';
                     </div>
                     <div class="col-lg-8 mx-auto d-flex align-items-center">
                         <div>
-                            <input class="mr-1" type="radio" name="election" value="youtube" <?php if ($youtube_enabled) echo "checked"; ?>/>Youtube
+                            <input class="mr-1" type="radio" name="election" value="image" <?php if ($image_enabled) echo "checked"; ?>/>Imagen
                         </div>
                         <div class="ml-4">
-                            <input class="mr-1" type="radio" name="election" value="image" <?php if ($image_enabled) echo "checked"; ?>/>Imagen
+                            <input class="mr-1" type="radio" name="election" value="youtube" <?php if ($youtube_enabled) echo "checked"; ?>/>Youtube
                         </div>
                         <div class="ml-4">
                             <input class="mr-1" type="radio" name="election" value="audio" <?php if ($audio_enabled) echo "checked"; ?>/>Audio
@@ -209,10 +209,22 @@ $message = $_REQUEST['message'] ?? '';
                                         <input class="form-control mb-3" type="text" name="link_new" placeholder="https://www.youtube.com/watch?v=..." value="<?php echo $link_saved; ?>"/>
                                     </div>
                                 </div>
-                                <div class="control-group">
+                                <div class="control-group"
+                                    <?php
+                                        if ($stop) {
+                                            if (count($stop) == 1 && $stop[0]->type == "youtube") {
+                                                echo ' style="display:none"';
+                                            }
+                                        } else {
+                                            echo ' style="display:none"';
+                                        }
+                                    ?>>
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Posición en Stop</label>
+                                            <button type="button" id="popoverPositionYoutube" class="popoverThis btn">
+                                                <i class="fas fa-question-circle fa-lg mt-3" title="Sección de ayuda"></i>
+                                            </button>
                                         </div>
                                         <select id="position-youtube" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -228,13 +240,13 @@ $message = $_REQUEST['message'] ?? '';
                                                     echo '<option value="', $i,'" ';
                                                     if ($default_value_youtube == $i)
                                                         echo 'selected ';
-                                                    echo '>', $i, '</option>';
+                                                    echo '>', $i, 'º</option>';
                                                 }
                                             ?>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group mt-4">
+                                <div class="mt-4">
                                     <button class="btn btn-primary btn-lg ml-2 mb-2" id="createEditButtonYoutube" name="form" value="<?php echo $submit_youtube;?>" type="submit"><?php echo $submit_youtube;?></button>
                                     <?php if ($youtube_stop->id_user() != "0") { ?>
                                         <button class="btn btn-primary btn-lg ml-2 mb-2" id="deleteButtonYoutube" name="form" value="delete" type="submit">Eliminar</button>
@@ -281,10 +293,22 @@ $message = $_REQUEST['message'] ?? '';
                                         <span id="text_file_image">Ningún archivo seleccionado</span>
                                     </div>
                                 </div>
-                                <div class="control-group">
+                                <div class="control-group"
+                                    <?php
+                                        if ($stop) {
+                                            if (count($stop) == 1 && $stop[0]->type == "image") {
+                                                echo ' style="display:none"';
+                                            }
+                                        } else {
+                                            echo ' style="display:none"';
+                                        }
+                                    ?>>
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Posición en Stop</label>
+                                            <button type="button" id="popoverPositionImage" class="popoverThis btn">
+                                                <i class="fas fa-question-circle fa-lg mt-3" title="Sección de ayuda"></i>
+                                            </button>
                                         </div>
                                         <select id="position-image" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -300,7 +324,7 @@ $message = $_REQUEST['message'] ?? '';
                                                     echo '<option value="', $i,'" ';
                                                     if ($default_value_image == $i)
                                                         echo 'selected ';
-                                                    echo '>', $i, '</option>';
+                                                    echo '>', $i, 'º</option>';
                                                 }
                                             ?>
                                         </select>
@@ -358,10 +382,22 @@ $message = $_REQUEST['message'] ?? '';
                                         <span id="text_file_audio">Ningún archivo seleccionado</span>
                                     </div>
                                 </div>
-                                <div class="control-group">
+                                <div class="control-group"
+                                    <?php
+                                        if ($stop) {
+                                            if (count($stop) == 1 && $stop[0]->type == "audio") {
+                                                echo ' style="display:none"';
+                                            }
+                                        } else {
+                                            echo ' style="display:none"';
+                                        }
+                                    ?>>
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Posición en Stop</label>
+                                            <button type="button" id="popoverPositionAudio" class="popoverThis btn">
+                                                <i class="fas fa-question-circle fa-lg mt-3" title="Sección de ayuda"></i>
+                                            </button>
                                         </div>
                                         <select id="position-audio" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -377,7 +413,7 @@ $message = $_REQUEST['message'] ?? '';
                                                     echo '<option value="', $i,'" ';
                                                     if ($default_value_audio == $i)
                                                         echo 'selected ';
-                                                    echo '>', $i, '</option>';
+                                                    echo '>', $i, 'º</option>';
                                                 }
                                             ?>
                                         </select>
@@ -435,10 +471,22 @@ $message = $_REQUEST['message'] ?? '';
                                         <span id="text_file_video">Ningún archivo seleccionado</span>
                                     </div>
                                 </div>
-                                <div class="control-group">
+                                <div class="control-group"
+                                    <?php
+                                        if ($stop) {
+                                            if (count($stop) == 1 && $stop[0]->type == "video") {
+                                                echo ' style="display:none"';
+                                            }
+                                        } else {
+                                            echo ' style="display:none"';
+                                        }
+                                    ?>>
                                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                         <div class="row ml-1">
                                             <label>Posición en Stop</label>
+                                            <button type="button" id="popoverPositionVideo" class="popoverThis btn">
+                                                <i class="fas fa-question-circle fa-lg mt-3" title="Sección de ayuda"></i>
+                                            </button>
                                         </div>
                                         <select id="position-video" name="position" class="form-control mt-1 mb-2 col-3" style="font-size: large">
                                             <?php
@@ -454,7 +502,7 @@ $message = $_REQUEST['message'] ?? '';
                                                     echo '<option value="', $i,'" ';
                                                     if ($default_value_video == $i)
                                                         echo 'selected ';
-                                                    echo '>', $i, '</option>';
+                                                    echo '>', $i, 'º</option>';
                                                 }
                                             ?>
                                         </select>
@@ -470,7 +518,12 @@ $message = $_REQUEST['message'] ?? '';
                                     </a>
                                 </div>
                             </form>
+
                         </div>
+                    </div>
+                    <!-- content popup position -->
+                    <div id="popoverContentPosition" class="hide d-none">
+                        <p>Dependiendo de los elementos añadidos (youtube, imagen, audio y vídeo) se pone la posición más arriba o abajo en la que aprecerá en el Stop.</p>
                     </div>
                 </div>
             </div>
@@ -720,13 +773,61 @@ $message = $_REQUEST['message'] ?? '';
                 content: $('#popoverContent').html(),
             });
 
+            $('#popoverPositionYoutube').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContentPosition').html(),
+            });
+
+            $('#popoverPositionImage').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContentPosition').html(),
+            });
+
+            $('#popoverPositionAudio').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContentPosition').html(),
+            });
+
+            $('#popoverPositionVideo').popover({
+                html: true,
+                title: 'Sección de ayuda',
+                placement: 'bottom',
+                content: $('#popoverContentPosition').html(),
+            });
+
             $('#popoverId').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('#popoverPositionYoutube').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('#popoverPositionImage').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('#popoverPositionAudio').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('#popoverPositionVideo').click(function (e) {
                 e.stopPropagation();
             });
 
             $(document).click(function (e) {
                 if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
                     $('#popoverId').popover('hide');
+                    $('#popoverPositionYoutube').popover('hide');
+                    $('#popoverPositionImage').popover('hide');
+                    $('#popoverPositionAudio').popover('hide');
+                    $('#popoverPositionVideo').popover('hide');
                 }
             });
 

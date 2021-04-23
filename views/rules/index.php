@@ -124,7 +124,7 @@ $action = $_REQUEST['action'] ?? '';
             }
 
             function edit_rules(){
-                let icons = "<button type='button' title='Editar' class='edit-btn btn btn-success btn-sm mr-2'><i class='fas fa-edit'></i></button><button type='button' title='Informe' class='remove-btn btn btn-info btn-sm'><i class='fas fa-trash-alt'></i></button>";
+                let icons = "<button type='button' title='Editar' class='edit-btn btn btn-success btn-sm mr-2'><i class='fas fa-edit'></i></button><button type='button' title='Eliminar' class='remove-btn btn btn-info btn-sm'><i class='fas fa-trash-alt'></i></button>";
                 return icons;
             }
 

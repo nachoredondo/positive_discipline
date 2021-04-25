@@ -214,6 +214,21 @@ class User {
 		return $responsable;
 	}
 
+	public static function get_childs(int $id_tutor) {
+		$sql = "SELECT us.id, us.name
+				FROM `".self::TABLE."` as us
+				INNER JOIN `".self::TABLE_TUTORS."` as tu ON tu.child = us.id
+				WHERE tu.child = us.id
+					AND tu.parent = '$id_tutor' ";
+		$result = self::query($sql);
+
+		if (!$result){
+			return null;
+		}
+
+		return $result->fetchAll();
+	}
+
 	private static function get_user(string $id, string $value) {
 		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `$id` = '$value'");
 		if (!$result){

@@ -6,6 +6,11 @@ Session::check_login_redirect();
 $user = User::get_user_from_user($_SESSION['user']);
 $action = $_REQUEST['action'] ?? '';
 
+$childs = [];
+if ($_SESSION['type']) {
+    $childs = User::get_childs($user->id());
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +68,26 @@ $action = $_REQUEST['action'] ?? '';
                 <!-- Rules Section -->
                 <div class="row">
                     <div class="col-lg-9 mx-auto">
-                        <h4 class="row mt-2 ml-1 mb-4 text-info">Lista de normas:</h4>
+                        <h4 class="row mt-2 ml-1 mb-4 text-info">
+                            <span class="mt-1">Lista de normas
+                            <?php if ($_SESSION['type']): ?>
+                                 de:
+                            <?php else :
+                                    echo ":";
+                                endif;
+                            ?>
+                                </span>
+                                <select class="form-control ml-3 col-5 col-sm-4 col-md-3" id="select-child" <?php if (!$_SESSION['type']) echo ' style="display:none"'; ?>>
+                                    <option value='all'>los hijos</option>
+                                    <?php
+                                        foreach ($childs as $key => $value) {
+                                            $id_child = $value['id'];
+                                            $name_child = $value['name'];
+                                            echo "<option value='$id_child'>$name_child</option>";
+                                        }
+                                    ?>
+                                </select>
+                        </h4>
                         <div class="table-responsive">
                             <table id="the-table" class="table table-striped compact nowrap" style="min-width:100%">
                                 <thead><!-- Leave empty. Column titles are automatically generated --></thead>
@@ -171,6 +195,8 @@ $action = $_REQUEST['action'] ?? '';
                         method: 'POST',
                         url: "<?php echo APP_ROOT; ?>api/rules/list_rules.php",
                         data: function (params) {
+                            let select_child = document.getElementById('select-child');
+                            params.child = select_child.options[select_child.selectedIndex].value;
                             params.id_user =  <?php echo $user->id(); ?>;
                             return params;
                         },
@@ -213,7 +239,16 @@ $action = $_REQUEST['action'] ?? '';
                         console.error("Botón pulsado desconocido!");
                     }
                 });
+
+                function refresh_table() {
+                    table.draw();
+                }
+
+                $('#select-child').on('change', function () {
+                    refresh_table();
+                })
             });
+
 
             <?php if ($action === 'update_rule'): ?>
                 swal({

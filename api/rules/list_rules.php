@@ -75,8 +75,12 @@ class SSPRules extends SSP {
 		$where_join = self::where_add("", self::where_user($id_parent, $bindings_join));
 		if (!$_SESSION['type']) {
 			$from .= self::FROM_CHILD;
-			$where = self::where_add($where, self::where_user_child($request, $bindings));
-			$where_join = self::where_add($where_join, self::where_user_child($request, $bindings_join));
+			$where = self::where_add($where, self::where_user_child($request['id_user'], $bindings));
+			$where_join = self::where_add($where_join, self::where_user_child($request['id_user'], $bindings_join));
+		} else if ($request['child'] != 'all') {
+			$from .= self::FROM_CHILD;
+			$where = self::where_add($where, self::where_user_child($request['child'], $bindings));
+			$where_join = self::where_add($where_join, self::where_user_child($request['child'], $bindings_join));
 		}
 
 		// Main query to actually get the data
@@ -127,8 +131,8 @@ class SSPRules extends SSP {
 		return "`rule`.`id_educator` = $binding";
 	}
 
-	private static function where_user_child($request, &$bindings) {
-		$binding = self::bind($bindings, $request['id_user'], PDO::PARAM_STR);
+	private static function where_user_child($id_user, &$bindings) {
+		$binding = self::bind($bindings, $id_user, PDO::PARAM_STR);
 		return "`rule_children`.`id_user` = $binding";
 	}
 }

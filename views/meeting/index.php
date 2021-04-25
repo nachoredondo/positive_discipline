@@ -82,6 +82,20 @@ $action = $_REQUEST['action'] ?? '';
                         modal.find('.modal-body .record').text(json['file_act']);
                         document.getElementById("record").href = '<?php echo APP_ROOT ?>/files/meeting/'+json['file_act'];
                         modal.find('.modal-footer [name=id]')[0].value = id;
+                        modal.find('.modal-footer-act [name=id]')[0].value = id;
+                        let id_user = <?php echo $user->id() ?>;
+                        let date_event = json['date'].split("-")
+                        let time_end_event = json['end'].split(":")
+                        let current_date = new Date();
+                        let finish_event_date = new Date(date_event[0], date_event[1] - 1, date_event[2] , time_end_event[0], time_end_event[1], time_end_event[2], 0)
+                        if (json['responsable'] != id_user || current_date < finish_event_date) {
+                            modal.find('.modal-footer-act')[0].style.display = "none";
+                        }
+                        if (json['file_act'] == "") {
+                            modal.find('.minutes_meeting').text('Crear acta');
+                        } else {
+                            modal.find('.minutes_meeting').text('Cambiar acta');
+                        }
                     }).fail(function(xhr) {
                         console.error(xhr);
                     });
@@ -125,7 +139,7 @@ $action = $_REQUEST['action'] ?? '';
                 <?php if ($user->age() > 10 || $_SESSION['type']): ?>
                     <div class="text-center">
                         <a href="edit_create.php">
-                            <button class="btn btn-primary btn-xl mt-4" id="create_child" type="button">Crear junta</button>
+                            <button class="btn btn-primary btn-lg mt-4" id="create_child" type="button">Crear junta</button>
                         </a>
                     </div>
                 <?php endif; ?>
@@ -170,19 +184,31 @@ $action = $_REQUEST['action'] ?? '';
                             </tr>
                             <tr>
                                 <th class="p-2">Acta</th>
-                                <td><a href="#" class="p-2 record text-muted" id="record"></a></td>
+                                <td><a href="#" class="p-2 record text-muted" id="record" download></a></td>
                             </tr>
                         </table>
                     </div>
-                    <form class="form" method="POST" action="./edit_create.php" style="margin: 0">
+                    <div class="row ml-3">
                         <div class="modal-footer justify-content-between mb-3">
-                            <input type="hidden" name="id"/>
-                            <button type="button" class="btn btn-secondary my-0 ml-4" data-dismiss="modal">Cerrar</button>
-                            <?php if ($user->age() > 10 || $_SESSION['type']): ?>
-                                <button type="submit" class="btn btn-primary my-0 mr-4">Editar junta</button>
-                            <?php endif; ?>
+                            <button type="button" class="btn btn-secondary ml-2 mb-2" data-dismiss="modal">Cerrar</button>
                         </div>
-                    </form>
+                        <form class="form" method="POST" action="./edit_create.php" style="margin: 0">
+                            <div class="modal-footer justify-content-between mb-3">
+                                <input type="hidden" name="id"/>
+                                <?php if ($user->age() > 10 || $_SESSION['type']): ?>
+                                    <button type="submit" class="btn btn-primary ml-2 mb-2">Editar junta</button>
+                                <?php endif; ?>
+                            </div>
+                        </form>
+                        <form class="form" method="POST" action="./edit_create_minutes.php" style="margin: 0">
+                            <div class="modal-footer-act justify-content-between mb-3">
+                                <input type="hidden" name="id"/>
+                                <?php if ($user->age() > 10 || $_SESSION['type']): ?>
+                                    <button type="submit" class="minutes_meeting btn btn-primary ml-2 mb-2 mt-1"></button>
+                                <?php endif; ?>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,6 +244,38 @@ $action = $_REQUEST['action'] ?? '';
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'delete_act'): ?>
+                swal({
+                    title: "Acta borrada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'update_act'): ?>
+                swal({
+                    title: "Acta actualizada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'create_act'): ?>
+                swal({
+                    title: "Acta creada",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "success",
+                    button: "Vale",
+                }).catch(swal.noop);
+            <?php elseif ($action === 'not_attachment'): ?>
+                swal({
+                    title: "Acta sin adjuntar",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                    icon: "error",
                     button: "Vale",
                 }).catch(swal.noop);
             <?php endif; ?>

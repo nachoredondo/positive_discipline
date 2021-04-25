@@ -16,8 +16,8 @@ if (isset($_REQUEST['id'])) {
 } else {
 	$meeting = new Meeting();
 	$meeting_date = date("d-m-Y", time() + 86400); // a day is added to calculate tomorrow
-	$meeting_start = "00:00";
-	$meeting_end = "00:00";
+	$meeting_start = "20:00";
+	$meeting_end = "21:00";
 	$value_submit = "Crear";
 }
 
@@ -88,7 +88,6 @@ if ($_SESSION['type']) {
 						<form id="contactForm" method="post" action="create_meeting.php" name="sentMessage" novalidate="novalidate" enctype="multipart/form-data">
 							<input name="id" type="hidden" value="<?php echo $_POST['id']; ?>"/>
 							<input name="id_tutor" type="hidden" value="<?php echo $id_tutor; ?>"/>
-							<input name="file_saved" type="hidden" value="<?php echo $meeting->file_act(); ?>"/>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
@@ -161,22 +160,16 @@ if ($_SESSION['type']) {
 										<div clas="row">
 											<label>Responsable acta</label>
 											<select id="responsable_act" name="responsable_act" class="form-control mt-1">
-												<!-- <option value="">Responable acta...</option> -->
 												<?php
 													foreach ($responsable_age as $responsable) {
-														echo '<option value="'.$responsable["id"];
-														if ($responsable['educator'] == "1") {
-															echo ' selected';
+														echo '<option value="'.$responsable["id"].'" ';
+														if ($responsable["id"] == $meeting->responsable()) {
+															echo ' selected ';
 														}
 														echo '">'.$responsable["name"].'</option>';
 													}
 												?>
 											</select>
-										</div>
-										<div clas="row">
-											<label>Acta</label>
-											<input id="file_image" type="file" class="form-control" name="fimagen" accept="image/gif, image/jpg, image/jpeg, image/png, application/pdf, application/vnd.ms-excel, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, .docx" style="font-size: large"/>
-											<span id="text_file_image">Ningún archivo seleccionado</span>
 										</div>
 									</div>
 								</div>
@@ -204,12 +197,6 @@ if ($_SESSION['type']) {
 		<!-- Core theme JS-->
 		<script src="../../js/scripts.js"></script>
 		<script type="text/javascript">
-			let file_image = document.getElementById("file_image");
-			let text_file_image = document.getElementById("text_file_image");
-			file_image.onchange = function () {
-				text_file_image.innerHTML = file_image.files[0].name;
-			};
-
 			$('.clockpicker').clockpicker({
 				donetext: 'Confirmar'
 			});

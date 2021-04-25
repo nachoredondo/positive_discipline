@@ -31,16 +31,16 @@ class Meeting {
 		}
 	}
 
-	public static function insert_meeting($id_tutor, $title, $description, $topics, $date, $start, $end, $responsable, $file_act) {
+	public static function insert_meeting($id_tutor, $title, $description, $topics, $date, $start, $end, $responsable) {
 		$date = inverse_date($date);
 		$sql = "INSERT INTO `".self::TABLE."`
-				(id_tutor, title, description, topics, date, start, end, responsable, file_act)
-				VALUES ('$id_tutor', '$title', '$description', '$topics', '$date', '$start', '$end', '$responsable', '$file_act')";
+				(id_tutor, title, description, topics, date, start, end, responsable)
+				VALUES ('$id_tutor', '$title', '$description', '$topics', '$date', '$start', '$end', '$responsable')";
 		$res = self::query($sql);
 		return $res;
 	}
 
-	public static function update_meeting($id, $title, $description, $topics, $date, $start, $end, $responsable, $file_act) {
+	public static function update_meeting($id, $title, $description, $topics, $date, $start, $end, $responsable) {
 		$date = inverse_date($date);
 		$sql = "UPDATE `".self::TABLE."`
 			SET `title` = '$title',
@@ -49,8 +49,16 @@ class Meeting {
 				`date` = '$date',
 				`start` = '$start',
 				`end` = '$end',
-				`responsable` = '$responsable',
-				`file_act` = '$file_act'
+				`responsable` = '$responsable'
+			WHERE `id` = '$id'";
+		$res = self::query($sql);
+
+		return $res;
+	}
+
+	public static function modifify_act($id, $fileName) {
+		$sql = "UPDATE `".self::TABLE."`
+			SET `file_act` = '$fileName'
 			WHERE `id` = '$id'";
 		$res = self::query($sql);
 

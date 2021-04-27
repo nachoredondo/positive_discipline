@@ -416,7 +416,7 @@ class User {
 		return $res;
 	}
 
-	public function delete_child($id) {
+	public static function delete_child($id) {
 		$sql = "DELETE
 			FROM `".self::TABLE."`
 			WHERE `id` = '$id'";

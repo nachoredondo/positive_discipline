@@ -68,7 +68,7 @@ if ($act == "") {
 									<div class="row ml-1 col-12 col-lg-4">
 										<div clas="row">
 											<?php if ($act != "") {
-	                                                echo "<a href='" . APP_ROOT . "files/meeting/" . $act . "' class='p-2 record text-muted' id='record' download><button type='button' title='Editar' class='edit-btn btn btn-info btn-lg mr-2'>Descargar <i class='fas fa-download'></i></button></a>";
+	                                                echo "<a href='" . APP_ROOT . "files/meeting/" . $act . "' class='p-2 record text-muted' id='record' download><button type='button' title='Editar' class='edit-btn btn btn-info mr-2'>Descargar <i class='fas fa-download'></i></button></a>";
 	                                                echo "<label for='files'>Cambiar acta</label>";
 	                                            } else {
 	                                                echo '<div class="row ml-1">

@@ -4,8 +4,8 @@ require '../../classes/user.php';
 
 Session::check_login_redirect();
 
-if (isset($_POST['id'])) {
-    $user = User::get_user_from_id($_POST['id']);
+if (isset($_REQUEST['id'])) {
+    $user = User::get_user_from_id($_REQUEST['id']);
     $user_image = $user->image();
 } else if (!$_SESSION['type']) {
     $user = User::get_user_from_user($_SESSION['user']);
@@ -15,7 +15,7 @@ if (isset($_POST['id'])) {
     $user_image = "bear.png";
 }
 
-if (!$_SESSION['type'] && !isset($_POST['id'])) {
+if (!$_SESSION['type'] && !isset($_REQUEST['id'])) {
     $tutor_child = explode("_", $_SESSION['user'])[0];
 }
 $action = $_REQUEST['action'] ?? '';
@@ -123,11 +123,11 @@ $message = $_REQUEST['message'] ?? '';
                             </div>
                             <br />
                             <div class="form-group mt-2">
-                                <button class="btn btn-primary btn-lg ml-3 mb-2" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "create-child" : "update-user";?>" type="submit">
-                                    <?php echo ($_SESSION['type'] && (!isset($_POST['id']))) ? "Crear" : "Editar";?>
+                                <button class="btn btn-primary btn-lg ml-3 mb-2" id="button-update-pwd" name="from" value="<?php echo ($_SESSION['type'] && (!isset($_REQUEST['id']))) ? "create-child" : "update-user";?>" type="submit">
+                                    <?php echo ($_SESSION['type'] && (!isset($_REQUEST['id']))) ? "Crear" : "Editar";?>
                                 </button>
                             <?php
-                                if ($_SESSION['type'] && (isset($_POST['id']))):
+                                if ($_SESSION['type'] && (isset($_REQUEST['id']))):
                             ?>
                                     <button class="btn btn-primary btn-lg ml-2 mb-2" id="button-update-pwd" name="from" value="delete-child" type="submit">Eliminar</button>
                                 </form>

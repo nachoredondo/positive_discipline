@@ -13,7 +13,7 @@ $age = $_POST['age'] ?? 'NULL';
 $img = $_POST['img'] ?? 'NULL';
 
 if (!$name){
-	header('Location: ./profile_child.php?success=false&error='.$error.'&message=Nombre vacío');
+	header('Location: ./profile_child.php?success=false&error='.$error.'&message=Nombre vacío&id='.$id);
 	exit();
 }
 
@@ -33,7 +33,7 @@ try {
 	$errors[] = "incorrect_camp";
 	$message = $e->getMessage();
 	$error = implode(',', $errors);
-	header('Location: ./profile_child.php?success=false&error='.$error.'&message='.$message);
+	header('Location: ./profile_child.php?success=false&error='.$error.'&message='.$message.'&id='.$id);
 	exit();
 }
 if (!$errors) {

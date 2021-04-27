@@ -8,8 +8,10 @@ if (isset($_POST['id'])) {
     $user = User::get_user_from_id($_POST['id']);
 } else if (!$_SESSION['type']) {
     $user = User::get_user_from_user($_SESSION['user']);
+    $user_image = $user->image();
 } else {
     $user = new User();
+    $user_image = "bear.png";
 }
 
 if (!$_SESSION['type'] && !isset($_POST['id'])) {
@@ -112,7 +114,7 @@ $message = $_REQUEST['message'] ?? '';
                                         </select>
                                         <?php if ($_SESSION['type']): ?>
                                             <div class="ml-5 mt-2 mb-2">
-                                                <img id="img-user-tutor" src="../../assets/img/user_child/<?php echo $user->image() ?>" height="110" width="102"/>
+                                                <img id="img-user-tutor" src="../../assets/img/user_child/<?php echo $user_image; ?>" height="110" width="102"/>
                                             </div>
                                         <?php endif; ?>
                                     </div>

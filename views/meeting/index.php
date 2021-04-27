@@ -114,7 +114,7 @@ $action = $_REQUEST['action'] ?? '';
             <div class="container mb-5">
                 <!-- Meeting Section Heading-->
                 <h2 class="text-center text-uppercase text-secondary mt-4 ml-5">
-                    Agenda
+                    Agenda familiar
                     <button id="popoverId" class="popoverThis btn">
                         <i class="fas fa-question-circle fa-2x" title="Sección de ayuda"></i>
                     </button>

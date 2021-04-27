@@ -4,6 +4,10 @@ require '../../classes/user.php';
 require '../../classes/option_wheel.php';
 
 Session::check_login_redirect();
+if ($_SESSION['type']){
+    header('Location: ' . APP_ROOT);
+}
+
 $user = User::get_user_from_user($_SESSION['user']);
 $wheel = Option_wheel::get_wheel_by_iduser($user->id());
 $size_wheel = count($wheel);

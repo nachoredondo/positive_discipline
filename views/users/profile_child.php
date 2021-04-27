@@ -6,6 +6,7 @@ Session::check_login_redirect();
 
 if (isset($_POST['id'])) {
     $user = User::get_user_from_id($_POST['id']);
+    $user_image = $user->image();
 } else if (!$_SESSION['type']) {
     $user = User::get_user_from_user($_SESSION['user']);
     $user_image = $user->image();
@@ -32,7 +33,7 @@ $message = $_REQUEST['message'] ?? '';
         <meta name="author" content="" />
         <title>User</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="<?php echo APP_ROOT; ?>/assets/img/logo.png"/>
+        <link rel="icon" type="image/x-icon" href="<?php echo APP_ROOT; ?>assets/img/logo.png"/>
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -114,7 +115,7 @@ $message = $_REQUEST['message'] ?? '';
                                         </select>
                                         <?php if ($_SESSION['type']): ?>
                                             <div class="ml-5 mt-2 mb-2">
-                                                <img id="img-user-tutor" src="../../assets/img/user_child/<?php echo $user_image; ?>" height="110" width="102"/>
+                                                <img id="img-user-tutor" src="<?php echo APP_ROOT; ?>assets/img/user_child/<?php echo $user_image; ?>" height="110" width="102"/>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -171,7 +172,7 @@ $message = $_REQUEST['message'] ?? '';
                     id_img = "img-user";
                 }
                 let img = document.getElementById(id_img);
-                img.src = "../../assets/img/user_child/" + option;
+                img.src = "<?php echo APP_ROOT; ?>assets/img/user_child/" + option;
                 $('#'+id_img).show({ duration: 500 });
             });
 

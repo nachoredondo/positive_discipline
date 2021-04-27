@@ -3,6 +3,10 @@ require '../../classes/session.php';
 require '../../classes/user.php';
 
 Session::check_login_redirect();
+if ($_SESSION['type']){
+    header('Location: ' . APP_ROOT);
+}
+
 $user = User::get_user_from_user($_SESSION['user']);
 
 ?>

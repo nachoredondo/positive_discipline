@@ -15,7 +15,7 @@ function login_succeded() {
 		$url = $_SESSION['lasturl'];
 		unset($_SESSION['lasturl']);
 	} else {
-		$url = './../rules/index.php';
+		$url = APP_ROOT;
 	}
 	header('Location: ' . $url);
 }

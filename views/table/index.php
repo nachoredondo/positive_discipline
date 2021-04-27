@@ -3,6 +3,10 @@ require '../../classes/session.php';
 require '../../classes/user.php';
 
 Session::check_login_redirect();
+if ($_SESSION['type']){
+    header('Location: ' . APP_ROOT);
+}
+
 $user = User::get_user_from_user($_SESSION['user']);
 
 ?>
@@ -16,7 +20,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <meta name="author" content=""/>
         <title>Mesa</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="<?php echo APP_ROOT; ?>/assets/img/logo.png"/>
+        <link rel="icon" type="image/x-icon" href="<?php echo APP_ROOT; ?>assets/img/logo.png"/>
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -26,7 +30,7 @@ $user = User::get_user_from_user($_SESSION['user']);
         <link href="../../css/styles.css" rel="stylesheet"/>
 
         <!-- Bootstrap core JS-->
-        <script src="<?php echo APP_ROOT ?>/assets/jquery/jquery.min.js"></script>
+        <script src="<?php echo APP_ROOT ?>assets/jquery/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>

@@ -8,7 +8,7 @@
                     Ignacio Redondo Arroyo
                 </p>
                 <a href="https://www.urjc.es" target="_blank">
-                    <img class="mt-2" src="../../assets/img/urjc.png" width="60">
+                    <img class="mt-2" src="<?php echo APP_ROOT; ?>assets/img/urjc.png" width="60">
                 </a>
             </div>
             <!-- Footer Social Icons-->

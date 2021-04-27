@@ -56,7 +56,7 @@ $action = $_REQUEST['action'] ?? '';
                     </button>
                     <div id="popoverContent" class="hide d-none">
                         <p>Tabla para gestionar turnos de tareas.</p>
-                        <p> Los estados dependen de la fecha última modificación turno y fecha fin tarea:</p>
+                        <p> Los estados dependen de la fecha último turno y fecha fin tarea:</p>
                         <ul>
                             <li><span class='text-success'><b>Realizado</b></span>: turno actualizado en el periodo actual de la frecuencia escogida.</li>
                             <li><span class='text-warning'><b>Pendiente</b></span>: turno sin actualizar en el periodo actual de la frecuencia escogida, el anterior periodo si ha sido realizado.</li>

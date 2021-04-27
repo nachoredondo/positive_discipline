@@ -72,7 +72,7 @@ if (isset($_REQUEST['id'])) {
                     </button>
                     <div id="popoverContent" class="hide d-none">
                         <p>Formulario para <?php echo strtolower ($value_submit);?> tareas.</p>
-                        <p>Los estados del turno dependen de la fecha última modificación turno y fecha fin tarea:</p>
+                        <p>Los estados del turno dependen de la fecha último turno y fecha fin tarea:</p>
                         <ul>
                             <li><span class='text-success'><b>Realizado</b></span>: turno actualizado en el periodo actual de la frecuencia escogida.</li>
                             <li><span class='text-warning'><b>Pendiente</b></span>: turno sin actualizar en el periodo actual de la frecuencia escogida, el anterior periodo si ha sido realizado.</li>
@@ -193,7 +193,7 @@ if (isset($_REQUEST['id'])) {
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
 									<div class="row ml-1">
-										<label class="ml-3">Fecha última modificación</label>
+										<label class="ml-3">Fecha último turno</label>
 										<label class="text-danger ml-2">✱</label>
 										<button type="button" id="popoverModification" class="popoverThis btn">
                                             <i class="fas fa-question-circle fa-lg mt-3" title="Sección de ayuda"></i>
@@ -555,7 +555,7 @@ if (isset($_REQUEST['id'])) {
                 }).catch(swal.noop);
             <?php elseif ($message === 'no-date-modification'): ?>
                 swal({
-                    title: "Sin fecha última modificación",
+                    title: "Sin fecha último turno",
                     buttonsStyling: false,
                     confirmButtonClass: "btn btn-success",
                     icon: "error",

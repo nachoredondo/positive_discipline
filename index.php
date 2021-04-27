@@ -14,14 +14,6 @@ if ($_SESSION['type']) {
 	$name_tutor = User::get_user_from_id($user_tutor)->user();
 }
 
-// print($user->age());
-// if (!$_SESSION['type'] && $user->age() > 10) {
-// 	print("niño grande");
-// } else {
-// 	print("niño pequeño");
-// }
-// exit();
-
 ?>
 
 <!DOCTYPE html>
@@ -100,21 +92,29 @@ if ($_SESSION['type']) {
 			                    	Tabla de normas, creadas por el tutor '<?php echo $name_tutor ?>', con las imágenes de sus consecuencias.
 			                    </span>
 			                    <?php if (!$_SESSION['type']): ?>
-				                    <button type='button' id="show-img-rule" title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-img'>
+				                    <button type='button' id="show-img-rule" title='Ver foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-img'>
 				                    	Ver foto
 				                    	<i class='fas fa-images'></i>
 				                    </button>
 				                    <img class="row mt-2" id="img-rule" src="<?php echo APP_ROOT; ?>assets/img/main/rules.jpg" height="250" width="300" style="display:none;"/>
-				                    <button type='button' id="hide-img-rule" title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-img' style="display:none">
+				                    <button type='button' id="hide-img-rule" title='Ocultar foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-img' style="display:none">
 				                    	Ocultar foto
 				                    	<i class='fas fa-images'></i>
 				                    </button>
 			                	<?php endif; ?>
 			                	<?php if ($_SESSION['type']): ?>
-			                    <button type='button' title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2'>
-			                    	Ver vídeo
-			                    	<i class='fas fa-video'></i>
-			                    </button>
+				                    <button type='button' id="show-video-rule" title='Ver vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-video'>
+				                    	Ver vídeo
+				                    	<i class='fas fa-video'></i>
+				                    </button>
+				                    <video class="row mt-2" id="video-rule" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" muted style="display:none" width="300">
+			                            <source src="<?php echo APP_ROOT; ?>/assets/video/rules.mp4">
+			                            Tu navegador no soporta el formato del vídeo.
+			                        </video>
+				                    <button type='button' id="hide-video-rule" title='Ocultar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-video' style="display:none">
+				                    	Ocultar vídeo
+				                    	<i class='fas fa-video'></i>
+				                    </button>
 			                    <?php endif; ?>
 			                </div>
 
@@ -131,21 +131,29 @@ if ($_SESSION['type']) {
 			                    </span>
 			                    <?php endif; ?>
 			                    <?php if (!$_SESSION['type'] && $user->age() < 11): ?>
-			                    <button type='button' id="show-img-calendar" title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-img'>
-			                    	Ver foto
-			                    	<i class='fas fa-images'></i>
-			                    </button>
-			                    <img class="row mt-2" id="img-calendar" src="<?php echo APP_ROOT; ?>assets/img/main/calendar.jpg" height="250" width="300" style="display:none;"/>
-			                    <button type='button' id="hide-img-calendar" title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-img' style="display:none">
-			                    	Ocultar foto
-			                    	<i class='fas fa-images'></i>
-			                    </button>
+				                    <button type='button' id="show-img-calendar" title='Ver foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-img'>
+				                    	Ver foto
+				                    	<i class='fas fa-images'></i>
+				                    </button>
+				                    <img class="row mt-2" id="img-calendar" src="<?php echo APP_ROOT; ?>assets/img/main/calendar.jpg" height="250" width="300" style="display:none;"/>
+				                    <button type='button' id="hide-img-calendar" title='Ocultar foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-img' style="display:none">
+				                    	Ocultar foto
+				                    	<i class='fas fa-images'></i>
+				                    </button>
 			                	<?php endif; ?>
 			                	<?php if ((!$_SESSION['type'] && $user->age() > 10) || $_SESSION['type']): ?>
-			                    <button type='button' title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2'>
-			                    	Ver vídeo
-			                    	<i class='fas fa-video'></i>
-			                    </button>
+				                    <button type='button' id="show-video-calendar" title='Mostrar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-video'>
+				                    	Ver vídeo
+				                    	<i class='fas fa-video'></i>
+				                    </button>
+				                    <video class="row mt-2" id="video-calendar" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" muted style="display:none" width="300">
+			                            <source src="<?php echo APP_ROOT; ?>/assets/video/scheedule.mp4">
+			                            Tu navegador no soporta el formato del vídeo.
+			                        </video>
+				                    <button type='button' id="hide-video-calendar" title='Ocultar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-video' style="display:none">
+				                    	Ocultar vídeo
+				                    	<i class='fas fa-video'></i>
+				                    </button>
 			                    <?php endif; ?>
 			                </div>
 
@@ -157,10 +165,18 @@ if ($_SESSION['type']) {
 			                    <span class="row">
 			                    	Es un juego con el que al pinchar en la rueda saca una de las opciones al azar.
 			                    </span>
-			                    <button type='button' title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2'>
-			                    	Ver vídeo
-			                    	<i class='fas fa-video'></i>
-			                    </button>
+			                    <button type='button' id="show-video-wheel" title='Mostrar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-video'>
+				                    	Ver vídeo
+				                    	<i class='fas fa-video'></i>
+				                    </button>
+				                    <video class="row mt-2" id="video-wheel" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" muted style="display:none" width="300">
+			                            <source src="<?php echo APP_ROOT; ?>/assets/video/wheel.mp4">
+			                            Tu navegador no soporta el formato del vídeo.
+			                        </video>
+				                    <button type='button' id="hide-video-wheel" title='Ocultar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-video' style="display:none">
+				                    	Ocultar vídeo
+				                    	<i class='fas fa-video'></i>
+				                    </button>
 			                </div>
 			                <?php endif; ?>
 
@@ -172,8 +188,16 @@ if ($_SESSION['type']) {
 			                    <span class="row">
 			                    	Se muestra una lista de tareas que, dependiendo de cuando se repitan y la fecha del último turno, pueden tener diferentes estados: realizada, pendiente, no realizada o finalizada.
 			                    </span>
-			                    <button type='button' title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2'>
-			                    	Ver vídeo
+			                    <button type='button' id="show-video-wheel" title='Mostrar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-video'>
+				                    	Ver vídeo
+				                    	<i class='fas fa-video'></i>
+			                    </button>
+			                    <video class="row mt-2" id="video-wheel" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" muted style="display:none" width="300">
+		                            <source src="<?php echo APP_ROOT; ?>/assets/video/wheel.mp4">
+		                            Tu navegador no soporta el formato del vídeo.
+		                        </video>
+			                    <button type='button' id="hide-video-wheel" title='Ocultar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-video' style="display:none">
+			                    	Ocultar vídeo
 			                    	<i class='fas fa-video'></i>
 			                    </button>
 			                </div>
@@ -195,8 +219,16 @@ if ($_SESSION['type']) {
 				                    	</li>
 				                    </ul>
 			                    </div>
-			                    <button type='button' title='Foto' class='edit-btn btn btn-primary btn-sm mr-2'>
-			                    	Ver vídeo
+			                    <button type='button' id="show-video-table" title='Mostrar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-video'>
+				                    	Ver vídeo
+				                    	<i class='fas fa-video'></i>
+			                    </button>
+			                    <video class="row mt-2" id="video-table" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" muted style="display:none" width="300">
+		                            <source src="<?php echo APP_ROOT; ?>/assets/video/table.mp4">
+		                            Tu navegador no soporta el formato del vídeo.
+		                        </video>
+			                    <button type='button' id="hide-video-table" title='Ocultar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-video' style="display:none">
+			                    	Ocultar vídeo
 			                    	<i class='fas fa-video'></i>
 			                    </button>
 			                </div>
@@ -210,8 +242,16 @@ if ($_SESSION['type']) {
 			                    <span class="row">
 			                    	Esta sección sirve para cuando el tutor pierde la paciencia y no es capaz de educar a los niños, con lo que se puede calmar con un vídeo de youtube, imagen, audio o/y vídeo personal todos ellos personalizables.
 			                    </span>
-			                    <button type='button' title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2'>
-			                    	Ver vídeo
+			                    <button type='button' id="show-video-stop" title='Mostrar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-video'>
+				                    	Ver vídeo
+				                    	<i class='fas fa-video'></i>
+			                    </button>
+			                    <video class="row mt-2" id="video-stop" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" muted style="display:none" width="300">
+		                            <source src="<?php echo APP_ROOT; ?>/assets/video/stop.mp4">
+		                            Tu navegador no soporta el formato del vídeo.
+		                        </video>
+			                    <button type='button' id="hide-video-stop" title='Ocultar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-video' style="display:none">
+			                    	Ocultar vídeo
 			                    	<i class='fas fa-video'></i>
 			                    </button>
 			                </div>
@@ -223,8 +263,16 @@ if ($_SESSION['type']) {
 			                    <span class="row">
 			                    	Se puede añadir, crear y editar usuarios niños del tutor '<?php echo $user->name() ?>', cambiar los datos del perfil, cambiar la contraseña y eliminar el usuario.
 			                    </span>
-			                    <button type='button' title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2'>
-			                    	Ver vídeo
+			                    <button type='button' id="show-video-user-child" title='Mostrar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-video'>
+				                    	Ver vídeo
+				                    	<i class='fas fa-video'></i>
+			                    </button>
+			                    <video class="row mt-2" id="video-user-child" controls controlsList="nodownload" poster="<?php echo APP_ROOT; ?>/assets/img/video.jpg" muted style="display:none" width="300">
+		                            <source src="<?php echo APP_ROOT; ?>/assets/video/create_child.mp4">
+		                            Tu navegador no soporta el formato del vídeo.
+		                        </video>
+			                    <button type='button' id="hide-video-user-child" title='Ocultar vídeo' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-video' style="display:none">
+			                    	Ocultar vídeo
 			                    	<i class='fas fa-video'></i>
 			                    </button>
 			                </div>
@@ -238,12 +286,12 @@ if ($_SESSION['type']) {
 			                    <span class="row">
 			                    	Sección en la que se ve un ejemplo de botella y un tutorial breve para saber como hacerla.
 			                    </span>
-			                    <button type='button' id="show-img-bottle" title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-img'>
+			                    <button type='button' id="show-img-bottle" title='Ver foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 show-img'>
 			                    	Ver foto
 			                    	<i class='fas fa-images'></i>
 			                    </button>
 			                    <img class="row mt-2" id="img-bottle" src="<?php echo APP_ROOT; ?>assets/img/main/bottle.jpg" height="300" width="300" style="display:none;"/>
-			                    <button type='button' id="hide-img-bottle" title='Foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-img' style="display:none">
+			                    <button type='button' id="hide-img-bottle" title='Ocultar foto' class='edit-btn btn btn-primary btn-sm mr-2 mt-2 hide-img' style="display:none">
 			                    	Ocultar foto
 			                    	<i class='fas fa-images'></i>
 			                    </button>
@@ -259,7 +307,6 @@ if ($_SESSION['type']) {
 			                </div>
 			            	<?php endif; ?>
 		                </div>
-
 
                     	<span class="row">
 	                    	(*) El icono &nbsp<i class="fas fa-question-circle mt-1" title="Sección de ayuda"></i>&nbsp de ayuda, da información útil para entender como funciona cada parte.
@@ -292,20 +339,19 @@ if ($_SESSION['type']) {
         		$("#" + name).hide({ duration: 500});
         		$("#show-" + name).show({ duration: 500});
         	})
-            // election.click( function () {
-            //     if (this.getAttribute("checked") == null) {
-            //         let types = ['youtube', 'audio', 'image', 'video'];
-            //         for (var i = types.length - 1; i >= 0; i--) {
-            //             $("#form_" + types[i]).hide();
-            //         }
-            //         $("#form_" + this.value).show({ duration: 500});
 
-            //         for (var i = election.length - 1; i >= 0; i--) {
-            //             election[i].removeAttribute("checked");
-            //         }
-            //         $(this).attr('checked', true);
-            //     }
-            // });
+            $(".show-video").click(function (){
+        		let name = this.id.split("show-")[1];
+        		$("#" + this.id).hide({ duration: 500});
+        		$("#" + name).show({ duration: 500});
+        		$("#hide-" + name).show({ duration: 500});
+        	})
+        	$('.hide-video').click(function (){
+        		let name = this.id.split("hide-")[1];
+        		$("#" + this.id).hide({ duration: 500});
+        		$("#" + name).hide({ duration: 500});
+        		$("#show-" + name).show({ duration: 500});
+        	})
         </script>
     </body>
 </html>

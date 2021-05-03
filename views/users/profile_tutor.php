@@ -15,7 +15,7 @@ $action = $_REQUEST['action'] ?? '';
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>User</title>
+        <title>Perfil</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="<?php echo APP_ROOT; ?>/assets/img/logo.png"/>
         <!-- Font Awesome icons (free version)-->

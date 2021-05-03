@@ -103,13 +103,13 @@ $message = $_REQUEST['message'] ?? '';
                                             <label>Elegir foto</label>
                                         <select id="img-form" class="form-control mb-2" name="img" style="font-size: large">
                                             <option value="bear.png" <?php echo ($user->image() == "bear.png") ? "selected ": "";?>>Oso</option>
-                                            <option value="dog.png" <?php echo ($user->image() == "dog.jpeg") ? "selected ": "";?>>Perro</option>
+                                            <option value="dog.png" <?php echo ($user->image() == "dog.png") ? "selected ": "";?>>Perro</option>
                                             <option value="whale.png" <?php echo ($user->image() == "whale.png") ? "selected ": "";?>>Ballena</option>
                                             <option value="pig.png" <?php echo ($user->image() == "pig.png") ? "selected ": "";?>>Cerdo</option>
-                                            <option value="panda.png" <?php echo ($user->image() == "Panda.png") ? "selected ": "";?>>Panda</option>
+                                            <option value="panda.png" <?php echo ($user->image() == "panda.png") ? "selected ": "";?>>Panda</option>
                                             <option value="unicorn.png" <?php echo ($user->image() == "unicorn.png") ? "selected ": "";?>>Unicornio</option>
                                             <option value="captain.png" <?php echo ($user->image() == "captain.png") ? "selected ": "";?>>Capitán américa</option>
-                                            <option value="ball.png" <?php echo ($user->image() == "ball.jpg") ? "selected ": "";?>>Pelota</option>
+                                            <option value="ball.png" <?php echo ($user->image() == "ball.png") ? "selected ": "";?>>Pelota</option>
                                             <option value="robot.png"<?php echo ($user->image() == "robot.png") ? "selected ": "";?>>Robot</option>
                                             <option value="rocket.png" <?php echo ($user->image() == "rocket.png") ? "selected ": "";?>>Cohete</option>
                                         </select>

@@ -100,7 +100,7 @@ $message = $_REQUEST['message'] ?? '';
                             <div class="control-group">
                                 <div class="floating-label-form-group">
                                     <div class="col-8 col-sm-6">
-                                            <label>Elegir foto</label>
+                                            <label>Elegir imagen</label>
                                         <select id="img-form" class="form-control mb-2" name="img" style="font-size: large">
                                             <option value="bear.png" <?php echo ($user->image() == "bear.png") ? "selected ": "";?>>Oso</option>
                                             <option value="dog.png" <?php echo ($user->image() == "dog.png") ? "selected ": "";?>>Perro</option>

@@ -167,7 +167,7 @@ $surnames = $_REQUEST['surnames'] ?? '';
                                 </div>
                                 <div class="mt-2 col-2 mr-5">
                                     <select id="img-form" class="form-control mt-0" name="img" style="width:auto;">
-                                        <option value="">Elegir foto</option>
+                                        <option value="">Elegir imagen</option>
                                         <option value="bear.png">Oso</option>
                                         <option value="dog.png">Perro</option>
                                         <option value="whale.png">Ballena</option>

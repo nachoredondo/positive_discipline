@@ -315,10 +315,10 @@ $user = User::get_user_from_user($_SESSION['user']);
                                     <input class="form-check-input check_child" type="checkbox" value="rose" onclick="hide_show(this)" id="rose-check"> Rosa
                                 </div>
                                 <div class="ml-5 col-1 mb-1">
-                                    <input class="form-check-input check_child" type="checkbox" value="tree" onclick="hide_show(this)" id="tree-check"> Arbol
+                                    <input class="form-check-input check_child" type="checkbox" value="tree" onclick="hide_show(this)" id="tree-check"> Árbol
                                 </div>
                                 <div class="ml-5 col-1 mb-1">
-                                    <input class="form-check-input check_child" type="checkbox" value="tree2" onclick="hide_show(this)" id="tree2-check"> Arbol
+                                    <input class="form-check-input check_child" type="checkbox" value="tree2" onclick="hide_show(this)" id="tree2-check"> Árbol
                                 </div>
                                 <div class="ml-5 col-1 mb-1">
                                     <input class="form-check-input check_child" type="checkbox" value="plant" onclick="hide_show(this)" id="plant-check"> Planta
@@ -330,7 +330,7 @@ $user = User::get_user_from_user($_SESSION['user']);
                         </div>
                         <div id="table" >
                             <div class="grid-square">
-                                <img id="profile" src="../../assets/img/user_child/unicorn.png" width="50" height="50" style="visibility: hidden;">
+                                <img id="profile" src="../../assets/img/user_child/<?php echo $user->image(); ?>" width="50" height="50" style="visibility: hidden;">
                             </div>
                             <div class="grid-square">
                                 <img id="elephant" src="../../assets/img/table/elephant.png" width="70" height="50" style="visibility: hidden;">

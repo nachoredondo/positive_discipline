@@ -86,7 +86,7 @@ if ($_SESSION['type']) {
 				<div class="row">
 					<div class="col-lg-8 mx-auto">
 						<form id="contactForm" method="post" action="create_meeting.php" name="sentMessage" novalidate="novalidate" enctype="multipart/form-data">
-							<input name="id" type="hidden" value="<?php echo $_POST['id']; ?>"/>
+							<input name="id" type="hidden" value="<?php echo $meeting->id(); ?>"/>
 							<input name="id_tutor" type="hidden" value="<?php echo $id_tutor; ?>"/>
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">

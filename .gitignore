@@ -8,7 +8,3 @@
 !/files/img/wheel/relax.png
 !/files/img/wheel/speak_feelings.png
 !/files/img/wheel/think.png
-
-# Ignore ini files which may store passwords
-*.ini
-config.ini

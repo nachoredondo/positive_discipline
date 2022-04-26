@@ -38,7 +38,10 @@ class Option_Wheel {
 	}
 
 	public static function get_option_by_id(string $id) : ?Option_Wheel {
-		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `id` = '$id'");
+		$sql = "SELECT * 
+			FROM `".self::TABLE."` 
+			WHERE `id` = '$id'";
+		$result = self::query();
 		if (!$result){
 			return null;
 		} else if ($result->rowCount() !== 1) {
@@ -51,7 +54,9 @@ class Option_Wheel {
 	}
 
 	public static function get_wheel_by_iduser(string $id_user) : ?array {
-		$sql = "SELECT * FROM `".self::TABLE."` WHERE `id_user` = '$id_user'";
+		$sql = "SELECT * 
+			FROM `".self::TABLE."` 
+			WHERE `id_user` = '$id_user'";
 		$result = self::query($sql);
 		if (!$result){
 			return null;

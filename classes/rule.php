@@ -76,8 +76,12 @@ class Rule {
 			}
 			if (!$search) {
 				$val = $value_children['id_user'];
-				$sql = "DELETE FROM `".self::TABLE_CHILD."` WHERE `id_user` = '$val' AND `id_rule`= '$id'";
-				$result = self::query($sql);
+				$sql = "DELETE FROM `".self::TABLE_CHILD."` 
+					WHERE `id_user` = '$val' 
+						AND `id_rule`= '$id'";
+				$result = self::query("DELETE FROM `".self::TABLE_CHILD."` 
+					WHERE `id_user` = '$val' 
+						AND `id_rule`= '$id'");
 				if (!$result){
 					return null;
 				}
@@ -86,7 +90,9 @@ class Rule {
 
 		// asign rule to child
 		foreach ($id_user_child as $key => $value) {
-			$sql = "SELECT * FROM `".self::TABLE_CHILD."` WHERE `id_user` = '$value'  AND `id_rule`= '$id'";
+			$sql = "SELECT * FROM `".self::TABLE_CHILD."` 
+				WHERE `id_user` = '$value'  
+					AND `id_rule`= '$id'";
 			$result = self::query($sql);
 			if (!$result){
 				return null;
@@ -117,7 +123,9 @@ class Rule {
 	}
 
 	public static function get_rule(string $id) : ?Rule {
-		$sql = "SELECT * FROM `".self::TABLE."` WHERE `id` = '$id'";
+		$sql = "SELECT * 
+			FROM `".self::TABLE."` 
+			WHERE `id` = '$id'";
 		$result = self::query($sql);
 		if (!$result){
 			return null;
@@ -131,7 +139,9 @@ class Rule {
 	}
 
 	public static function get_children(string $id) {
-		$sql = "SELECT id_user FROM `".self::TABLE_CHILD."` WHERE `id_rule` = '$id'";
+		$sql = "SELECT id_user 
+			FROM `".self::TABLE_CHILD."` 
+			WHERE `id_rule` = '$id'";
 		$result = self::query($sql);
 		if (!$result){
 			return null;

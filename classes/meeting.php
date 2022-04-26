@@ -73,7 +73,10 @@ class Meeting {
 	}
 
 	public static function get_meeting_by_id(string $id) : ?Meeting {
-		$result = self::query("SELECT * FROM `".self::TABLE."` WHERE `id` = '$id'");
+		$sql = "SELECT * 
+			FROM `".self::TABLE."` 
+			WHERE `id` = '$id'";
+		$result = self::query($sql);
 		if (!$result){
 			return null;
 		} else if ($result->rowCount() !== 1) {
